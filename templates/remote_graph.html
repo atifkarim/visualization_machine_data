@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<h1>Creonic GmbH KL</h1>
+<!-- <meta http-equiv="refresh" content="3"> -->
+<!-- addition or writing of JS file also possible here but better to do at the end of body tag. After body tag. -->
+</head>
+
+
+<body>
+<div id="chartContainer" style="height: 370px; width: 50%;float:left;"></div>
+<div id="chartContainer_right" style="height: 370px; width: 50%;float:left;"></div>
+<script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
+<div class="card-body">
+	<a href="/exec"> This link will invoke Parse method </a>
+</div>
+
+</body>
+
+<script src = "static/remote_graph.js"></script>
+<script src = "static/remote_plot.js"></script>
+<script src = "static/auto_refresh.js"></script>
+
+<!--
+the following lines has done for loading different JS file in one html file.
+it is not possible to add multiple JS file if they have same function name.
+So, in JS file function name or declaration has changed. it is also possible to add
+all the functionality of JS file directly in the HTML file. Add all code inside of the head tag.
+
+window.onload = function() {
+/* ALL JS code*/
+}
+-->
+<script>
+	window.onload = remote_graph();
+	window.onload = remote_plot();
+	inactivityTime();
+</script>
+
+</html>
