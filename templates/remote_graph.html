@@ -10,6 +10,7 @@
 <body>
 <div id="chartContainer" style="height: 370px; width: 50%;float:left;"></div>
 <div id="chartContainer_right" style="height: 370px; width: 50%;float:left;"></div>
+<div id="chartContainer_bottom_left" style="height: 370px; width: 50%;float:left;"></div>
 <script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
 <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 
@@ -21,7 +22,8 @@
 
 <script src = "static/remote_graph.js"></script>
 <script src = "static/remote_plot.js"></script>
-<script src = "static/auto_refresh.js"></script>
+<script src = "static/plot_csv.js"></script>
+<!-- <script src = "static/auto_refresh.js"></script> -->
 
 <!--
 the following lines has done for loading different JS file in one html file.
@@ -36,6 +38,7 @@ window.onload = function() {
 <script>
 	window.onload = remote_graph();
 	window.onload = remote_plot();
+	window.onload = plot_csv();
 	inactivityTime();
 </script>
 
