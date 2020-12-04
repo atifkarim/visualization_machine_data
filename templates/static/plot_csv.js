@@ -32,8 +32,8 @@ function plot_csv()
         return dataPoints;
     }
 
-$.get("https://raw.githubusercontent.com/atifkarim/Time-Series-Forecasting-Using-Machine-Learning-Algorithm/develop/csv_column_2.csv", function(data)
-// $.get("csv_column_2.csv", function(data)
+    // $.get("https://raw.githubusercontent.com/atifkarim/Time-Series-Forecasting-Using-Machine-Learning-Algorithm/develop/csv_column_2.csv", function(data)
+$.get("static/json_files/csv_column_2.csv", function(data)
 {
     var chart = new CanvasJS.Chart("chartContainer_bottom_left", {
         title: {
