@@ -1,9 +1,9 @@
 from flask import Flask, render_template
-from function_gen_graph import create_json
+from make_auto_csv import do_process
 import os
 
 app = Flask(__name__)
-app._static_folder = os.path.abspath("templates/static/")
+app.static_folder = os.path.abspath("templates/static/")
 
 @app.route('/')
 def index(name=None):
@@ -15,11 +15,19 @@ def index_1(name=None):
 
 @app.route('/exec')
 def parse(name=None):
-    create_json()
+    # create_json()
     print("done")
     return render_template('remote_graph.html',name=name)
+
+# background process happening without any refreshing
+@app.route('/background_process_test')
+def background_process_test():
+    do_process()
+    print ("Hello")
+    return "nothing"
 
 
 if __name__ == '__main__':
     app.run(host='192.168.0.74', port=5012)
+    # app.run(host='localhost', debug=True, port=5000)
     app.debug = True
