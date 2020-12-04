@@ -53,6 +53,6 @@ function remote_graph()  {
 
 	// $.getJSON("http://192.168.1.77:8080/js_py_test_proj/b.json", addData);
 
-	// $.getJSON("json_file/abc.json", addData);
+	// $.getJSON("../../json_files/abc.json", addData);
 
 }

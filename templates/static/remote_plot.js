@@ -44,7 +44,7 @@ function remote_plot()  {
 
 	// $.getJSON("http://192.168.1.77:8080/js_py_test_proj/a.json", addData_1);
 
-	// $.getJSON("json_file/daily-sales-data.json", addData_1);
+	// $.getJSON("../../json_files/daily-sales-data.json", addData_1);
 
 	
 	}
