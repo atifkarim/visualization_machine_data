@@ -1,5 +1,6 @@
 import csv
 import os
+import json
 from random import seed
 from random import gauss
 from random import random
@@ -10,6 +11,7 @@ def create_data_point():
 	# seed random number generator
 	seed(datetime.now())
 	# list to store data
+	key_point = []
 	my_list_1 = []
 	my_list_2 = []
 
@@ -18,13 +20,14 @@ def create_data_point():
 	for _ in range(max_range):
 		value = gauss(0, 1)
 		my_list_1.append(value)
+		key_point.append(_)
 
 
 	for _ in range(max_range):
 		value = random()
 		my_list_2.append(value)
 	
-	return max_range, my_list_1, my_list_2
+	return max_range, my_list_1, my_list_2, key_point
 
 # following function in future will be used maybe
 def check_if_string_in_file(file_name, string_to_search):
@@ -51,7 +54,7 @@ def make_row(filename):
 	file.close()
 
 def fill_data(filename):
-	max_range, my_list_1, my_list_2 = create_data_point()
+	max_range, my_list_1, my_list_2, key_point = create_data_point()
 	i = 0
 	while(max_range>i):
 		row_list = [[i, my_list_1[i], my_list_2[i]]]
@@ -80,7 +83,38 @@ def do_process():
 		make_row(filename)
 		fill_data(filename)
 
+def create_json():
+	dir_path_json = os.getcwd()
+	dir_path_json = dir_path_json+"/templates/static/json_files/"
+	filename_json = dir_path_json+"json_column_2.json"
+	max_range, list_1, list_2, key_point = create_data_point()
+	
+	# lists = ['key_point','list_1', 'list_2']
+	
+	# a new list is made from the former two to create JSON file
+	new_list = [{'x': x, 'y': y, 'z': z} for x, y, z in zip(key_point, list_1, list_2)]
+	if not os.path.isfile(filename_json):
+		print("---------- hey json ------------- ")
+		with open(filename_json, 'w') as outfile:
+			json.dump(new_list, outfile, indent=4)
+	else:
+		os.remove(filename_json)
+		print("-------- json removed----------")
+		with open(filename_json, 'w') as outfile:
+			json.dump(new_list, outfile, indent=4)
+
+def load_json():
+	dir_path_json = os.getcwd()
+	dir_path_json = dir_path_json+"/templates/static/json_files/"
+	filename_json = dir_path_json+"json_column_2.json"
+	f = open(filename_json)
+	data = json.load(f)
+
+	return data
+
+
 do_process()
+create_json()
 
 # if check_if_string_in_file(filename, 'unit'):
 #     print("file already here")
