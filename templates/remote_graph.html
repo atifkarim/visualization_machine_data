@@ -1,40 +1,42 @@
 <!DOCTYPE HTML>
 <html>
+
 <head>
-<!-- <meta http-equiv="refresh" content="3"> -->
-<!-- addition or writing of JS file also possible here but better to do at the end of body tag. After body tag. -->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+	<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+	<!-- <meta http-equiv="refresh" content="3"> -->
+	<!-- addition or writing of JS file also possible here but better to do at the end of body tag. After body tag. -->
 </head>
 
 
 <body>
-<!-- <div id="chartContainer" style="height: 370px; width: 50%;float:left;"></div> -->
-<!-- <div id="chartContainer_right" style="height: 370px; width: 50%;float:left;"></div> -->
-<div id="chartContainer_bottom_left" style="height: 370px; width: 100%;float:left;"></div>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
-<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+	<!-- <div id="chartContainer" style="height: 370px; width: 50%;float:left;"></div> -->
+	<!-- <div id="chartContainer_right" style="height: 370px; width: 50%;float:left;"></div> -->
+	<!-- <div id="chartContainer_bottom_left" style="height: 370px; width: 100%;float:left;"></div> -->
+	<canvas id="mycanvas"></canvas>
 
-<!-- <div class="card-body">
+
+	<!-- <div class="card-body">
 	<a href="/exec"> This link will invoke Parse method </a>
 </div> -->
 
-<div class='container'>
-<h3>Test</h3>
-    <form>
-        <a href=# id=test><button class='btn btn-default'>Test</button></a>
-    </form>
+	<div class='container'>
+		<h3>Test</h3>
+		<form>
+			<a href=# id=test><button class='btn btn-default'>Test</button></a>
+		</form>
 
-</div>
+	</div>
 
-</body>
+	<!-- <script src = "static/remote_graph.js"></script> -->
+	<!-- <script src = "static/remote_plot.js"></script> -->
+	<script src="static/plot_csv.js"></script>
+	<!-- <script src = "static/auto_refresh.js"></script> -->
+	<script src="static/python_button.js"></script>
 
-<!-- <script src = "static/remote_graph.js"></script> -->
-<!-- <script src = "static/remote_plot.js"></script> -->
-<script src = "static/plot_csv.js"></script>
-<!-- <script src = "static/auto_refresh.js"></script> -->
-<script src = "static/python_button.js"></script>
-
-<!--
+	<!--
 the following lines has done for loading different JS file in one html file.
 it is not possible to add multiple JS file if they have same function name.
 So, in JS file function name or declaration has changed. it is also possible to add
@@ -44,12 +46,15 @@ window.onload = function() {
 /* ALL JS code*/
 }
 -->
-<script>
-	// window.onload = remote_graph();
-	// window.onload = remote_plot();
-	window.onload = plot_csv();
-	python_button_function();
+	<script>
+		// window.onload = remote_graph();
+		// window.onload = remote_plot();
+		window.onload = setInterval(getData, 2000);
+		python_button_function();
 	// inactivityTime();
-</script>
+	</script>
+</body>
+
+
 
 </html>
