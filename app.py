@@ -1,5 +1,6 @@
 from flask import Flask, render_template
-from make_auto_csv import do_process
+from make_auto_csv import do_process, create_json, load_json
+from flask import jsonify
 import os
 
 app = Flask(__name__)
@@ -19,10 +20,19 @@ def parse(name=None):
     print("done")
     return render_template('remote_graph.html',name=name)
 
+@app.route('/atif')
+def parse_atif(name=None):
+    print("calling atif")
+    # create_json()
+    data_json = load_json()
+    return jsonify(data_json)
+    
+
 # background process happening without any refreshing
 @app.route('/background_process_test')
 def background_process_test():
-    do_process()
+    # do_process()
+    create_json()
     print ("Hello")
     return "nothing"
 
