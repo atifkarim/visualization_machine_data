@@ -5,9 +5,18 @@ from random import seed
 from random import gauss
 from random import random
 from datetime import datetime
+import pandas as pd
+
+def file_path_info():
+	dir_path = os.getcwd()
+	dir_path = dir_path+"/templates/static/json_files/"
+	filename_json = dir_path+"json_column_2.json"
+	filename_csv = dir_path+"csv_column_2.csv"
+
+	return dir_path, filename_json, filename_csv
+
 
 def create_data_point():
-
 	# seed random number generator
 	seed(datetime.now())
 	# list to store data
@@ -47,7 +56,8 @@ def make_file(filename):
 	file.close()
 
 def make_row(filename):
-	row_list = [["unit", "value1", "value2"]]
+	# row_list = [["unit", "value1", "value2"]]
+	row_list = [["x", "y", "z"]]
 	with open(filename,'a', newline='') as file:
 		writer = csv.writer(file)
 		writer.writerows(row_list)
@@ -89,7 +99,7 @@ def create_json():
 	filename_json = dir_path_json+"json_column_2.json"
 	max_range, list_1, list_2, key_point = create_data_point()
 	key_point = [element * 2 for element in key_point]
-	print(key_point)
+	# print(key_point)
 	
 	# lists = ['key_point','list_1', 'list_2']
 	
@@ -111,12 +121,22 @@ def load_json():
 	filename_json = dir_path_json+"json_column_2.json"
 	f = open(filename_json)
 	data = json.load(f)
-
 	return data
 
-
-do_process()
-create_json()
+# goal of the following function is to convert csv data to json. but it changes the data type
+def load_csv():
+	dir_path, filename_json, filename_csv = file_path_info()
+	dir_path_json = dir_path+"new_json.json"
+	df = pd.read_csv(filename_csv)
+	df.to_json(dir_path_json)
+	# dir_path_new_json = dir_path+"new_json.json"
+	# json_data = [json.dumps(d) for d in csv.DictReader(open(filename_csv))]
+	# return json_data
+	
+	f = open(dir_path_json)
+	data = json.load(f)
+	# print(data)
+	return data
 
 # if check_if_string_in_file(filename, 'unit'):
 #     print("file already here")
