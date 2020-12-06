@@ -14,26 +14,24 @@ def index(name=None):
 def index_1(name=None):
     return render_template('plot_csv.html',name=name)
 
+# following function will be deprecated soon
 @app.route('/exec')
 def parse(name=None):
     # create_json()
     print("done")
     return render_template('remote_graph.html',name=name)
 
-@app.route('/atif')
-def parse_atif(name=None):
-    print("calling atif")
-    # create_json()
+@app.route('/auto_update')
+def parse_auto_update(name=None):
     data_json = load_json()
     return jsonify(data_json)
     
 
-# background process happening without any refreshing
+# running of python file using Flask is done without reloading HTML
 @app.route('/background_process_test')
 def background_process_test():
-    # do_process()
-    create_json()
-    print ("Hello")
+    # do_process() # create csv file
+    create_json() # create json file
     return "nothing"
 
 
