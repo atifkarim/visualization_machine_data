@@ -114,6 +114,12 @@ def create_json():
 		print("-------- json removed----------")
 		with open(filename_json, 'w') as outfile:
 			json.dump(new_list, outfile, indent=4)
+	
+	return new_list
+
+def load_json_1():
+	json_var = create_json()
+	return json_var
 
 def load_json():
 	dir_path_json = os.getcwd()
