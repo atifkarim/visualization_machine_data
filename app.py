@@ -1,5 +1,5 @@
 from flask import Flask, render_template
-from make_auto_csv import do_process, create_json, load_json, load_csv
+from make_auto_csv import do_process, create_json, load_json, load_json_1, load_csv
 from flask import jsonify
 import os
 
@@ -31,7 +31,7 @@ def parse_auto_update(name=None):
 @app.route('/background_process_test')
 def background_process_test():
     # do_process() # create csv file if no file in the directory. You can press the TEST button.
-    create_json() # create json file if no file in the directory. You can press the TEST button.
+    a = create_json() # create json file if no file in the directory. You can press the TEST button.
     return "nothing"
 
 # to stop flask server
