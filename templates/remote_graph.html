@@ -30,6 +30,13 @@
 
 	</div>
 
+	<div class='shutdown_server'>
+		<h3>Stop Server</h3>
+		<form>
+			<a href=# id=shutdown><button class='btn btn-default'>Shutdown Server</button></a>
+		</form>
+
+	</div>
 	<!-- <script src = "static/remote_graph.js"></script> -->
 	<!-- <script src = "static/remote_plot.js"></script> -->
 	<!-- <script src="static/plot_csv.js"></script> -->
@@ -50,8 +57,9 @@ window.onload = function() {
 	<script>
 		// window.onload = remote_graph();
 		// window.onload = remote_plot();
-		window.onload = setInterval(getData, 2000);
+		window.onload = setInterval(getData_json, 500);
 		python_button_function();
+		stop_flask_server();
 	// inactivityTime();
 	</script>
 </body>
