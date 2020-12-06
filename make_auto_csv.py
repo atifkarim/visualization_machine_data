@@ -15,10 +15,10 @@ def create_data_point():
 	my_list_1 = []
 	my_list_2 = []
 
-	max_range = 1001
+	max_range = 100
 	# generate some Gaussian values
 	for _ in range(max_range):
-		value = gauss(0, 1)
+		value = gauss(0,1)
 		my_list_1.append(value)
 		key_point.append(_)
 
@@ -88,6 +88,8 @@ def create_json():
 	dir_path_json = dir_path_json+"/templates/static/json_files/"
 	filename_json = dir_path_json+"json_column_2.json"
 	max_range, list_1, list_2, key_point = create_data_point()
+	key_point = [element * 2 for element in key_point]
+	print(key_point)
 	
 	# lists = ['key_point','list_1', 'list_2']
 	
