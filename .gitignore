@@ -129,9 +129,8 @@ dmypy.json
 .pyre/
 
 
-js
+
 .vscode
-json_files
 canvas_plot.html
 [
     {
