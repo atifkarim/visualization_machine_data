@@ -82,41 +82,60 @@ function testUpdate() {
 var ctx = document.getElementById("mycanvas");
 var myChart =  new Chart(ctx, {
   type: 'line',
-  color: 'red',
   data: {
-      datasets: [{
-          label: 'Scatter Dataset',
-          data: [],
-          data2:[]
-      }]
+      datasets:
+        [
+          {
+            label: 'Presentation JSON Data',
+            fill: false,
+            borderColor: "#ff0000",
+            data: []
+          },
+          {
+            label: '2nd Data',
+            fill: true,
+            borderColor: "#008000",
+            data: []
+          }
+        ]
   },
   options: {
       scales: {
           xAxes: [{
               type: 'linear',
-              position: 'top'
+              position: 'bottom',
+              scaleLabel: {
+                display: true,
+                labelString: 'probability'
+              }
           }]
       }
   }
 });
 
+
 // logic to get new data
 var getData = function() {
-  $.get("/atif", function (data) {
+  $.get("/auto_update", function (data) {
       let xy = [];
       let xz = [];
-      console.log('data: ',data);
+    //   console.log('data: ',data);
       data.forEach (e =>{
           xy.push({'x': e.x, 'y': e.y});
 
           xz.push({'x': e.x, 'z': e.z});
       })
-      
-      myChart.data.datasets[0].data = xy;
-      myChart.data.datasets[0].data2 = xz;
+
+    //   console.log("data xy", xy)
+      console.log("data xz", xz)
+    //   myChart.data.datasets[0].data = xy;
+      myChart.data.datasets[1].data = xy;
 
       // re-render the chart
       myChart.update();
     })
 
 };
+
+// chart JS info
+// color : https://stackoverflow.com/questions/46301481/cant-change-color-line-with-chart-js 
