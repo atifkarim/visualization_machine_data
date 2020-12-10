@@ -2,49 +2,43 @@
 <html>
 
 <head>
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-	<script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
-	<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-	<!-- <meta http-equiv="refresh" content="3"> -->
-	<!-- addition or writing of JS file also possible here but better to do at the end of body tag. After body tag. -->
+   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+   <script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+   <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+   <!-- <meta http-equiv="refresh" content="3"> -->
+   <!-- addition or writing of JS file also possible here but better to do at the end of body tag. After body tag. -->
 </head>
 
 
 <body>
-	<!-- <div id="chartContainer" style="height: 370px; width: 50%;float:left;"></div> -->
-	<!-- <div id="chartContainer_right" style="height: 370px; width: 50%;float:left;"></div> -->
-	<div id="chartContainer_bottom_left" style="height: 370px; width: 100%;float:left;"></div>
-	<!-- <canvas id="mycanvas"></canvas> -->
+   <!-- <div id="chartContainer" style="height: 370px; width: 50%;float:left;"></div> -->
+   <!-- <div id="chartContainer_right" style="height: 370px; width: 50%;float:left;"></div> -->
+   <div id="chartContainer_bottom_left" style="height: 370px; width: 100%;float:left;"></div>
 
 
-	<!-- <div class="card-body">
-	<a href="/exec"> This link will invoke Parse method </a>
-</div> -->
+   <!-- <div class="card-body">
+      <a href="/exec"> This link will invoke Parse method </a>
+   </div> -->
 
-	<div class='container'>
-		<h3>Test</h3>
-		<form>
-			<a href=# id=test><button class='btn btn-default'>Test</button></a>
-		</form>
+   <div class='container'>
+      <h3>Test</h3>
+      <form>
+         <a href=# id=test><button class='btn btn-default'>Update JSON data</button></a>
+      </form>
+   </div>
 
-	</div>
+   <div class='shutdown_server'>
+      <h3>Stop Server</h3>
+      <form>
+         <a href=# id=shutdown><button class='btn btn-default'>Shutdown Server</button></a>
+      </form>
+   </div>
 
-	<div class='shutdown_server'>
-		<h3>Stop Server</h3>
-		<form>
-			<a href=# id=shutdown><button class='btn btn-default'>Shutdown Server</button></a>
-		</form>
+   <script src="static/plot_graph.js"></script>
+   <script src="static/python_button.js"></script>
 
-	</div>
-	<!-- <script src = "static/remote_graph.js"></script> -->
-	<!-- <script src = "static/remote_plot.js"></script> -->
-	<!-- <script src="static/plot_csv.js"></script> -->
-	<script src="static/multiple_line_chart_canvas_JS_json.js"></script>
-	<!-- <script src = "static/auto_refresh.js"></script> -->
-	<script src="static/python_button.js"></script>
-
-	<!--
+   <!--
 the following lines has done for loading different JS file in one html file.
 it is not possible to add multiple JS file if they have same function name.
 So, in JS file function name or declaration has changed. it is also possible to add
@@ -54,16 +48,13 @@ window.onload = function() {
 /* ALL JS code*/
 }
 -->
-	<script>
-		// window.onload = remote_graph();
-		// window.onload = remote_plot();
-		window.onload = setInterval(getData_json, 500);
-		python_button_function();
-		stop_flask_server();
-	// inactivityTime();
-	</script>
+   <script>
+      // window.onload = remote_graph();
+      // window.onload = remote_plot();
+      window.onload = setInterval(getData_json, 500);
+      python_button_function();
+      stop_flask_server();
+   </script>
 </body>
-
-
 
 </html>
