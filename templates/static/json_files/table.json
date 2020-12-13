@@ -1,0 +1,27 @@
+[{
+    "A": {
+		"name": "MAK",
+		"height": 170,
+		"place": "Canada"
+	},
+	"B": {
+		"name": "Jak",
+		"height": 164,
+		"place": "JAPAN"
+	},
+	"C": {
+		"name": "TAKO",
+		"height": 152,
+		"place": "ROMANIA"
+	},
+	"D": {
+		"name": "NARO",
+		"height": 192,
+		"place": "Portugal"
+	},
+	"E": {
+		"name": "Monako",
+		"height": 138,
+		"place": "Poland"
+	}
+}]
