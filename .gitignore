@@ -131,6 +131,6 @@ dmypy.json
 
 
 .vscode
-templates/static/json_files
+#templates/static/json_files
 templates/plot_csv.html
 
