@@ -1,0 +1,121 @@
+let my_table = [{
+    "A": {
+		"name": "Monte Falco",
+		"height": 1658,
+		"place": "Parco Foreste Casentinesi"
+	},
+	"B": {
+		"name": "Monte Falterona",
+		"height": 1654,
+		"place": "Parco Foreste Casentinesi"
+	},
+	"C": {
+		"name": "Poggio Scali",
+		"height": 1520,
+		"place": "Parco Foreste Casentinesi"
+	},
+	"D": {
+		"name": "Pratomagno",
+		"height": 1592,
+		"place": "Parco Foreste Casentinesi"
+	},
+	"E": {
+		"name": "Monte Amiata",
+		"height": 1738,
+		"place": "Siena Anisa"
+	}
+}];
+
+my_key = Object.keys(my_table[0]) // A, B, C, D, E
+
+same o/p you will find by
+
+for (var k in my_table[0]) {
+console.log(k);
+}
+
+AND
+
+var x =0
+for (var k in my_table[0][my_key[x]]) {
+console.log(k);
+x++;
+} // name, height, place but NO VALUE
+
+
+console.log(Object.keys(my_table[0][my_key[0]]).length) // 3
+
+
+for(var i =0; i<data_len;i++){
+    console.log(Object.keys(my_table[0][my_key[i]]).length)} // 3. Look in every A, B,C .... E -- 3 time key/content
+
+
+for(var i =0; i<data_len;i++){
+    console.log(Object.keys(my_table[0][my_key[i]]))} // name, height, place with their value
+
+for(var i =0; i<data_len;i++){
+    console.log(Object.keys(my_table[0][my_key[i][i]]))} // iterate for i=0 then dumped. maybe this could be starting point
+
+/******************************************
+var rows = ''; var indx = 0;
+for (var p in my_table) {
+  for (var k in my_table[p]) {
+for(var s in my_table[0][my_key[indx]]){
+console.log("k: ",k," and val: ", my_table[p][k]);
+indx++;
+    //rows += '<tr><td>' + k + '</td><td>' + my_table[p][k] + '</td></tr>'
+  }
+}
+}
+
+indx = 0;
+******************************************/
+
+/******************************************
+var rows = ''; var indx = 0;
+for (var p in my_table) {
+  for (var k in my_table[p]) {
+for(var s in my_table[p][my_key[indx]]){
+//console.log("k: ",k," and val: ", my_table[p][k]);
+console.log("what: ",my_table[p][my_key[indx]][s]);
+indx++;
+    //rows += '<tr><td>' + k + '</td><td>' + my_table[p][k] + '</td></tr>'
+  }
+}
+}
+
+indx = 0;
+******************************************/
+
+/******************************************
+var rows = ''; var indx_1 = 0;
+for (var p in my_table) {
+  for (var k in my_table[p]) {
+for(var s in my_table[p][my_key[indx_1]]){
+//console.log("k: ",k," and val: ", my_table[p][k]);
+console.log("s val: ",my_table[p][my_key[indx_1]][s]);
+    //rows += '<tr><td>' + k + '</td><td>' + my_table[p][k] + '</td></tr>'
+  }
+indx_1++;
+}
+indx_1=0;
+}
+******************************************/
+
+/******************************************
+
+var rows = ''; var indx_1 = 0;
+for (var p in my_table) {
+  for (var k in my_table[p]) {
+console.log("ami ekhane");
+for(var s in my_table[p][my_key[indx_1]]){
+//console.log("k: ",k," and val: ", my_table[p][k]);
+console.log("main key k: ",k," secondary key s: ",s,", secondary key val: ",my_table[p][my_key[indx_1]][s]);
+    //rows += '<tr><td>' + k + '</td><td>' + my_table[p][k] + '</td></tr>'
+  }
+indx_1++;
+}
+}
+indx_1=0;
+
+******************************************/
