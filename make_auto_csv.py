@@ -98,15 +98,15 @@ def create_json():
 	dir_path_json = dir_path_json+"/templates/static/json_files/"
 	filename_json = dir_path_json+"json_column_2.json"
 	max_range, list_1, list_2, key_point = create_data_point()
-	key_point = [element * 2 for element in key_point]
+	key_point = [element * 3 for element in key_point]
 	key_point_1 = [int(element + 2) for element in key_point]
 	# print(key_point)
 	
 	# lists = ['key_point','list_1', 'list_2']
 	
 	# a new list is made from the former two to create JSON file
-	# new_list = [{'x': x, 'y1': y1, 'y2': y2} for x, y1, y2 in zip(key_point, list_1, list_2)]
-	new_list = [{'x1': x1, 'x2': x2, 'y1': y1, 'y2': y2} for x1, x2, y1, y2 in zip(key_point, key_point_1, list_1, list_2)]
+	new_list = [{'x': x, 'y1': y1, 'y2': y2} for x, y1, y2 in zip(key_point, list_1, list_2)]
+	# new_list = [{'x1': x1, 'x2': x2, 'y1': y1, 'y2': y2} for x1, x2, y1, y2 in zip(key_point, key_point_1, list_1, list_2)]
 	if not os.path.isfile(filename_json):
 		print("---------- hey json ------------- ")
 		with open(filename_json, 'w') as outfile:
@@ -144,6 +144,14 @@ def load_csv():
 	f = open(dir_path_json)
 	data = json.load(f)
 	# print(data)
+	return data
+
+def load_table():
+	dir_path_json = os.getcwd()
+	dir_path_json = dir_path_json+"/templates/static/json_files/"
+	filename_json = dir_path_json+"table.json"
+	f = open(filename_json)
+	data = json.load(f)
 	return data
 
 # if check_if_string_in_file(filename, 'unit'):

@@ -1,5 +1,5 @@
 from flask import Flask, render_template
-from make_auto_csv import do_process, create_json, load_json, load_json_1, load_csv
+from make_auto_csv import do_process, create_json, load_json, load_json_1, load_csv, load_table
 from flask import jsonify
 import os
 
@@ -34,8 +34,19 @@ def background_process_test():
     a = create_json() # create json file if no file in the directory. You can press the TEST button.
     return "nothing"
 
-# to stop flask server
+# to show table data
+@app.route('/table')
+def table(name=None):
+    return render_template('table.html',name=name)
 
+# to take update table data automatically
+@app.route('/auto_update_table')
+def parse_auto_update_table(name=None):
+    data_json = load_table()
+    # print(data_json)
+    return jsonify(data_json)
+
+# to stop flask server
 from flask import request
 def shutdown_server():
     func = request.environ.get('werkzeug.server.shutdown')
