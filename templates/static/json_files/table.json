@@ -1,27 +1,30 @@
-[{
-    "A": {
-		"name": "MAK",
-		"height": 170,
-		"place": "Canada"
-	},
-	"B": {
-		"name": "Jak",
-		"height": 164,
-		"place": "JAPAN"
-	},
-	"C": {
-		"name": "TAKO",
-		"height": 152,
-		"place": "ROMANIA"
-	},
-	"D": {
-		"name": "NARO",
-		"height": 192,
-		"place": "Portugal"
-	},
-	"E": {
-		"name": "Monako",
-		"height": 138,
-		"place": "Poland"
-	}
-}]
+[
+   {
+      "A": {
+         "value1": {
+            "name": "MAK",
+            "value": 12,
+            "unit": 0.778
+         },
+         "value2": {
+            "name": "JAK",
+            "value": 15,
+            "unit": 15.95
+         }
+      },
+      "B": {
+         "value1": {
+            "lastname": "MARACUA",
+            "age": 12,
+            "color": 0.778,
+            "place": "DE"
+         },
+         "value2": {
+            "lastname": "JAKARTA",
+            "age": 15,
+            "color": 15.95,
+            "place": "EU"
+         }
+      }
+   }
+]
