@@ -3,18 +3,39 @@
 
 <head>
    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">
+   <script type="text/javascript" charset="utf8"
+      src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"></script>
+
+   <link rel="stylesheet" href="{{ url_for('static', filename='css/table.css') }}">
    <meta charset="UTF-8">
    <title>Build a table</title>
 </head>
 
 <body>
+   <div id="table_div">
+      <table id='test_table'></table>
+   </div>
 
-   <table id='test_table'></table>
+<div class='shutdown_server'>
+   <!-- <h3>Stop Server</h3> -->
+   <form>
+      <a href=# id=shutdown><button class='btn btn-default'>Shutdown Server</button></a>
+   </form>
+</div>
+
+   <div id='goto_plot'>
+      <form method="get" action="{{url_for('index')}}">
+         <button> Back to Home </button>
+      </form>
+   </div>
 
    <script src="static/js/build-table.js"></script>
+   <script src="static/js/python_button.js"></script>
 
    <script>
-      setInterval(getTableData_json, 500);
+      setInterval(getTableData_json, 1000);
+      stop_flask_server();
    </script>
 
 </body>

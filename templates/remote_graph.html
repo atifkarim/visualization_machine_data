@@ -8,6 +8,10 @@
    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
    <!-- <meta http-equiv="refresh" content="3"> -->
    <!-- addition or writing of JS file also possible here but better to do at the end of body tag. After body tag. -->
+
+   <link rel="stylesheet" href="{{ url_for('static', filename='css/plot.css') }}">
+
+   <title>Visualization of Machine Data</title>
 </head>
 
 
@@ -22,17 +26,23 @@
       <a href="/exec"> This link will invoke Parse method </a>
    </div> -->
 
-   <div class='container'>
-      <h3>Test</h3>
+   <div id='test_button'>
+      <!-- <h3>Update JSON data</h3> -->
       <form>
          <a href=# id=test><button class='btn btn-default'>Update JSON data</button></a>
       </form>
    </div>
 
    <div class='shutdown_server'>
-      <h3>Stop Server</h3>
+      <!-- <h3>Stop Server</h3> -->
       <form>
          <a href=# id=shutdown><button class='btn btn-default'>Shutdown Server</button></a>
+      </form>
+   </div>
+
+   <div id='goto_table'>
+      <form method="get" action="{{url_for('table')}}">
+         <button>Show Table</button>
       </form>
    </div>
 

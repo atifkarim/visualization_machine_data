@@ -1,0 +1,18 @@
+/* for id put hash #, for class put dot(.) */
+
+#test_button{
+    padding: 5px 5px;
+    float:left;
+    /* outline: 0.5px solid rgb(163, 6, 6); */
+    /* outline-offset: 2px; */
+}
+
+.shutdown_server{
+    padding: 5px 5px;
+    float:left;
+}
+
+#goto_table{
+    padding: 5px 5px;
+    float:left;
+}
