@@ -52,9 +52,15 @@ table.innerHTML = rows;
 var len_A; //expected 2
 var len_key_A; //expected 3
 var all_info_A = [];
-var table = document.getElementById('test_table')
-var cap = table.createCaption();
-cap.innerHTML = 'Observation of Machine Statistics';
+// var table = document.getElementById('test_table');
+// var cap = table.createCaption();
+// cap.innerHTML = 'Observation of Machine Statistics';
+
+function createTable(){
+   var table = document.getElementById('test_table');
+   return table;
+}
+
 
 function giveCaptionTable(k, table) {
    var rows = table.insertRow(-1);
@@ -69,6 +75,7 @@ function CreateColumnHeader(my_sub_sub_key, table) {
       let cell1 = rows.insertCell(a);
       cell1.innerHTML = my_sub_sub_key[a];
    }
+   // rows = '<tr><th' +rows + '</th></tr>'
 }
 
 function FillUpTable(len_A, len_key_A, all_info_A, table) {
@@ -88,18 +95,20 @@ function FillUpTable(len_A, len_key_A, all_info_A, table) {
 
 function deleteOldRows(table) {
    // console.log("table row len: ",table.rows.length);
-   for (var i = table.rows.length - 1; i > 0; i--) {
-      // console.log("i: ",i)
+   for (var i = table.rows.length - 1; i >= 0; i--) {
+      console.log("i: ",i)
       table.deleteRow(i);
    }
 }
 
 let getTableData_json = function test() {
    $.get("/auto_update_table", function (data) {
+      console.log("I will make table");
+      var table = document.getElementById('test_table');
       for (var p in data) {
          //console.log(data[p]); //whole data
          for (var k in data[0]) {
-            // giveCaptionTable(k, table);
+            giveCaptionTable(k, table);
             //console.log(k); // A,......
             var count_col = 0; // column header will be repeated so count them
             var col_header_name = []; // after count all 1 time then push them in an array
@@ -123,5 +132,8 @@ let getTableData_json = function test() {
             all_info_A = [];
          }
       }
+      // deleteOldRows(table);
+      // table.innerHTML = "";
+      // $("#test_table tr").remove();
    });
 }
