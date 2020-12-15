@@ -16,20 +16,16 @@
 
 
 <body>
-   <!-- <div id="chartContainer" style="height: 370px; width: 50%;float:left;"></div> -->
-   <!-- <div id="chartContainer_right" style="height: 370px; width: 50%;float:left;"></div> -->
-   <div id="chartContainer_bottom_left" style="height: 370px; width: 100%;float:left;"></div>
-   <!-- <div id="table_div" style="height: 370px; width: 100%;float:left;"></div> -->
-
-
-   <!-- <div class="card-body">
-      <a href="/exec"> This link will invoke Parse method </a>
-   </div> -->
-
    <div id='test_button'>
       <!-- <h3>Update JSON data</h3> -->
       <form>
          <a href=# id=test><button class='btn btn-default'>Update JSON data</button></a>
+      </form>
+   </div>
+
+   <div id='goto_table'>
+      <form method="get" action="{{url_for('table')}}">
+         <button>Show Table</button>
       </form>
    </div>
 
@@ -40,11 +36,15 @@
       </form>
    </div>
 
-   <div id='goto_table'>
-      <form method="get" action="{{url_for('table')}}">
-         <button>Show Table</button>
-      </form>
-   </div>
+   <!-- <div id="chartContainer" style="height: 370px; width: 50%;float:left;"></div> -->
+   <!-- <div id="chartContainer_right" style="height: 370px; width: 50%;float:left;"></div> -->
+   <div id="chartContainer_bottom_left" style="height: 370px; width: 100%;float:left;"></div>
+   <!-- <div id="table_div" style="height: 370px; width: 100%;float:left;"></div> -->
+
+
+   <!-- <div class="card-body">
+      <a href="/exec"> This link will invoke Parse method </a>
+   </div> -->
 
    <script src="static/js/plot_graph.js"></script>
    <script src="static/js/python_button.js"></script>

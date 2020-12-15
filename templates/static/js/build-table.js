@@ -1,29 +1,29 @@
 /*var my_table = [{
     "A": {
-		"name": "Monte Falco",
-		"height": 1658,
-		"place": "Parco Foreste Casentinesi"
-	},
-	"B": {
-		"name": "Monte Falterona",
-		"height": "1654",
-		"place": "Parco Foreste Casentinesi"
-	},
-	"C": {
-		"name": "Poggio Scali",
-		"height": "1520",
-		"place": "Parco Foreste Casentinesi"
-	},
-	"D": {
-		"name": "Pratomagno",
-		"height": "1592",
-		"place": "Parco Foreste Casentinesi"
-	},
-	"E": {
-		"name": "Monte Amiata",
-		"height": "1738",
-		"place": "Siena Anisa"
-	}
+      "name": "Monte Falco",
+      "height": 1658,
+      "place": "Parco Foreste Casentinesi"
+   },
+   "B": {
+      "name": "Monte Falterona",
+      "height": "1654",
+      "place": "Parco Foreste Casentinesi"
+   },
+   "C": {
+      "name": "Poggio Scali",
+      "height": "1520",
+      "place": "Parco Foreste Casentinesi"
+   },
+   "D": {
+      "name": "Pratomagno",
+      "height": "1592",
+      "place": "Parco Foreste Casentinesi"
+   },
+   "E": {
+      "name": "Monte Amiata",
+      "height": "1738",
+      "place": "Siena Anisa"
+   }
 }];
 
 
@@ -35,28 +35,28 @@ var table = document.getElementById('test_table')
 var rows = ''; var indx_1 = 0;
 for (var p in my_table) {
   for (var k in my_table[p]) {
-  	rows+= '<tr><th>' + k + '</th></tr>'
-		for(var s in my_table[p][my_key[indx_1]]){
-		//console.log("k: ",k," and val: ", my_table[p][k]);
-		//console.log("main key k: ",k," secondary key s: ",s,", secondary key val: ",my_table[p][my_key[indx_1]][s]);
-    	rows += '<tr><td>' + s + '</td><td>' + my_table[p][my_key[indx_1]][s] + '</td></tr>'
-  	}
-		indx_1++;
-	}
+       rows+= '<tr><th>' + k + '</th></tr>'
+      for(var s in my_table[p][my_key[indx_1]]){
+      //console.log("k: ",k," and val: ", my_table[p][k]);
+      //console.log("main key k: ",k," secondary key s: ",s,", secondary key val: ",my_table[p][my_key[indx_1]][s]);
+        rows += '<tr><td>' + s + '</td><td>' + my_table[p][my_key[indx_1]][s] + '</td></tr>'
+       }
+      indx_1++;
+   }
 }
 indx_1=0;
 table.innerHTML = rows;
 */
 
 
-var len_A; //expected 2
-var len_key_A; //expected 3
+var len_A; //expected 2, value 1, value 2
+var len_key_A; //expected 3, name, value, unit 
 var all_info_A = [];
-// var table = document.getElementById('test_table');
+var table = document.getElementById('test_table');
 // var cap = table.createCaption();
 // cap.innerHTML = 'Observation of Machine Statistics';
 
-function createTable(){
+function createTable() {
    var table = document.getElementById('test_table');
    return table;
 }
@@ -74,6 +74,7 @@ function CreateColumnHeader(my_sub_sub_key, table) {
       //console.log(my_sub_sub_key[a]);
       let cell1 = rows.insertCell(a);
       cell1.innerHTML = my_sub_sub_key[a];
+      // console.log("a: ", a);
    }
    // rows = '<tr><th' +rows + '</th></tr>'
 }
@@ -96,19 +97,46 @@ function FillUpTable(len_A, len_key_A, all_info_A, table) {
 function deleteOldRows(table) {
    // console.log("table row len: ",table.rows.length);
    for (var i = table.rows.length - 1; i >= 0; i--) {
-      console.log("i: ",i)
+      // console.log("i: ", i)
       table.deleteRow(i);
+   }
+}
+
+/**
+ * Check value is float or int or string and return value. IF ffloat then it will round to a give fixed point. You can omit it if not required
+ */
+function check_input_val_type(y, fixed_range) {
+   if (parseFloat(y) && (Number(y) === y && y % 1 !== 0)) {
+      console.log("y is a float and val is: ", y, " and conv: ", y.toFixed(fixed_range));
+      y = y.toFixed(fixed_range);
+      return y;
+   }
+   else if (!parseFloat(y)) {
+      console.log("y is a string and val is: ", y);
+      return y;
+   }
+   else {
+      console.log("y is a int and val is: ", y);
+      return y;
    }
 }
 
 let getTableData_json = function test() {
    $.get("/auto_update_table", function (data) {
-      console.log("I will make table");
-      var table = document.getElementById('test_table');
+      // console.log("I will make table");
+      // var table = document.getElementById('test_table');
       for (var p in data) {
+         table.textContent = ''; // clear the content of the table object
          //console.log(data[p]); //whole data
          for (var k in data[0]) {
+            var cap = table.createCaption();
+            cap.innerHTML = 'Observation of Machine Statistics ' + k;
+
+            // table.className = "blah";
+            // document.getElementById('sub_table').appendChild(table);
+
             giveCaptionTable(k, table);
+
             //console.log(k); // A,......
             var count_col = 0; // column header will be repeated so count them
             var col_header_name = []; // after count all 1 time then push them in an array
@@ -122,7 +150,7 @@ let getTableData_json = function test() {
                for (var t in data[0][k][s]) {
                   col_header_name.push(t);
                   //console.log(t); // name , value, unit .. n times (n = how many times former key is)
-                  //console.log(data[0][k][s][t]);
+                  //console.log(data[0][k][s][t]); // all content values
                   all_info_A.push(data[0][k][s][t]);
                }
                count_col++; // if it 1 that means for the child key of "A"(device) is read and got All col name(name, value, unit)
@@ -130,8 +158,19 @@ let getTableData_json = function test() {
             }
             FillUpTable(len_A, len_key_A, all_info_A, table);
             all_info_A = [];
+            let dum_row = table.insertRow(-1);
+            let dum_cell = dum_row.insertCell(-1);
+            dum_cell.innerHTML = "";
          }
       }
+      /*var delayInMilliseconds = 2000; //1 second
+
+      setTimeout(function () {
+         console.log("delayed");
+         //your code to be executed after 1 second
+         table.innerHTML = "";
+         var table = document.getElementById('test_table');
+      }, delayInMilliseconds);*/
       // deleteOldRows(table);
       // table.innerHTML = "";
       // $("#test_table tr").remove();

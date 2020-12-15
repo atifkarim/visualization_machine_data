@@ -13,22 +13,27 @@
 </head>
 
 <body>
+
+   <div id='goto_plot'>
+      <form method="get" action="{{url_for('index')}}">
+         <button> Show Plot </button>
+      </form>
+   </div>
+
+   <div class='shutdown_server'>
+      <!-- <h3>Stop Server</h3> -->
+      <form>
+         <a href=# id=shutdown><button class='btn btn-default'>Shutdown Server</button></a>
+      </form>
+   </div>
+
    <div id="table_div">
       <table id='test_table'></table>
    </div>
 
-<div class='shutdown_server'>
-   <!-- <h3>Stop Server</h3> -->
-   <form>
-      <a href=# id=shutdown><button class='btn btn-default'>Shutdown Server</button></a>
-   </form>
-</div>
-
-   <div id='goto_plot'>
-      <form method="get" action="{{url_for('index')}}">
-         <button> Back to Home </button>
-      </form>
-   </div>
+   <!-- <div id="table_div">
+      <table id='sub_table'></table>
+   </div> -->
 
    <script src="static/js/build-table.js"></script>
    <script src="static/js/python_button.js"></script>
