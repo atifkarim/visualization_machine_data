@@ -1,7 +1,8 @@
 from flask import Flask, render_template
-from make_auto_csv import do_process, create_json, load_json, load_json_1, load_csv, load_table
+from dummy_data import do_process, create_json, load_json, load_json_1, load_csv, load_table
 from flask import jsonify
 import os
+from table_do_process import *
 
 app = Flask(__name__)
 app.static_folder = os.path.abspath("templates/static/")
@@ -23,7 +24,8 @@ def parse(name=None):
 
 @app.route('/auto_update')
 def parse_auto_update(name=None):
-    data_json = load_json()
+    # data_json = load_json()
+    data_json = create_json()
     # print(data_json)
     return jsonify(data_json)
 
@@ -42,7 +44,10 @@ def table(name=None):
 # to take update table data automatically
 @app.route('/auto_update_table')
 def parse_auto_update_table(name=None):
-    data_json = load_table()
+    # data_json = load_table()
+    set_data_obj = Set_data()
+    get_data_obj = Get_data()
+    data_json = get_data_obj.do_process()
     # print(data_json)
     return jsonify(data_json)
 
