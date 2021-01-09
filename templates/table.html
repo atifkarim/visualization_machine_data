@@ -13,50 +13,57 @@
 
 <body>
 
-    <div id='goto_plot'>
-        <form method="get" action="{{url_for('index')}}">
-            <button> Show Plot </button>
-        </form>
-    </div>
+    <div id="all_button">
+        <div id='goto_plot' style='float: left;'>
+            <form method="get" action="{{url_for('index')}}">
+                <button> Show Plot </button>
+            </form>
+        </div>
 
-    <div id='update_write_function_for_table'>
-        <!-- <h3>Update JSON data</h3> -->
-        <form>
-            <a href=# id=write_function_update_for_table><button
-               class='btn btn-default'>update_write_function_for_table</button></a>
-        </form>
-    </div>
-
-    <div class='shutdown_server'>
-        <!-- <h3>Stop Server</h3> -->
-        <form>
-            <a href=# id=shutdown><button class='btn btn-default'>Shutdown Server</button></a>
-        </form>
+        <div class='shutdown_server' style='float: left;'>
+            <form>
+                <a href=# id=shutdown><button class='btn btn-default'>Shutdown Server</button></a>
+            </form>
+        </div>
     </div>
 
     <div id="table_div"></div>
 
-    <div id="dropdown_var">
-        <form onsubmit="get_dropdown()" method="POST">
+    <!-- <div id="dropdown_var">
+        <form method="POST">
             <label for="var">Choose a variable:</label>
             <select name="var" id="varselect" style="margin-right: 20px;" onchange="get_val()"></select>
-
+            <br>
             <label for="vars">Choose a value (-100 to 100):</label>
             <input type="number" id="varvalue" name="value" min="-100" max="100">
-            <!-- <input type="button" onclick="saveindict()">Save</input> -->
-            <input type="submit" value="Submit">
+            <input type="submit" value="Submit" style="display:block;">
         </form>
+    </div> -->
+
+    <br />
+    <br />
+
+    <div id="update_dict">
+        <label for="var">Choose a variable new:</label>
+        <select name="var" id="varselect" style="margin-right: 20px" onchange="get_val()"></select>
+        <br />
+
+        <label for="vars">Choose a value (-100 to 100) new:</label>
+        <input type="number" id="varvalue" name="value" min="-100" max="100" />
+        <button onclick="updatedata()">Click me New</button>
+        <button onclick="createURL()">Submit new</button>
     </div>
 
-    <script src="static/js/build-table.js"></script>
-    <script src="static/js/python_button.js"></script>
-    <script src="static/js/get_vars.js"></script>
+    <p id="createURL">URL</p>
+
+    <script src="static/js/build-table.js "></script>
+    <script src="static/js/python_button.js "></script>
+    <script src="static/js/get_vars.js "></script>
 
     <script>
         setInterval(getTableData_json, 1000);
-        update_write_function_for_table();
-        // prepare();
         get_dropdown();
+        // updatedata();
         stop_flask_server();
     </script>
 
