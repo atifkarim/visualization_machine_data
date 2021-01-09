@@ -1,8 +1,11 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from dummy_data import do_process, create_json, load_json, load_json_1, load_csv, load_table
 from flask import jsonify
 import os
 from table_do_process import *
+
+set_data_obj = Set_data()
+get_data_obj = Get_data()
 
 app = Flask(__name__)
 app.static_folder = os.path.abspath("templates/static/")
@@ -37,18 +40,26 @@ def background_process_test():
     return "nothing"
 
 # to show table data
-@app.route('/table')
+@app.route('/table', methods=['POST', 'GET'])
 def table(name=None):
+    if request.method == 'POST':
+        key = request.form["var"]
+        val = int(request.form["value"])
+        Set_data.updateval(key, val)
     return render_template('table.html',name=name)
 
-# to take update table data automatically
+# to take updated/ initial list data automatically to display table
 @app.route('/auto_update_table')
 def parse_auto_update_table(name=None):
-    # data_json = load_table()
-    set_data_obj = Set_data()
-    get_data_obj = Get_data()
     data_json = get_data_obj.do_process()
-    # print(data_json)
+    return jsonify(data_json)
+
+
+# The following endpoint initially take all the defined member variables
+# to ceate the dropdown.
+@app.route('/update_dropdown')
+def parse_update_dropdown(name=None):
+    data_json = Set_data.ret_dict()
     return jsonify(data_json)
 
 # to stop flask server

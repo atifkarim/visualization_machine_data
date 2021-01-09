@@ -1,17 +1,21 @@
 from table_const_var import *
 
 class Get_data(Set_data):
-    def do_process(self, f = Set_data.a):
+    # following function deprecated
+    def write_data(self, my_dict):
+        Set_data.make_mem_var(my_dict)
+
+    def do_process(self):
         value_00_dmod = {
-            "00_data_1":Set_data.a,
-            "01_add":Set_data.a + Set_data.b,
-            "02_sub":Set_data.a - Set_data.c
+            "00_data_1":Set_data.data["a"],
+            "01_add":Set_data.data["a"]+ Set_data.data["b"],
+            "02_sub":Set_data.data["a"] - Set_data.data["c"]
         }
 
         value_01_dmod = {
-            "00_data":Set_data.b,
-            "01_add":Set_data.b + Set_data.b,
-            "02_sub":Set_data.b - Set_data.c
+            "00_data":Set_data.data["b"],
+            "01_add":Set_data.data["b"] + Set_data.data["b"],
+            "02_sub":Set_data.data["b"] - Set_data.data["c"]
         }
 
         demodulator = {
@@ -21,15 +25,15 @@ class Get_data(Set_data):
 
 
         value_00_mod = {
-            "00_data_1":Set_data.a,
-            "01_add":Set_data.a + Set_data.b,
-            "02_sub":Set_data.a - Set_data.c
+            "00_data_1":Set_data.data["a"],
+            "01_add":Set_data.data["a"] + Set_data.data["b"],
+            "02_sub":Set_data.data["a"] - Set_data.data["c"]
         }
 
         value_01_mod = {
-            "00_data":Set_data.b+3*f,
-            "01_add":Set_data.b + Set_data.b,
-            "02_sub":Set_data.b - Set_data.c
+            "00_data":Set_data.data["b"],
+            "01_add":Set_data.data["b"] + Set_data.data["b"],
+            "02_sub":Set_data.data["b"] - Set_data.data["c"]
         }
 
         modulator = {
