@@ -1,47 +1,34 @@
 let selectvar = document.getElementById("varselect");
 let varval = document.getElementById("varvalue");
-let dict = {};
+let olddict = {};
 let newdict = {};
 
 let get_val = function() {
     let varname = selectvar.value;
 
-    //if (varname in newdict) {
-    //varval.value = newdict[varname]
-    //} else {
-    varval.value = dict[varname];
-    //}
+    if (varname in newdict) {
+        varval.value = newdict[varname]
+    } else {
+        varval.value = olddict[varname];
+    }
 }
 
-/*
-let saveindict = function() {
-    let varname = selectvar.value;
-    let val = varval.value;
+let prepare = function(var_dict) {
+    olddict = var_dict;
 
-    dict[varname] = val;
+    for ([key, value] of Object.entries(var_dict)) {
+        let option = document.createElement("option");
+        option.text = key;
+        option.value = key;
+        selectvar.add(option);
+    }
 }
-*/
-
-// let prepare = function(var_dict) {
-//     selectvar.innerHTML = '<option selected="true" disabled="disabled">Choose variable</option>';
-//     dict = var_dict;
-
-//     for ([key, value] of Object.entries(var_dict)) {
-//         let option = document.createElement("option");
-//         option.text = key;
-//         option.value = key;
-//         selectvar.add(option);
-//     }
-// }
 
 function updatedata() {
-    var variableToUpdate = $("#varselect :selected").text();
-    console.log("*** ", variableToUpdate);
+    var variableToUpdate = selectvar.value;
     var updatedValue = varval.value;
-    console.log("---- ", updatedValue);
+
     newdict[variableToUpdate] = updatedValue;
-    console.log("update newdict: ", newdict);
-    // setdata(dataTest);
 }
 
 function createURL() {
@@ -49,26 +36,17 @@ function createURL() {
     for ([key, value] of Object.entries(newdict)) {
         urlString = urlString + key + '=' + value + '&';
     }
-    document.getElementById("createURL").innerHTML = urlString.slice(0, -1);
+
+    urlString = urlString.slice(0, -1);
+
+    console.log(urlString);
+    state = $.getJSON(urlString, function(data) {});
 }
-
-let prepare = function(var_dict) {
-
-    // selectvar.innerHTML =
-    '<option selected="true" disabled="disabled">Choose variable</option>';
-
-    for ([key, value] of Object.entries(var_dict)) {
-        var daySelect = document.getElementById('varselect');
-        daySelect.options[daySelect.options.length] = new Option(key, value);
-    }
-};
 
 let get_dropdown = function() {
     $.getJSON('/update_dropdown',
         function(data) {
-            newdict = data;
             prepare(data);
-            varval.value = selectvar.value
+            get_val();
         });
-    return false;
-};
+}

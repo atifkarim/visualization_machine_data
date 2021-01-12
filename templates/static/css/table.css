@@ -27,22 +27,29 @@
 
 #table_div {
     height: 100%;
+    width: 60%;
+    float: left;
+}
+
+#dropdown_var {
+    height: 100%;
+    width: 30%;
+    float: left;
+}
+
+#update_dict {
+    height: 100%;
+    width: 30%;
+    float: left;
+}
+
+#all_button {
+    height: 100%;
     width: 100%;
     float: left;
 }
 
 #goto_plot {
-    padding: 5px 5px;
-    float: left;
-    padding: 10px;
-    background-color: #4CAF50;
-    position: -webkit-sticky;
-    /* Safari */
-    position: sticky;
-    top: 0;
-}
-
-#update_write_function_for_table {
     padding: 5px 5px;
     float: left;
     padding: 10px;

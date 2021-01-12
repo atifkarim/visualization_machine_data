@@ -42,10 +42,6 @@ def background_process_test():
 # to show table data
 @app.route('/table', methods=['POST', 'GET'])
 def table(name=None):
-    if request.method == 'POST':
-        key = request.form["var"]
-        val = int(request.form["value"])
-        Set_data.updateval(key, val)
     return render_template('table.html',name=name)
 
 # to take updated/ initial list data automatically to display table
@@ -61,6 +57,12 @@ def parse_auto_update_table(name=None):
 def parse_update_dropdown(name=None):
     data_json = Set_data.ret_dict()
     return jsonify(data_json)
+
+
+@app.route('/update_data_in_pyhton')
+def parse_update_data_in_pyhton(name=None):
+    Set_data.make_mem_var(request.args)
+    return "updated"
 
 # to stop flask server
 from flask import request

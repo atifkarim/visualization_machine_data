@@ -10,7 +10,7 @@ class Set_data(object):
     @staticmethod
     def make_mem_var(var_dict):
         for key, val in var_dict.items():
-            Set_data.data[key] = val
+            Set_data.data[key] = int(val)
 
     @staticmethod
     def updateval(name, val):
