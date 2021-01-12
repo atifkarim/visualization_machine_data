@@ -42,6 +42,9 @@ def background_process_test():
 # to show table data
 @app.route('/table', methods=['POST', 'GET'])
 def table(name=None):
+    if request.method == 'POST':
+        Set_data.make_mem_var(request.form)
+
     return render_template('table.html',name=name)
 
 # to take updated/ initial list data automatically to display table

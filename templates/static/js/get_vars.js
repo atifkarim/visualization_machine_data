@@ -43,6 +43,23 @@ function createURL() {
     state = $.getJSON(urlString, function(data) {});
 }
 
+function submitPOST() {
+    hiddenform = document.createElement("form")
+    hiddenform.style.visibility = "hidden";
+    hiddenform.method = "POST";
+
+    for ([key, value] of Object.entries(newdict)) {
+        i = document.createElement("input");
+        i.name = key;
+        i.value = value;
+        hiddenform.appendChild(i);
+    }
+
+    document.getElementById("body").appendChild(hiddenform);
+    hiddenform.submit();
+}
+
+
 let get_dropdown = function() {
     $.getJSON('/update_dropdown',
         function(data) {

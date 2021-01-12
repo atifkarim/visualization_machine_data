@@ -11,7 +11,7 @@
     <title>Build a table</title>
 </head>
 
-<body>
+<body id="body">
 
     <div id="all_button">
         <div id='goto_plot' style='float: left;'>
@@ -51,7 +51,7 @@
         <label for="vars">Choose a value (-100 to 100) new:</label>
         <input type="number" id="varvalue" name="value" min="-100" max="100" />
         <button onclick="updatedata()">Click me New</button>
-        <button onclick="createURL()">Submit new</button>
+        <button onclick="submitPOST()">Submit new</button>
     </div>
 
     <script src="static/js/build-table.js "></script>
