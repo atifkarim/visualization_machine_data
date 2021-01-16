@@ -27,20 +27,27 @@
 
 #table_div {
     height: 100%;
-    width: 60%;
+    /*no width Extend the div as per his content*/
+    /* width: 70%; */
     float: left;
 }
 
-#dropdown_var {
+#all_button {
     height: 100%;
-    width: 30%;
+    /* width: 100%; */
+    float: left;
+}
+
+#goto_plot {
+    padding: 5px 5px;
     float: left;
 }
 
 #update_dict {
     height: 100%;
-    width: 30%;
-    float: left;
+    /* width: 100%; */
+    float: right;
+    display: none;
 }
 
 #all_button {
@@ -49,7 +56,7 @@
     float: left;
 }
 
-#goto_plot {
+.goto_plot {
     padding: 5px 5px;
     float: left;
     padding: 10px;
@@ -69,4 +76,27 @@
     /* Safari */
     position: sticky;
     top: 0;
+}
+
+.button {
+    border: none;
+    /* background-color: inherit; */
+    background-color: blue;
+    padding: 15px 28px;
+    font-size: 16px;
+    cursor: pointer;
+    display: inline-block;
+}
+
+
+/* Green */
+
+.success {
+    color: yellow;
+    float: right;
+}
+
+.success:hover {
+    background-color: #4CAF50;
+    color: white;
 }
