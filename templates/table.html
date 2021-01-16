@@ -7,6 +7,7 @@
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"></script>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/table.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sidebar.css') }}">
     <meta charset="UTF-8">
     <title>Build a table</title>
 </head>
@@ -14,7 +15,7 @@
 <body id="body">
 
     <div id="all_button">
-        <div id='goto_plot' style='float: left;'>
+        <div class='goto_plot' style='float: left;'>
             <form method="get" action="{{url_for('index')}}">
                 <button> Show Plot </button>
             </form>
@@ -25,6 +26,8 @@
                 <a href=# id=shutdown><button class='btn btn-default'>Shutdown Server</button></a>
             </form>
         </div>
+        <button name="do_hide" class="button success">☰ Open Sidebar</button>
+        <!-- <button name="do_hide" type="button" class="button button2" text="Hide Me"></button>☰ Open Sidebar</button> -->
     </div>
 
     <div id="table_div"></div>
