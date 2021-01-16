@@ -1,5 +1,5 @@
-let selectvar = document.getElementById("varselect");
-let varval = document.getElementById("varvalue");
+let selectvar = $("#varselect")[0];
+let varval = $("#varvalue")[0];
 let olddict = {};
 let newdict = {};
 
@@ -61,7 +61,7 @@ function submitPOST() {
 
 
 let get_dropdown = function() {
-    $.getJSON('/update_dropdown',
+    $.get('/update_dropdown',
         function(data) {
             prepare(data);
             get_val();
