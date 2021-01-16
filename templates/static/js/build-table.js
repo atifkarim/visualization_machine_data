@@ -62,3 +62,9 @@ function getTableData_json() {
         }
     });
 }
+
+$(document).ready(function() {
+    $("button[name='do_hide']").click(function() {
+        $("#update_dict").toggle();
+    });
+});
