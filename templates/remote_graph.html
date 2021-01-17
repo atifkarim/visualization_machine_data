@@ -2,55 +2,56 @@
 <html>
 
 <head>
-   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-   <script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
-   <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
-   <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-   <!-- <meta http-equiv="refresh" content="3"> -->
-   <!-- addition or writing of JS file also possible here but better to do at the end of body tag. After body tag. -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <!-- <meta http-equiv="refresh" content="3"> -->
+    <!-- addition or writing of JS file also possible here but better to do at the end of body tag. After body tag. -->
 
-   <link rel="stylesheet" href="{{ url_for('static', filename='css/plot.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/plot.css') }}">
 
-   <title>Visualization of Machine Data</title>
+    <title>Visualization of Machine Data</title>
 </head>
 
 
 <body>
-   <div id='test_button'>
-      <!-- <h3>Update JSON data</h3> -->
-      <form>
-         <a href=# id=test><button class='btn btn-default'>Update JSON data</button></a>
-      </form>
-   </div>
+    <div id='test_button'>
+        <!-- <h3>Update JSON data</h3> -->
+        <form>
+            <a href=# id=test><button class='btn btn-default'>Update JSON data</button></a>
+        </form>
+    </div>
 
-   <div id='goto_table'>
-      <form method="get" action="{{url_for('table')}}">
-         <button>Show Table</button>
-      </form>
-   </div>
+    <div id='goto_table'>
+        <form method="get" action="{{url_for('table')}}">
+            <button>Show Table</button>
+        </form>
+    </div>
 
-   <div class='shutdown_server'>
-      <!-- <h3>Stop Server</h3> -->
-      <form>
-         <a href=# id=shutdown><button class='btn btn-default'>Shutdown Server</button></a>
-      </form>
-   </div>
+    <div class='shutdown_server'>
+        <!-- <h3>Stop Server</h3> -->
+        <form>
+            <a href=# id=shutdown><button class='btn btn-default'>Shutdown Server</button></a>
+        </form>
+    </div>
 
-   <!-- <div id="chartContainer" style="height: 370px; width: 50%;float:left;"></div> -->
-   <!-- <div id="chartContainer_right" style="height: 370px; width: 50%;float:left;"></div> -->
-   <div id="chartContainer_bottom_left" style="height: 370px; width: 100%;float:left;"></div>
-   <!-- <div id="table_div" style="height: 370px; width: 100%;float:left;"></div> -->
+    <!-- <div id="chartContainer" style="height: 370px; width: 50%;float:left;"></div> -->
+    <!-- <div id="chartContainer_right" style="height: 370px; width: 50%;float:left;"></div> -->
+    <div id="chartContainer_bottom_left" style="height: 370px; width: 100%;float:left;"></div>
+    <div id="chartContainer_bottom_left_1" style="height: 370px; width: 100%;float:left;"></div>
+    <!-- <div id="table_div" style="height: 370px; width: 100%;float:left;"></div> -->
 
 
-   <!-- <div class="card-body">
+    <!-- <div class="card-body">
       <a href="/exec"> This link will invoke Parse method </a>
    </div> -->
 
-   <script src="static/js/plot_graph.js"></script>
-   <script src="static/js/python_button.js"></script>
-   <!-- <script src="static/js/build-table.js"></script> -->
+    <script src="static/js/plot_graph.js"></script>
+    <script src="static/js/python_button.js"></script>
+    <!-- <script src="static/js/build-table.js"></script> -->
 
-   <!--
+    <!--
 the following lines has done for loading different JS file in one html file.
 it is not possible to add multiple JS file if they have same function name.
 So, in JS file function name or declaration has changed. it is also possible to add
@@ -60,13 +61,13 @@ window.onload = function() {
 /* ALL JS code*/
 }
 -->
-   <script>
-      // window.onload = remote_graph();
-      // window.onload = remote_plot();
-      window.onload = setInterval(getData_json, 500);
-      python_button_function();
-      stop_flask_server();
-   </script>
+    <script>
+        // window.onload = remote_graph();
+        // window.onload = remote_plot();
+        window.onload = setInterval(getData_json, 500);
+        python_button_function();
+        stop_flask_server();
+    </script>
 </body>
 
 </html>

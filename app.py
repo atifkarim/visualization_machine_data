@@ -14,17 +14,6 @@ app.static_folder = os.path.abspath("templates/static/")
 def index(name=None):
     return render_template('remote_graph.html',name=name)
 
-@app.route('/plot_csv')
-def index_1(name=None):
-    return render_template('plot_csv.html',name=name)
-
-# following function will be deprecated soon
-@app.route('/exec')
-def parse(name=None):
-    # create_json()
-    print("done")
-    return render_template('remote_graph.html',name=name)
-
 @app.route('/auto_update')
 def parse_auto_update(name=None):
     # data_json = load_json()

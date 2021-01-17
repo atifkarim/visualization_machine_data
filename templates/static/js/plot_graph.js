@@ -12,7 +12,7 @@ function getDataPoints_fix_x_random_y_name(data, j) {
         row = { x: data[i]["x"] };
         // following line could be one solution though it requires an extra making of array manually(here key_name_array)
         // row["y"] = data[i][key_name_array[j]];
-        
+
         /* following line could be a better solution. It doesn't require any making of extra array. Just be sure your json key will not change their order
         eg: one time x,y,z,w and next time x,z,w,y. it will make problem. if it happens then choose the former line's solution. make an explicit array
         and give there key pair value and you know which index will go for 1st,2nd,3rd ...... nth line plot
@@ -24,7 +24,7 @@ function getDataPoints_fix_x_random_y_name(data, j) {
         dataPoints.push(row);
     }
     return dataPoints;
-} 
+}
 
 
 /*
@@ -44,7 +44,7 @@ function getDataPoints_fix_x_diff_y(data, j) {
         dataPoints.push(row);
     }
     return dataPoints;
-} 
+}
 /*
 the following function takes the information from the JSON file if the goal is to
 plot graph x1 vs y1, x2 vs x2, ....... , xn vs yn.
@@ -72,11 +72,11 @@ function createMultilpleLines_fix_x_random_y_name(data) {
 
     ys = Object.keys(data[0]).length - 1;
     for (let j = 1; j <= ys; j++) {
-        console.log("check legend when j: ",j," is: ",Object.keys(data[j-1])[j])
+        console.log("check legend when j: ", j, " is: ", Object.keys(data[j - 1])[j])
         lines.push({
             type: "line",
             showInLegend: true,
-            legendText:Object.keys(data[j-1])[j],
+            legendText: Object.keys(data[j - 1])[j],
             dataPoints: getDataPoints_fix_x_random_y_name(data, j)
         });
     }
@@ -113,12 +113,12 @@ function createMultilpleLines_diff_x_diff_y(data) {
 
     ts = Object.keys(data[0]).length / 2;
     // console.log("data val: ", data[0])
-    for (let j = 1; j <= (Object.keys(data[0]).length/2); j++) {
+    for (let j = 1; j <= (Object.keys(data[0]).length / 2); j++) {
         // console.log("NOW check legend when j: ",(j)," is: ",Object.keys(data[0])[30+j-1]);
         lines.push({
             type: "line",
             showInLegend: true,
-            legendText:"y"+j,
+            legendText: "y" + j,
             dataPoints: getDataPoints_diff_x_diff_y(data, j)
         });
     }
@@ -137,17 +137,45 @@ let chart = new CanvasJS.Chart("chartContainer_bottom_left", {
     },
     theme: "light1",
     title: {
-        text: "t vs y data presentation",
+        text: "x vs y1, y2 data presentation",
     },
     axisX: {
-        title: "t",
+        title: "x",
         titleFontSize: 24,
         includeZero: false,
         interlacedColor: "#F0F8FF"
     },
 
     axisY: {
-        title: "y",
+        title: "y1, y2",
+        titleFontSize: 24,
+        includeZero: true
+    },
+    data: []
+});
+
+let chart_1 = new CanvasJS.Chart("chartContainer_bottom_left_1", {
+    legend: {
+        cursor: "default",
+        fontSize: 15,
+        fontFamily: "tamoha",
+        fontColor: "Sienna",
+        horizontalAlign: "right", // left, center ,right
+        verticalAlign: "top", // top, center, bottom
+    },
+    theme: "light1",
+    title: {
+        text: "x(1,2) vs y(1,2) data presentation",
+    },
+    axisX: {
+        title: "x1, x2",
+        titleFontSize: 24,
+        includeZero: false,
+        interlacedColor: "#F0F8FF"
+    },
+
+    axisY: {
+        title: "y1, y2",
         titleFontSize: 24,
         includeZero: true
     },
@@ -157,10 +185,12 @@ let chart = new CanvasJS.Chart("chartContainer_bottom_left", {
 // chart.render();
 
 let getData_json = function test() {
-    $.get("/auto_update", function (data) {
+    $.get("/auto_update", function(data) {
         // console.log("data val type here: ", data[0])
         /* just change in the following line the function name to get your desired result*/
-        chart.options.data = createMultilpleLines_fix_x_random_y_name(data);
+        chart.options.data = createMultilpleLines_fix_x_random_y_name(data[0]);
+        chart_1.options.data = createMultilpleLines_diff_x_diff_y(data[1]);
         chart.render();
+        chart_1.render();
     });
 }
