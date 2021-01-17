@@ -63,6 +63,63 @@ function getTableData_json() {
     });
 }
 
+
+
+/* Usage of tabular JS is started*/
+
+function make_arr(data) {
+    let demod_arr = [];
+    for (let t in data) {
+        for (let x in data[t]) {
+            /* console.log("t: ",t," ,x: ",x);*/
+            /* console.log("data[t][x]: ", data[t][x]) ;*/
+            demod_arr.push(data[t][x]);
+        }
+    }
+    return demod_arr;
+}
+
+/*
+This part will do later. It will stat from the first row of each device. eg: Demodulator--- value1, value2. This value will
+come at first
+*/
+
+function make_arr_little(tabledata) {
+    let demod_little = [];
+    for (let x in tabledata) {
+        demod_little.push(tabledata[x]);
+    }
+    return demod_little;
+}
+// res_little = make_arr_little(tabledata[Object.keys(tabledata)[1]]);
+
+//create Tabulator on DOM element with id "example-table"
+var table = new Tabulator("#example-table", {
+    height: 205, // set height of table (in CSS or here), this enables the Virtual DOM and improves render speed dramatically (can be any valid css height value)
+    data: [], //assign data to table
+    layout: "fitColumns", //fit columns to width of table (optional)
+    columns: [ //Define Table Columns
+        { title: "first col", field: "00_data", width: 150 },
+        { title: "second col", field: "01_add", hozAlign: "left" },
+        { title: "third col", field: "02_sub" },
+    ],
+});
+
+function table_with_tabular() {
+    $.get("/auto_update_table", function(data) {
+        //console.log("I am here in Tabular");
+        //console.log("data: ", data);
+        // for (let i=0; i< Object.keys(data).length; i++) {
+        //     console.log("key: ", i, "data[i]: ", data[i][0]);
+        // }s
+        // table.setData(make_arr(data));
+        table.setData(make_arr_little(data[Object.keys(data)[1]]))
+            // table.render();
+            // console.log(data[Object.keys(data)[1]]);
+
+    });
+}
+
 $(document).ready(function() {
     $("button[name='do_hide']").click(function() {
         $("#update_dict").toggle();

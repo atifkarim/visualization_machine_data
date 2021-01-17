@@ -38,15 +38,15 @@ class Get_data(Set_data):
 
 
         value_00_mod = {
-            "00_data1":Set_data.data["a"],
-            "01_add1":Set_data.data["a"] + Set_data.data["b"],
-            "02_sub1":Set_data.data["a"] - Set_data.data["c"]
+            "00_data":Set_data.data["a"],
+            "01_add":Set_data.data["a"] + Set_data.data["b"],
+            "02_sub":Set_data.data["a"] - Set_data.data["c"]
         }
 
         value_01_mod = {
-            "00_data1":Set_data.data["b"],
-            "01_add1":Set_data.data["b"] + Set_data.data["b"],
-            "02_sub1":Set_data.data["b"] - Set_data.data["c"]
+            "00_data":Set_data.data["b"],
+            "01_add":Set_data.data["b"] + Set_data.data["b"],
+            "02_sub":Set_data.data["b"] - Set_data.data["c"]
         }
 
         modulator = {
@@ -55,15 +55,15 @@ class Get_data(Set_data):
         }
 
         value_00_dec = {
-            "00_data1":Set_data.data["a"],
-            "01_add1":Set_data.data["a"] + Set_data.data["b"],
-            "02_sub1":Set_data.data["a"] - Set_data.data["c"]
+            "00_data":Set_data.data["a"],
+            "01_add":Set_data.data["a"] + Set_data.data["b"],
+            "02_sub":Set_data.data["a"] - Set_data.data["c"]
         }
 
         value_01_dec = {
-            "00_data1":Set_data.data["b"],
-            "01_add1":Set_data.data["b"] + Set_data.data["b"],
-            "02_sub1":Set_data.data["b"] - Set_data.data["c"]
+            "00_data":Set_data.data["b"],
+            "01_add":Set_data.data["b"] + Set_data.data["b"],
+            "02_sub":Set_data.data["b"] - Set_data.data["c"]
         }
 
         decoder = {
