@@ -72,7 +72,7 @@ function createMultilpleLines_fix_x_random_y_name(data) {
 
     ys = Object.keys(data[0]).length - 1;
     for (let j = 1; j <= ys; j++) {
-        console.log("check legend when j: ", j, " is: ", Object.keys(data[j - 1])[j])
+        //console.log("check legend when j: ", j, " is: ", Object.keys(data[j - 1])[j])
         lines.push({
             type: "line",
             showInLegend: true,
@@ -182,7 +182,33 @@ let chart_1 = new CanvasJS.Chart("chartContainer_bottom_left_1", {
     data: []
 });
 
-// chart.render();
+/*Heat Map*/
+// create the chart and set the data
+let heatmap_chart = anychart.heatMap(data = []); /** omit data is also possible */
+
+// let x_scale = heatmap_chart.xScale();
+// x_scale.maximum(20);
+// x_scale.maximum(-20);
+
+let scale_1 = heatmap_chart.yScale();
+
+// Set scale maximum.
+// scale_1.maximum(1);
+// scale_1.minimum(-1);
+
+heatmap_chart.title("Test HeatMap Data");
+
+// create and configure the color scale.
+var customColorScale = anychart.scales.linearColor();
+customColorScale.colors(["#ACE8D4", "#00726A"]);
+
+// set the color scale as the color scale of the chart
+heatmap_chart.colorScale(customColorScale);
+// set the container id
+heatmap_chart.container("heatmap_container");
+
+heatmap_chart.xAxis().title("Sample X-Axis Name");
+heatmap_chart.yAxis().title("Sample Y-Axis Name");
 
 let getData_json = function test() {
     $.get("/auto_update", function(data) {
@@ -192,5 +218,8 @@ let getData_json = function test() {
         chart_1.options.data = createMultilpleLines_diff_x_diff_y(data[1]);
         chart.render();
         chart_1.render();
+
+        heatmap_chart.data(data[2]);
+        heatmap_chart.draw();
     });
 }
