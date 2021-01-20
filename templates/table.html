@@ -49,19 +49,25 @@
     <br />
     <br />
 
-    <div id="update_dict" style="position: relative; z-index: 10">
+    <div id="update_dict">
         <label for="var">Choose a variable new:</label>
         <select name="var" id="varselect" style="margin-right: 20px" onchange="get_val()"></select>
         <br />
-
-        <label for="vars">Choose a value (-100 to 100) new:</label>
-        <input type="number" id="varvalue" name="value" min="-100" max="100" />
+        <label for="vars">Choose a value (-100 to 100) new:</label> <br>
+        <input type="number" id="varvalue" name="value" min="-100" max="100" /> <br>
         <button onclick="updatedata()">Click me New</button>
         <button onclick="submitPOST()">Submit new</button>
     </div>
 
-    <div id="example-table" style="float: left; position: absolute; z-index: 0">
-        <!-- <h1>Hi I am the panda</h1> -->
+    <div id="tabular_table_div">
+        <div id="prop_1" style="margin-right:5px; float: left;">
+            <span id="prop_1_span" style="float:left; text-align: center;"></span> <br>
+            <div id="example-table"></div>
+        </div>
+        <div id="prop_2" style="float: left;">
+            <span id="prop_2_span" style="float:left; text-align: center;"></span> <br>
+            <div id="example-table_1"></div>
+        </div>
     </div>
 
     <script src="static/js/build-table.js "></script>
@@ -71,6 +77,7 @@
     <script>
         // setInterval(getTableData_json, 1000);
         setInterval(table_with_tabular, 1000);
+        set_caption();
         get_dropdown();
         stop_flask_server();
     </script>

@@ -34,24 +34,6 @@
 
 #all_button {
     height: 100%;
-    /* width: 100%; */
-    float: left;
-}
-
-#goto_plot {
-    padding: 5px 5px;
-    float: left;
-}
-
-#update_dict {
-    height: 100%;
-    /* width: 100%; */
-    float: right;
-    display: none;
-}
-
-#all_button {
-    height: 100%;
     width: 100%;
     float: left;
 }
@@ -78,6 +60,16 @@
     top: 0;
 }
 
+#update_dict {
+    height: 100%;
+    /* width: 100%; */
+    float: right;
+    display: none;
+    background-color: red;
+    position: relative;
+    z-index: 10;
+}
+
 .button {
     border: none;
     /* background-color: inherit; */
@@ -86,6 +78,23 @@
     font-size: 16px;
     cursor: pointer;
     display: inline-block;
+}
+
+#tabular_table_div {
+    /* height: 100%; */
+    width: 100%;
+    z-index: 0;
+    position: absolute;
+    float: left;
+    margin-top: 20px;
+}
+
+#example-table {
+    float: left;
+}
+
+#example-table_1 {
+    float: left;
 }
 
 
