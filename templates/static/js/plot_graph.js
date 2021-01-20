@@ -126,7 +126,7 @@ function createMultilpleLines_diff_x_diff_y(data) {
     return lines;
 }
 
-let chart = new CanvasJS.Chart("chartContainer_bottom_left", {
+let chart = new CanvasJS.Chart("plot_container_first", {
     legend: {
         cursor: "default",
         fontSize: 15,
@@ -154,7 +154,7 @@ let chart = new CanvasJS.Chart("chartContainer_bottom_left", {
     data: []
 });
 
-let chart_1 = new CanvasJS.Chart("chartContainer_bottom_left_1", {
+let chart_1 = new CanvasJS.Chart("plot_container_second", {
     legend: {
         cursor: "default",
         fontSize: 15,
@@ -252,3 +252,32 @@ let getData_json = function test() {
         Plotly.newPlot('heatmap_container', two_d_hist_data);
     });
 }
+
+
+// $(document).scroll(function() {
+//     var y = $(document).scrollTop(), //get page y value 
+//         header = $("#all_button"); // your div id
+//     if (y >= 400) {
+//         header.css({ position: "fixed", "top": "0", "left": "0" });
+//     } else {
+//         header.css("position", "static");
+//     }
+// });
+
+var fixmeTop = $('#all_button').offset().top;
+$(window).scroll(function() {
+    var currentScroll = $(window).scrollTop();
+    if (currentScroll >= fixmeTop) {
+        $('#all_button').css({
+            position: 'fixed',
+            top: '0',
+            left: '0'
+        });
+    } else {
+        $('#all_button').css({
+            position: 'static',
+            top: '0',
+            left: '0'
+        });
+    }
+});

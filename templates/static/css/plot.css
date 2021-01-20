@@ -1,38 +1,49 @@
 /* for id put hash #, for class put dot(.) */
 
+#plot_container_first {
+    height: 370px;
+    width: 100%;
+    float: left;
+}
+
+#plot_container_second {
+    height: 370px;
+    width: 100%;
+    float: left;
+}
+
+#heatmap_container {
+    height: 500px;
+    width: 500px;
+    float: left;
+}
+
+#all_button {
+    /* height: 100%; */
+    width: 100%;
+    float: left;
+    z-index: 1;
+    background-color: black;
+    top: 0;
+    left: 0;
+}
+
 #test_button {
     padding: 5px 5px;
     float: left;
-    padding: 10px;
     background-color: #4CAF50;
-    position: -webkit-sticky;
-    /* Safari */
-    position: sticky;
-    top: 0;
-    /* outline: 0.5px solid rgb(163, 6, 6); */
-    /* outline-offset: 2px; */
 }
 
 .shutdown_server {
     padding: 5px 5px;
     float: left;
-    padding: 10px;
     background-color: #db0b0b;
-    position: -webkit-sticky;
-    /* Safari */
-    position: sticky;
-    top: 0;
 }
 
 #goto_table {
     padding: 5px 5px;
     float: left;
-    padding: 10px;
     background-color: #dbcd0b;
-    position: -webkit-sticky;
-    /* Safari */
-    position: sticky;
-    top: 0;
 }
 
 #dropdown_var {

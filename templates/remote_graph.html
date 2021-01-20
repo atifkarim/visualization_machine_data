@@ -21,32 +21,34 @@
 </head>
 
 
-<body>
-    <div id='test_button'>
-        <!-- <h3>Update JSON data</h3> -->
-        <form>
-            <a href=# id=test><button class='btn btn-default'>Update JSON data</button></a>
-        </form>
-    </div>
+<body style="margin-top: 0">
+    <div id="all_button">
+        <div id='test_button'>
+            <!-- <h3>Update JSON data</h3> -->
+            <form>
+                <a href=# id=test><button class='btn btn-default'>Update JSON data</button></a>
+            </form>
+        </div>
 
-    <div id='goto_table'>
-        <form method="get" action="{{url_for('table')}}">
-            <button>Show Table</button>
-        </form>
-    </div>
+        <div id='goto_table'>
+            <form method="get" action="{{url_for('table')}}">
+                <button>Show Table</button>
+            </form>
+        </div>
 
-    <div class='shutdown_server'>
-        <!-- <h3>Stop Server</h3> -->
-        <form>
-            <a href=# id=shutdown><button class='btn btn-default'>Shutdown Server</button></a>
-        </form>
+        <div class='shutdown_server'>
+            <!-- <h3>Stop Server</h3> -->
+            <form>
+                <a href=# id=shutdown><button class='btn btn-default'>Shutdown Server</button></a>
+            </form>
+        </div>
     </div>
 
     <!-- <div id="chartContainer" style="height: 370px; width: 50%;float:left;"></div> -->
     <!-- <div id="chartContainer_right" style="height: 370px; width: 50%;float:left;"></div> -->
-    <div id="chartContainer_bottom_left" style="height: 370px; width: 100%;float:left;"></div>
-    <div id="chartContainer_bottom_left_1" style="height: 370px; width: 100%;float:left;"></div>
-    <div id="heatmap_container" style="height: 500px; width: 500px;float:left;"></div>
+    <div id="plot_container_first" style="margin-top: 45px"></div>
+    <div id="plot_container_second"></div>
+    <div id="heatmap_container"></div>
     <!-- <div id="table_div" style="height: 370px; width: 100%;float:left;"></div> -->
 
 
