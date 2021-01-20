@@ -43,8 +43,8 @@ def create_int_data_point(n):
     x = []
     y = []
     for _ in range(n):
-        x.append(randint(0, 65))
-        y.append(randint(0, 65))
+        x.append(randint(0, 11))
+        y.append(randint(0, 11))
 
     return x, y
 
@@ -120,14 +120,11 @@ def create_json():
     new_list_2 = [{'x1': x1, 'x2': x2, 'y1': y1, 'y2': y2} for x1, x2, y1, y2 in zip(key_point, key_point_1, list_1, list_2)]
     
 
-    heat_map_parent_list = [{'i': y1, 'q': y2} for y1, y2 in zip(*create_int_data_point(50))]
-    start = time.time()
-    heat_map_child_list = make_heat_map_matrix(heat_map_parent_list)
-    end = time.time()
-    print("elapsed time to make heat_map_child_list: ",(end - start))
-    # print("len heat_map_child_list: ", len(heat_map_child_list))
+    # heat_map_parent_list_xy = create_int_data_point(100) # this one only for plotly JS(2D histogram)
+    heat_map_parent_list_xy = [{'i': y1, 'q': y2} for y1, y2 in zip(*create_int_data_point(10))]
 
-    
+    heat_map_child_list = make_heat_map_matrix(heat_map_parent_list_xy)
+
     # if not os.path.isfile(filename_json):
     # 	print("---------- hey json ------------- ")
     # 	with open(filename_json, 'w') as outfile:
@@ -137,7 +134,8 @@ def create_json():
     # 	print("-------- json removed----------")
     # 	with open(filename_json, 'w') as outfile:
     # 		json.dump(new_list, outfile, indent=4)
-    new_list = [new_list_1, new_list_2, heat_map_child_list]
+    # print("new_list_1: ", new_list_1)
+    new_list = [new_list_1, new_list_2, heat_map_parent_list_xy]
     return new_list
 
 def make_heat_map_matrix(sample_list):

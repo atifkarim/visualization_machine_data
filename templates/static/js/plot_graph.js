@@ -182,44 +182,73 @@ let chart_1 = new CanvasJS.Chart("chartContainer_bottom_left_1", {
     data: []
 });
 
-/*Heat Map*/
-// create the chart and set the data
-let heatmap_chart = anychart.heatMap(data = []); /** omit data is also possible */
+/************************************************** */
+/********************** Heat Map ********************/
+/************************************************** */
+// // create the chart and set the data
+// let heatmap_chart = anychart.heatMap(data = []); /** omit data is also possible */
 
-// let x_scale = heatmap_chart.xScale();
-// x_scale.maximum(20);
-// x_scale.maximum(-20);
 
-let scale_1 = heatmap_chart.yScale();
+// heatmap_chart.title("Test HeatMap Data");
 
-// Set scale maximum.
-// scale_1.maximum(1);
-// scale_1.minimum(-1);
+// // create and configure the color scale.
+// var customColorScale = anychart.scales.linearColor();
+// customColorScale.colors(["#ACE8D4", "#00726A"]);
 
-heatmap_chart.title("Test HeatMap Data");
+// // set the color scale as the color scale of the chart
+// heatmap_chart.colorScale(customColorScale);
+// // set the container id
+// heatmap_chart.container("heatmap_container");
 
-// create and configure the color scale.
-var customColorScale = anychart.scales.linearColor();
-customColorScale.colors(["#ACE8D4", "#00726A"]);
+// heatmap_chart.xAxis().title("Sample X-Axis Name");
+// heatmap_chart.yAxis().title("Sample Y-Axis Name");
 
-// set the color scale as the color scale of the chart
-heatmap_chart.colorScale(customColorScale);
-// set the container id
-heatmap_chart.container("heatmap_container");
+/************************************************** */
+/********************** 2D histogram ****************/
+/************************************************** */
 
-heatmap_chart.xAxis().title("Sample X-Axis Name");
-heatmap_chart.yAxis().title("Sample Y-Axis Name");
+function make_2D_hist_container(data) {
+    let x = [];
+    let y = [];
+    let z = [];
+    for (let i in data) {
+        x.push(data[i][Object.keys(data[i])[0]]);
+        y.push(data[i][Object.keys(data[i])[1]]);
+    }
+    z = [x, y];
+    return z;
+}
 
 let getData_json = function test() {
     $.get("/auto_update", function(data) {
-        // console.log("data val type here: ", data[0])
+        // console.log("data val type here: ", data[2])
         /* just change in the following line the function name to get your desired result*/
         chart.options.data = createMultilpleLines_fix_x_random_y_name(data[0]);
         chart_1.options.data = createMultilpleLines_diff_x_diff_y(data[1]);
         chart.render();
         chart_1.render();
 
-        heatmap_chart.data(data[2]);
-        heatmap_chart.draw();
+        // heatmap_chart.data(data[2]);
+        // heatmap_chart.draw();
+
+        data_xy = make_2D_hist_container(data[2]);
+        // data_xy = data[2];
+        two_d_hist_data = [{
+            x: data_xy[0],
+            y: data_xy[1],
+            xbins: {
+                end: 10,
+                size: 1,
+                start: 0
+            },
+            ybins: {
+                end: 10,
+                size: 1,
+                start: 0
+            },
+            type: 'histogram2d',
+        }];
+
+        Plotly.newPlot('heatmap_container', two_d_hist_data);
     });
 }
