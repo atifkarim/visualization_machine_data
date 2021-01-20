@@ -5,9 +5,8 @@ from random import random
 from datetime import datetime
 
 class Get_data(Set_data):
-    # following function deprecated
-    def write_data(self, my_dict):
-        Set_data.make_mem_var(my_dict)
+    demodulator = {} # final dictionary of the device demodulator
+    demodulator_key = [] # final key name for the dictionary(here demodulator)
 
     def do_process(self):
         seed(datetime.now())
@@ -24,17 +23,23 @@ class Get_data(Set_data):
             "02_sub":Set_data.data["b"] - value*3
         }
 
+        # following list consists of all child dictionary
+        vals = [value_00_dmod, value_01_dmod]
+
         # demodulator = {
         #     "value_00": value_00_dmod,
         #     "value_01": value_01_dmod
         # }
 
-        demodulator = {}
-        keys = ["value_00","value_01"]
-        vals = [value_00_dmod, value_01_dmod]
+        # checking the final dictionary is empty or not. if empty create the key
+        if bool(Get_data.demodulator)==False:
+            self.create_demodulator_key(vals)
+        else:
+            pass
 
-        for index,value in enumerate(keys):
-            demodulator[value] = vals[index]
+        # populate the final dictionary with key and value
+        for index,value in enumerate(Get_data.demodulator_key):
+            Get_data.demodulator[value] = vals[index]
 
 
         value_00_mod = {
@@ -71,6 +76,18 @@ class Get_data(Set_data):
             "value_01": value_01_dec
         }
 
-        overall_status = {"Demodulator": demodulator, "Modulator": modulator, "Decoder":decoder}
+        overall_status = {"Demodulator": Get_data.demodulator, "Modulator": modulator, "Decoder":decoder}
 
         return overall_status
+
+    def create_demodulator_key(self, list_of_dict, count = 0):
+        # print("create_new_key func called")
+        for i in list_of_dict:
+            if count < 10:
+                content = "value_0"+str(count)
+                Get_data.demodulator_key.append(content)
+                count+=1
+            else:
+                content = "value_"+str(count)
+                Get_data.demodulator_key.append(content)
+                count+=1
