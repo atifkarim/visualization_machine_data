@@ -210,50 +210,19 @@ let chart_1 = new CanvasJS.Chart("plot_container_second", {
 /************************************************** */
 
 function make_2D_hist_container(data) {
-    let x = []; let y = [];
-
-    let x1 = []; let x2 = [];
-    let y1=[]; let y2= [];
-
-    let z = [];
     /** this will count how many child key is there.
      * eg. x,y1,y2 -- then obtained_child_key = 3.
      * i,q then obtained_child_key = 2 */
     let obtained_child_key = Object.keys(data[0]).length;
 
-    if(obtained_child_key == 2)
-    {
-        for (let i in data)
-        {
-            x.push(data[i][Object.keys(data[i])[0]]);
-            y.push(data[i][Object.keys(data[i])[1]]);
+    z = [];
+    for (let i = 0; i < obtained_child_key; i++) {
+        tmp = [];
+        for (let j in data) {
+            tmp.push(data[j][Object.keys(data[j])[i]]);
         }
-        z = [x, y];
+        z.push(tmp);
     }
-
-    else if(obtained_child_key == 3)
-    {
-        for (let i in data)
-        {
-            x.push(data[i][Object.keys(data[i])[0]]);
-            y1.push(data[i][Object.keys(data[i])[1]]);
-            y2.push(data[i][Object.keys(data[i])[2]]);
-        }
-        z = [x, y1, y2];
-    }
-
-    else
-    {
-        for (let i in data)
-        {
-            x1.push(data[i][Object.keys(data[i])[0]]);
-            x2.push(data[i][Object.keys(data[i])[1]]);
-            y1.push(data[i][Object.keys(data[i])[2]]);
-            y2.push(data[i][Object.keys(data[i])[3]]);
-        }
-        z = [x1, x2, y1, y2];
-    }
-
     return z;
 }
 
@@ -269,103 +238,97 @@ let getData_json = function test() {
         // heatmap_chart.data(data[2]);
         // heatmap_chart.draw();
 
-        let data_x_y1_y2 = make_2D_hist_container(data[0]);
-        let trace1 = {
-            x: data_x_y1_y2[0],
-            y: data_x_y1_y2[1],
-            type: 'scatter'
-          };
-        
-        let trace2 = {
-            x: data_x_y1_y2[0],
-            y: data_x_y1_y2[2],
-            type: 'scatter'
-        };
-
         let generic_lay = {
-            title:'generic plot',
+            title: 'generic plot',
             showlegend: true
-          };
-
-        let plot_data_x_y1_y2 = [trace1, trace2];
-        Plotly.react('plot_container_first_plotly', plot_data_x_y1_y2, generic_lay);
-
-        let data_x1_x2_y1_y2 = make_2D_hist_container(data[1]);
-        let x1_y1 = {
-            x: data_x1_x2_y1_y2[0],
-            y: data_x1_x2_y1_y2[2],
-            type: 'scatter'
-          };
-        
-        let x2_y2 = {
-            x: data_x1_x2_y1_y2[1],
-            y: data_x1_x2_y1_y2[3],
-            type: 'scatter'
         };
 
-        let plot_data_x1_x2_y1_y2 = [x1_y1, x2_y2];
-        Plotly.react('plot_container_second_plotly', plot_data_x1_x2_y1_y2, generic_lay);
+        /** x vs y1, y2 plot */
+        let data_x_y1_y2 = make_2D_hist_container(data[0]);
+        data_x_y1_y2_traces = [];
+        for (let j = 1; j < data_x_y1_y2.length; j++) {
+            data_x_y1_y2_traces.push({
+                x: data_x_y1_y2[0],
+                y: data_x_y1_y2[j],
+                type: 'scatter',
+                name: 'y_' + j
+            });
+        }
+        Plotly.react('plot_container_first_plotly', data_x_y1_y2_traces, generic_lay);
 
+        /** x1 vs y1, x2 vs y2 ... xn vs yn plot */
+        let data_xn_yn = make_2D_hist_container(data[1]);
+        console.log("data_xn_yn len: ", data_xn_yn.length);
+        console.log("data_xn_yn: ", data_xn_yn);
+        if (data_xn_yn.length % 2 == 1) {
+            throw new Error("Length of data_xn_yn has to be even!");
+        }
 
-        data_xy = make_2D_hist_container(data[2]);
-        // data_xy = data[2];
-        two_d_hist_data = [{
-            x: data_xy[0],
-            y: data_xy[1],
-            xbins: {
-                end: 10,
-                size: 1,
-                start: 0
-            },
-            ybins: {
-                end: 10,
-                size: 1,
-                start: 0
-            },
-            type: 'histogram2d',
-        }];
+        data_xn_yn_traces = [];
+        mid = data_xn_yn.length / 2;
+        for (let j = 0; j < mid; j++) {
+            data_xn_yn_traces.push({
+                x: data_xn_yn[j],
+                y: data_xn_yn[mid + j],
+                type: 'scatter',
+                name: 'y_' + j
+            });
+        }
+        Plotly.react('plot_container_second_plotly', data_xn_yn_traces, generic_lay);
+
+        /** x vs y plot. Histogram also */
+        let data_xy = make_2D_hist_container(data[2]);
+        data_x_y_traces_hist = [];
+
+        for (let j = 1; j < data_xy.length; j++) {
+            data_x_y_traces_hist.push({
+                x: data_xy[0],
+                y: data_xy[1],
+
+                xbins: {
+                    end: 10,
+                    size: 1,
+                    start: 0
+                },
+                ybins: {
+                    end: 10,
+                    size: 1,
+                    start: 0
+                },
+                type: 'histogram2d'
+            });
+        }
 
         let two_d_hist_data_layout = {
             title: {
-              text:'i vs q 2D Histogram',
+                text: 'i vs q 2D Histogram',
             }
-          };
+        };
 
         let i_q_linechart = [{
             x: data_xy[0],
             y: data_xy[1],
             name: 'q',
             mode: 'markers'
-          }];
+        }];
 
-        let  i_q_linechart_layout = {
+        let i_q_linechart_layout = {
             showlegend: true,
-            title:'i vs q line plot',
-            xaxis:{
+            title: 'i vs q line plot',
+            xaxis: {
                 range: [-2, 8],
                 title: 'value of i'
-              },
-              yaxis: {
+            },
+            yaxis: {
                 range: [-3, 8],
                 title: 'value of q'
-              }
-          };
+            }
+        };
 
-        Plotly.react('heatmap_container', two_d_hist_data, two_d_hist_data_layout);
+        Plotly.react('heatmap_container', data_x_y_traces_hist, two_d_hist_data_layout);
         Plotly.react('heatmap_container_linechart', i_q_linechart, i_q_linechart_layout);
     });
 }
-
-
-// $(document).scroll(function() {
-//     var y = $(document).scrollTop(), //get page y value 
-//         header = $("#all_button"); // your div id
-//     if (y >= 400) {
-//         header.css({ position: "fixed", "top": "0", "left": "0" });
-//     } else {
-//         header.css("position", "static");
-//     }
-// });
 
 var fixmeTop = $('#all_button').offset().top;
 $(window).scroll(function() {
