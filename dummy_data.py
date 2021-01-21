@@ -134,7 +134,7 @@ def create_json():
     # 	print("-------- json removed----------")
     # 	with open(filename_json, 'w') as outfile:
     # 		json.dump(new_list, outfile, indent=4)
-    # print("new_list_1: ", new_list_1)
+    # print("new_list_1: ", new_list_2)
     new_list = [new_list_1, new_list_2, heat_map_parent_list_xy]
     return new_list
 
