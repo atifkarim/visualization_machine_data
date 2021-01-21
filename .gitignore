@@ -1,4 +1,4 @@
-# Byte-compiled / optimized / DLL files
+led / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
@@ -134,4 +134,3 @@ dmypy.json
 #templates/static/json_files
 templates/static/js/refresh_only.js
 templates/plot_csv.html
-
