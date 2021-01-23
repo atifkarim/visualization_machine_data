@@ -209,7 +209,9 @@ let chart_1 = new CanvasJS.Chart("plot_container_second", {
 /********************** 2D histogram ****************/
 /************************************************** */
 
-function make_2D_hist_container(data) {
+/** function for Plotly JS */
+
+function create_dataPoint_array(data) {
     /** this will count how many child key is there.
      * eg. x,y1,y2 -- then obtained_child_key = 3.
      * i,q then obtained_child_key = 2 */
@@ -226,6 +228,93 @@ function make_2D_hist_container(data) {
     return z;
 }
 
+/** trying to make a generic layout for all kind of plot */
+function generic_layout({ given_title = "the title is not provided", x_min = 0, x_max = 15, x_axis_title = "x_axis", y_min = 0, y_max = 15, y_axis_title = "y_axis" } = {}) {
+    let layout_object = {
+        title: {
+            text: given_title
+        },
+        showlegend: true,
+        xaxis: {
+            range: [x_min, x_max],
+            title: x_axis_title
+        },
+        yaxis: {
+            range: [y_min, y_max],
+            title: y_axis_title
+        },
+    };
+    return layout_object;
+}
+
+/** x vs y1, y2 plot */
+/** x vs i,q */
+/** i vs q */
+function dataPoint_x_vs_random_y({ data, set_type = "scatter", set_mode = "lines" } = {}) {
+    let data_x_y1_y2 = create_dataPoint_array(data); /** this one make the data array. no key is there */
+    data_x_y1_y2_traces = [];
+    for (let j = 1; j < data_x_y1_y2.length; j++) {
+        data_x_y1_y2_traces.push({
+            x: data_x_y1_y2[0],
+            y: data_x_y1_y2[j],
+            mode: set_mode,
+            type: set_type,
+            name: Object.keys(data[0])[j]
+        });
+    }
+    return data_x_y1_y2_traces;
+}
+
+/** x1 vs y1, x2 vs y2 ... xn vs yn plot */
+/** so be concern about the datastyle. 1 vs 1, n vs n */
+/** so divide the data in the mid */
+/** and also place in main dataset all X together and all Y together */
+
+function dataPoint_xn_vs_yn({ data, set_type = "scatter", set_mode = "lines" } = {}) {
+    let data_xn_yn = create_dataPoint_array(data);
+    if (data_xn_yn.length % 2 == 1) {
+        throw new Error("Length of data_xn_yn has to be even!");
+    }
+    data_xn_yn_traces = [];
+    mid = data_xn_yn.length / 2;
+    for (let j = 0; j < mid; j++) {
+        data_xn_yn_traces.push({
+            x: data_xn_yn[j],
+            y: data_xn_yn[mid + j],
+            type: 'scatter',
+            name: Object.keys(data[0])[mid + j]
+        });
+    }
+    return data_xn_yn_traces;
+}
+
+/** x vs y plot. Histogram also */
+function make_2D_histogram(data) {
+    let data_xy = create_dataPoint_array(data);
+    data_x_y_traces_hist = [];
+
+    for (let j = 1; j < data_xy.length; j++) {
+        data_x_y_traces_hist.push({
+            x: data_xy[0],
+            y: data_xy[1],
+
+            xbins: {
+                end: 10,
+                size: 1,
+                start: 0
+            },
+            ybins: {
+                end: 10,
+                size: 1,
+                start: 0
+            },
+            type: 'histogram2d'
+        });
+    }
+    return data_x_y_traces_hist;
+}
+
+
 let getData_json = function test() {
     $.get("/auto_update", function(data) {
         // console.log("data val type here: ", data[2])
@@ -238,95 +327,46 @@ let getData_json = function test() {
         // heatmap_chart.data(data[2]);
         // heatmap_chart.draw();
 
-        let generic_lay = {
-            title: 'generic plot',
-            showlegend: true
-        };
+        let layout_dataPoint_a_vs_i_q = generic_layout({
+            given_title: "x vs y1, y2 presentation",
+            x_min: 0,
+            x_max: 600,
+            x_axis_title: "x",
+            y_min: -20,
+            y_max: 20,
+            y_axis_title: "y1,y2"
+        });
+        Plotly.react('a_vs_i_q_plot_line', dataPoint_x_vs_random_y({ data: data[0], set_type: "scatter", set_mode: "lines" }), layout_dataPoint_a_vs_i_q, { editable: true });
 
-        /** x vs y1, y2 plot */
-        let data_x_y1_y2 = make_2D_hist_container(data[0]);
-        data_x_y1_y2_traces = [];
-        for (let j = 1; j < data_x_y1_y2.length; j++) {
-            data_x_y1_y2_traces.push({
-                x: data_x_y1_y2[0],
-                y: data_x_y1_y2[j],
-                type: 'scatter',
-                name: 'y_' + j
-            });
-        }
-        Plotly.react('plot_container_first_plotly', data_x_y1_y2_traces, generic_lay);
+        let layout_dataPoint_xn_vs_yn = generic_layout({
+            given_title: "xn vs yn presentation",
+            x_min: 0,
+            x_max: 600,
+            x_axis_title: "x1, x1",
+            y_min: -20,
+            y_max: 20,
+            y_axis_title: "y1,y2"
+        });
+        Plotly.react('xn_vs_yn_plot_line', dataPoint_xn_vs_yn({ data: data[1], set_type: "scatter", set_mode: "lines" }), layout_dataPoint_xn_vs_yn, { editable: true });
 
-        /** x1 vs y1, x2 vs y2 ... xn vs yn plot */
-        let data_xn_yn = make_2D_hist_container(data[1]);
-        console.log("data_xn_yn len: ", data_xn_yn.length);
-        console.log("data_xn_yn: ", data_xn_yn);
-        if (data_xn_yn.length % 2 == 1) {
-            throw new Error("Length of data_xn_yn has to be even!");
-        }
 
-        data_xn_yn_traces = [];
-        mid = data_xn_yn.length / 2;
-        for (let j = 0; j < mid; j++) {
-            data_xn_yn_traces.push({
-                x: data_xn_yn[j],
-                y: data_xn_yn[mid + j],
-                type: 'scatter',
-                name: 'y_' + j
-            });
-        }
-        Plotly.react('plot_container_second_plotly', data_xn_yn_traces, generic_lay);
+        let layout_dataPoint_i_vs_q = generic_layout({
+            given_title: "i vs q data presentation(in pyfile df_iq_data)",
+            x_min: -40,
+            x_max: 40,
+            x_axis_title: "i",
+            y_min: -40,
+            y_max: 40,
+            y_axis_title: "q"
+        });
+        Plotly.react('i_vs_q_plot_line', dataPoint_x_vs_random_y({ data: data[2], set_type: "scatter", set_mode: "lines" }), layout_dataPoint_i_vs_q, { editable: true });
+        Plotly.react('i_vs_q_plot_scatter', dataPoint_x_vs_random_y({ data: data[2], set_type: "scatter", set_mode: "markers" }), layout_dataPoint_i_vs_q, { editable: true });
 
-        /** x vs y plot. Histogram also */
-        let data_xy = make_2D_hist_container(data[2]);
-        data_x_y_traces_hist = [];
 
-        for (let j = 1; j < data_xy.length; j++) {
-            data_x_y_traces_hist.push({
-                x: data_xy[0],
-                y: data_xy[1],
+        // Plotly.react('plot_container_second_plotly', dataPoint_xn_vs_yn(data[1]), generic_layout({given_title:"NEW xn vs yn plot"}));
 
-                xbins: {
-                    end: 10,
-                    size: 1,
-                    start: 0
-                },
-                ybins: {
-                    end: 10,
-                    size: 1,
-                    start: 0
-                },
-                type: 'histogram2d'
-            });
-        }
 
-        let two_d_hist_data_layout = {
-            title: {
-                text: 'i vs q 2D Histogram',
-            }
-        };
-
-        let i_q_linechart = [{
-            x: data_xy[0],
-            y: data_xy[1],
-            name: 'q',
-            mode: 'markers'
-        }];
-
-        let i_q_linechart_layout = {
-            showlegend: true,
-            title: 'i vs q line plot',
-            xaxis: {
-                range: [-2, 8],
-                title: 'value of i'
-            },
-            yaxis: {
-                range: [-3, 8],
-                title: 'value of q'
-            }
-        };
-
-        Plotly.react('heatmap_container', data_x_y_traces_hist, two_d_hist_data_layout);
-        Plotly.react('heatmap_container_linechart', i_q_linechart, i_q_linechart_layout);
+        Plotly.react('i_vs_q_2D_hist', make_2D_histogram(data[2]), { title: 'i_q 2D Histogram' });
     });
 }
 

@@ -12,7 +12,7 @@ app.static_folder = os.path.abspath("templates/static/")
 
 @app.route('/')
 def index(name=None):
-    return render_template('remote_graph.html',name=name)
+    return render_template('graph.html',name=name)
 
 @app.route('/auto_update')
 def parse_auto_update(name=None):

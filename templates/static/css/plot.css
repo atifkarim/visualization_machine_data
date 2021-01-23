@@ -1,6 +1,6 @@
 /* for id put hash #, for class put dot(.) */
 
-#plot_container_first{
+#plot_container_first {
     height: 370px;
     width: 100%;
     float: left;
@@ -12,21 +12,21 @@
     float: left;
 }
 
-.plot_container_plotly{
+.plot_container_plotly {
     height: 500px;
     width: 500px;
     float: left;
 }
 
-#heatmap_container_linechart {
-    height: 500px;
-    width: 500px;
+#a_vs_i_q_plot_line {
+    height: 370px;
+    width: 100%;
     float: left;
 }
 
-#heatmap_container{
-    height: 500px;
-    width: 500px;
+#xn_vs_yn_plot_line {
+    height: 370px;
+    width: 100%;
     float: left;
 }
 
