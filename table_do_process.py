@@ -1,7 +1,7 @@
 from table_const_var import *
 from random import seed
 from random import gauss
-from random import random
+from random import random, randint
 from datetime import datetime
 
 class Get_data(Set_data):
@@ -24,7 +24,8 @@ class Get_data(Set_data):
         }
 
         # following list consists of all child dictionary
-        vals = [value_00_dmod, value_01_dmod]
+        # vals = [value_00_dmod, value_01_dmod]
+        vals = self.make_row_dict()
 
         # demodulator = {
         #     "value_00": value_00_dmod,
@@ -76,7 +77,7 @@ class Get_data(Set_data):
             "value_01": value_01_dec
         }
 
-        overall_status = {"Demodulator": Get_data.demodulator, "Modulator": modulator, "Decoder":decoder}
+        overall_status = {"00_Demodulator": Get_data.demodulator, "01_Modulator": modulator, "02_Decoder":decoder}
 
         return overall_status
 
@@ -91,3 +92,14 @@ class Get_data(Set_data):
                 content = "value_"+str(count)
                 Get_data.demodulator_key.append(content)
                 count+=1
+
+    def make_row_dict(self):
+        vals = []
+        for i in range (40):
+            child_key = {
+                "00_data": Set_data.data["a"],
+                "01_add": randint(25,35) + randint(45,65),
+                "02_sub": randint(58, 98)
+            }
+            vals.append(child_key)
+        return vals

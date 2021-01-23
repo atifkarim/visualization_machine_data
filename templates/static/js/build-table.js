@@ -95,7 +95,7 @@ function make_arr_little(tabledata) {
 
 //create Tabulator on DOM element with id "example-table"
 let table_1 = new Tabulator("#example-table", {
-    height: false, // set height of table (in CSS or here), this enables the Virtual DOM and improves render speed dramatically (can be any valid css height value)
+    height: "630px", // set height of table (in CSS or here), this enables the Virtual DOM and improves render speed dramatically (can be any valid css height value)
     data: [], //assign data to table
     layout: "fitColumns", //fit columns to width of table (optional)
     columns: [ //Define Table Columns
@@ -149,3 +149,22 @@ function set_caption() {
         });
     });
 }
+
+
+var fixmeTop = $('#all_button').offset().top;
+$(window).scroll(function() {
+    var currentScroll = $(window).scrollTop();
+    if (currentScroll >= fixmeTop) {
+        $('#all_button').css({
+            position: 'fixed',
+            top: '0',
+            left: '0'
+        });
+    } else {
+        $('#all_button').css({
+            position: 'static',
+            top: '0',
+            left: '0'
+        });
+    }
+});
