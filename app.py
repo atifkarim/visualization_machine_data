@@ -36,6 +36,14 @@ def table(name=None):
 
     return render_template('table.html',name=name)
 
+# to show table data
+@app.route('/vanilla_js_table', methods=['POST', 'GET'])
+def vanilla_js_table(name=None):
+    if request.method == 'POST':
+        Set_data.make_mem_var(request.form)
+
+    return render_template('vanilla_js_table.html',name=name)
+
 # to take updated/ initial list data automatically to display table
 @app.route('/auto_update_table')
 def parse_auto_update_table(name=None):

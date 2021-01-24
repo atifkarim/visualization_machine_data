@@ -30,6 +30,9 @@
     /*no width Extend the div as per his content*/
     /* width: 70%; */
     float: left;
+    z-index: 0;
+    position: absolute;
+    margin-top: 50px;
 }
 
 #all_button {
@@ -47,6 +50,28 @@
     float: left;
     padding: 10px;
     background-color: #4CAF50;
+    position: -webkit-sticky;
+    /* Safari */
+    position: sticky;
+    top: 0;
+}
+
+#goto_table {
+    padding: 5px 5px;
+    float: left;
+    padding: 10px;
+    background-color: #adaf4c;
+    position: -webkit-sticky;
+    /* Safari */
+    position: sticky;
+    top: 0;
+}
+
+#goto_table_vanilla {
+    padding: 5px 5px;
+    float: left;
+    padding: 10px;
+    background-color: #4e4caf;
     position: -webkit-sticky;
     /* Safari */
     position: sticky;
