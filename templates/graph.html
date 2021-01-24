@@ -36,6 +36,12 @@
             </form>
         </div>
 
+        <div id='goto_table_vanilla'>
+            <form method="get" action="{{url_for('vanilla_js_table')}}">
+                <button>Show  Vanilla Table</button>
+            </form>
+        </div>
+
         <div class='shutdown_server'>
             <!-- <h3>Stop Server</h3> -->
             <form>
@@ -44,8 +50,6 @@
         </div>
     </div>
 
-    <!-- <div id="chartContainer" style="height: 370px; width: 50%;float:left;"></div> -->
-    <!-- <div id="chartContainer_right" style="height: 370px; width: 50%;float:left;"></div> -->
     <div id="plot_container_first" style="margin-top: 45px"></div>
     <div id="plot_container_second"></div>
 
@@ -76,8 +80,6 @@ window.onload = function() {
 }
 -->
     <script>
-        // window.onload = remote_graph();
-        // window.onload = remote_plot();
         window.onload = setInterval(getData_json, 500);
         python_button_function();
         stop_flask_server();

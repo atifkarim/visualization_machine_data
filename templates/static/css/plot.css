@@ -58,6 +58,12 @@
     background-color: #dbcd0b;
 }
 
+#goto_table_vanilla {
+    padding: 5px 5px;
+    float: left;
+    background-color: #5b0bdb;
+}
+
 #dropdown_var {
     padding: 5px 5px;
     float: left;
