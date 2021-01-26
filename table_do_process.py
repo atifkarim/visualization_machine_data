@@ -69,7 +69,7 @@ class Get_data(Set_data):
         value_01_dec = {
             "00_data":Set_data.data["b"],
             "01_add":Set_data.data["b"] + Set_data.data["b"],
-            "02_sub":Set_data.data["b"] - Set_data.data["c"]
+            "02_sub":randint(25,35)
         }
 
         decoder = {
@@ -77,7 +77,7 @@ class Get_data(Set_data):
             "value_01": value_01_dec
         }
 
-        overall_status = {"00_Demodulator": Get_data.demodulator, "01_Modulator": modulator, "02_Decoder":decoder}
+        overall_status = {"Demodulator": Get_data.demodulator, "01_Modulator": modulator, "02_Decoder":decoder}
 
         return overall_status
 
@@ -95,7 +95,7 @@ class Get_data(Set_data):
 
     def make_row_dict(self):
         vals = []
-        for i in range (40):
+        for i in range (7):
             child_key = {
                 "00_data": Set_data.data["a"],
                 "01_add": randint(25,35) + randint(45,65),

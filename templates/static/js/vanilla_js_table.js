@@ -1,4 +1,4 @@
-function createTable(caption, data) {
+function createTable_1(caption, data) {
     let table = $("<table class='test_table'>");
     table.html("<caption>" + caption + "</caption>");
 
@@ -17,6 +17,50 @@ function createTable(caption, data) {
             // let td = $("<td>").text(data[row][col]);
             tr.append(td);
         }
+        table.append(tr);
+    }
+
+    return table;
+}
+
+function createTable(caption, data) {
+    // console.log("here_cap: ", here_cap, "  --  ", caption, " and type: ", typeof here_cap);
+    let table = $("<table class='test_table'>");
+    table
+        .html("<caption>" + caption + "</caption>")
+        .attr("id", caption);
+
+    let headers = getColumns(data[Object.keys(data)[0]]);
+    let tr = $("<tr>");
+    for (let i in headers) {
+        tr.append("<th>" + headers[i] + "</th>");
+    }
+    table.append(tr);
+
+    for (let row in data) {
+        let tr = $("<tr>");
+        for (let col in data[row]) {
+            let format_data = check_input_val_type(data[row][col], 1);
+            let td = $("<td>").text(format_data);
+            tr.append(td);
+        }
+        let td_btn = $("<td>")
+            .addClass("table_button")
+            .text("Add")
+            .click(function() {
+                let tbl_div_child = $("#table_div_child");
+
+                if (tbl_div_child.html() == "") {
+                    new_tbl = createTable(caption + "_Child", { row: data[row] });
+                    tbl_div_child.append(new_tbl);
+                } else {
+                    //child_tbl = $("#table_div_child")
+
+                }
+            });
+
+
+        tr.append(td_btn);
         table.append(tr);
     }
 
@@ -51,13 +95,29 @@ function check_input_val_type(y, fixed_range) {
     }
 }
 
-function table_with_vanilla_js() {
+function table_with_vanilla_js_1() {
     $.get("/auto_update_table", function(data) {
         let tbl_div = $("#table_div");
         tbl_div.html("");
         for (let t in data) {
             new_tbl = createTable("Table " + t, data[t]);
             tbl_div.append(new_tbl);
+        }
+    });
+}
+
+function table_with_vanilla_js() {
+    $.get("/auto_update_table", function(data) {
+        let tbl_div = $("#table_div");
+        tbl_div.html("");
+        for (let t in data) {
+            sub_div = $("<div>")
+                .attr("id", "Table_" + t)
+                .addClass("sub_div");
+
+            new_tbl = createTable("Table " + t, data[t]);
+            tbl_div.append(sub_div);
+            sub_div.append(new_tbl);
         }
     });
 }

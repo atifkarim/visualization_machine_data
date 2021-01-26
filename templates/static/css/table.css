@@ -25,6 +25,29 @@
     color: white;
 }
 
+.table_button {
+    background-color: #515151;
+    color: white;
+}
+
+.table_button:hover {
+    background-color: #707070;
+}
+
+.table_button:active {
+    background-color: #aaa;
+}
+
+#table_div_child {
+    /* height: 100%; */
+    /*no width Extend the div as per his content*/
+    /* width: 70%; */
+    float: left;
+    background-color: red;
+    position: absolute;
+    /* display: none; */
+}
+
 #table_div {
     height: 100%;
     /*no width Extend the div as per his content*/
@@ -33,6 +56,10 @@
     z-index: 0;
     position: absolute;
     margin-top: 50px;
+}
+
+.sub_div {
+    float: left
 }
 
 #all_button {
