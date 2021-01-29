@@ -5,101 +5,78 @@ from random import random, randint
 from datetime import datetime
 
 class Get_data(Set_data):
-    demodulator = {} # final dictionary of the device demodulator
-    demodulator_key = [] # final key name for the dictionary(here demodulator)
+    device_1 = {} # final dictionary of the device device_1
+    device_1_key = [] # final key name for the dictionary(here device_1)
+
+    device_2 = {} # final dictionary of the device device_2
+    device_2_key = [] # final key name for the dictionary(here device_2)
+
+    device_3 = {} # final dictionary of the device device_3
+    device_3_key = [] # final key name for the dictionary(here device_3)
 
     def do_process(self):
         seed(datetime.now())
         value = random()
-        value_00_dmod = {
-            "00_data":Set_data.data["a"],
-            "01_add":Set_data.data["a"]+ value*2,
-            "02_sub":Set_data.data["a"] - value*2
-        }
-
-        value_01_dmod = {
-            "00_data":Set_data.data["b"],
-            "01_add":Set_data.data["b"] + value*3,
-            "02_sub":Set_data.data["b"] - value*3
-        }
 
         # following list consists of all child dictionary
-        # vals = [value_00_dmod, value_01_dmod]
-        vals = self.make_row_dict()
-
-        # demodulator = {
-        #     "value_00": value_00_dmod,
-        #     "value_01": value_01_dmod
-        # }
+        vals_demod = self.make_row_dict(7)
 
         # checking the final dictionary is empty or not. if empty create the key
-        if bool(Get_data.demodulator)==False:
-            self.create_demodulator_key(vals)
+        if bool(Get_data.device_1)==False:
+            self.create_device_dict_key(vals_demod, given_key_container = Get_data.device_1_key)
         else:
             pass
 
         # populate the final dictionary with key and value
-        for index,value in enumerate(Get_data.demodulator_key):
-            Get_data.demodulator[value] = vals[index]
+        for index,value in enumerate(Get_data.device_1_key):
+            Get_data.device_1[value] = vals_demod[index]
 
 
-        value_00_mod = {
-            "00_data":Set_data.data["a"],
-            "01_add":Set_data.data["a"] + Set_data.data["b"],
-            "02_sub":Set_data.data["a"] - Set_data.data["c"]
-        }
+        vals_mod = self.make_row_dict(9)
+        # checking the final dictionary is empty or not. if empty create the key
+        if bool(Get_data.device_2)==False:
+            self.create_device_dict_key(vals_mod, given_key_container = Get_data.device_2_key)
+        else:
+            pass
 
-        value_01_mod = {
-            "00_data":Set_data.data["b"],
-            "01_add":Set_data.data["b"] + Set_data.data["b"],
-            "02_sub":Set_data.data["b"] - Set_data.data["c"]
-        }
+        # populate the final dictionary with key and value
+        for index,value in enumerate(Get_data.device_2_key):
+            Get_data.device_2[value] = vals_mod[index]
 
-        modulator = {
-            "value_00": value_00_mod,
-            "value_01": value_01_mod
-        }
+        vals_device_3 = self.make_row_dict(5)
+        # checking the final dictionary is empty or not. if empty create the key
+        if bool(Get_data.device_3)==False:
+            self.create_device_dict_key(vals_device_3, given_key_container = Get_data.device_3_key)
+        else:
+            pass
 
-        value_00_dec = {
-            "00_data":Set_data.data["a"],
-            "01_add":Set_data.data["a"] + Set_data.data["b"],
-            "02_sub":Set_data.data["a"] - Set_data.data["c"]
-        }
+        # populate the final dictionary with key and value
+        for index,value in enumerate(Get_data.device_3_key):
+            Get_data.device_3[value] = vals_device_3[index]
 
-        value_01_dec = {
-            "00_data":Set_data.data["b"],
-            "01_add":Set_data.data["b"] + Set_data.data["b"],
-            "02_sub":randint(25,35)
-        }
-
-        decoder = {
-            "value_00": value_00_dec,
-            "value_01": value_01_dec
-        }
-
-        overall_status = {"Demodulator": Get_data.demodulator, "01_Modulator": modulator, "02_Decoder":decoder}
+        overall_status = {"Board_1": Get_data.device_1, "Board_2": Get_data.device_2, "Board_3":Get_data.device_3}
 
         return overall_status
 
-    def create_demodulator_key(self, list_of_dict, count = 0):
+    def create_device_dict_key(self, list_of_dict, count = 0, given_key_container = None):
         # print("create_new_key func called")
         for i in list_of_dict:
             if count < 10:
                 content = "value_0"+str(count)
-                Get_data.demodulator_key.append(content)
+                given_key_container.append(content)
                 count+=1
             else:
                 content = "value_"+str(count)
-                Get_data.demodulator_key.append(content)
+                given_key_container.append(content)
                 count+=1
 
-    def make_row_dict(self):
+    def make_row_dict(self, row_num):
         vals = []
-        for i in range (7):
+        for i in range (row_num):
             child_key = {
-                "00_data": Set_data.data["a"],
-                "01_add": randint(25,35) + randint(45,65),
-                "02_sub": randint(58, 98)
+                "00_data": "row_"+str(i),
+                "01_add": randint(5,9) + randint(3,7),
+                "02_sub": randint(1,5)
             }
             vals.append(child_key)
         return vals
