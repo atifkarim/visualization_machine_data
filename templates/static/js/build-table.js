@@ -32,7 +32,7 @@ let table_1 = new Tabulator("#example-table", {
     data: [], //assign data to table
     layout: "fitColumns", //fit columns to width of table (optional)
     columns: [ //Define Table Columns
-        { title: "first col", field: "00_data", width: 150 },
+        { title: "first col", field: "00_row", width: 150 },
         { title: "second col", field: "01_add", hozAlign: "left" },
         { title: "third col", field: "02_sub" },
     ],
@@ -43,7 +43,7 @@ let table_2 = new Tabulator("#example-table_1", {
     data: [], //assign data to table
     layout: "fitColumns", //fit columns to width of table (optional)
     columns: [ //Define Table Columns
-        { title: "first col", field: "00_data", width: 150 },
+        { title: "first col", field: "00_row", width: 150 },
         { title: "second col", field: "01_add", hozAlign: "left" },
         { title: "third col", field: "02_sub" },
     ],
