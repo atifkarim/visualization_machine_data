@@ -28,35 +28,40 @@ function createTable(caption, data, family_table_div_val) {
                 // let tbl_div_child = $("#" + xx);
                 // console.log("my id noww: ", tbl_div_child.attr("id"));
 
-                let id_sub_div_child = family_table_div_val + "_child";
+                // let id_sub_div_child = family_table_div_val + "_child";
                 tbl_div_child = $("<div>")
                     .attr("id", child_div_id)
                     .addClass("child_table_class");
 
                 if ($('#' + tbl_div_child.attr("id")).contents().length == 0) {
-                    new_tbl = createTable(caption + "_Child", { row: data[row] }, 0);
-                    tbl_div_child.append(new_tbl);
+                    new_tbl_1 = createTable(caption + "_Child", { row: data[row] }, 0);
+                    tbl_div_child.append(new_tbl_1);
                     $('#' + family_table_div_val).prepend(tbl_div_child);
-                    console.log(child_div_id, " is created");
+                    // console.log(child_div_id, " is created");
+                    console.log("if: ", new_tbl_1.attr("id"));
                     // $('#' + id_sub_div).append('#' + tbl_div_child.attr("id"));
                 }
                 // var id = $(this).closest("tr").find("td");
-                // $('#' + new_tbl.attr("id") + " > tbody").append(id);
+                // $('#' + new_tbl_1.attr("id") + " > tbody").append(id);
                 else {
+                    var buttonId = this.id,
+                        tableId = $(this).closest(".attachments").find('table').attr('id');
+                    console.log("IN Else tableId: ", tableId);
                     var values = [];
                     var count = 0;
                     $(this).closest("tr").find("td").each(function() {
                         values[count] = $(this).text();
                         count++;
                     });
-                    console.log("arr: ", values);
                     my_tr = $('<tr/>');
-                    for (var j = 0; j < values.length; j++) {
-                        //my_tr = $('<tr/>');
+                    for (var j = 0; j < values.length - 1; j++) {
                         my_tr.append("<td>" + values[j] + "</td>");
                     }
-                    $('#' + new_tbl.attr("id") + " > tbody").append(my_tr);
+                    // console.log("out: ", $('#' + new_tbl_1.attr("id") + " > tbody"));
+                    console.log("else: ", new_tbl_1.attr("id"));
+                    $('#' + new_tbl_1.attr("id") + " > tbody").append(my_tr);
                 }
+                console.log("out else: ", new_tbl_1.attr("id"));
             });
 
 
