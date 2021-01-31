@@ -19,7 +19,7 @@ class Get_data(Set_data):
         value = random()
 
         # following list consists of all child dictionary
-        vals_demod = self.make_row_dict(7)
+        vals_demod = self.make_row_dict(7, "demodulator")
 
         # checking the final dictionary is empty or not. if empty create the key
         if bool(Get_data.device_1)==False:
@@ -32,7 +32,7 @@ class Get_data(Set_data):
             Get_data.device_1[value] = vals_demod[index]
 
 
-        vals_mod = self.make_row_dict(9)
+        vals_mod = self.make_row_dict(9, "modulator")
         # checking the final dictionary is empty or not. if empty create the key
         if bool(Get_data.device_2)==False:
             self.create_device_dict_key(vals_mod, given_key_container = Get_data.device_2_key)
@@ -43,7 +43,7 @@ class Get_data(Set_data):
         for index,value in enumerate(Get_data.device_2_key):
             Get_data.device_2[value] = vals_mod[index]
 
-        vals_device_3 = self.make_row_dict(5)
+        vals_device_3 = self.make_row_dict(5, "decoder")
         # checking the final dictionary is empty or not. if empty create the key
         if bool(Get_data.device_3)==False:
             self.create_device_dict_key(vals_device_3, given_key_container = Get_data.device_3_key)
@@ -70,11 +70,11 @@ class Get_data(Set_data):
                 given_key_container.append(content)
                 count+=1
 
-    def make_row_dict(self, row_num):
+    def make_row_dict(self, row_num, static_device_name):
         vals = []
         for i in range (row_num):
             child_key = {
-                "00_row": "row_"+str(i),
+                "00_row": "row_"+static_device_name,
                 "01_add": randint(5,9) + randint(3,7),
                 "02_sub": randint(1,5)
             }

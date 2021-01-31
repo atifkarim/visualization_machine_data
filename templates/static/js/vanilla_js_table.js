@@ -23,6 +23,7 @@ function createTable(caption, data, family_table_div_val) {
             .addClass("table_button")
             .text("Add")
             .click(function() {
+                clicked_parent_tbl_id = $(this).closest('table').attr('id');
                 child_div_id = family_table_div_val + "_Child";
                 // console.log("xx: ", child_div_id);
                 // let tbl_div_child = $("#" + xx);
@@ -59,7 +60,8 @@ function createTable(caption, data, family_table_div_val) {
                     }
                     // console.log("out: ", $('#' + new_tbl_1.attr("id") + " > tbody"));
                     console.log("else: ", new_tbl_1.attr("id"));
-                    $('#' + new_tbl_1.attr("id") + " > tbody").append(my_tr);
+                    $('#' + clicked_parent_tbl_id + "_Child" + " > tbody").append(my_tr);
+                    // $('#' + new_tbl_1.attr("id") + " > tbody").append(my_tr);
                 }
                 console.log("out else: ", new_tbl_1.attr("id"));
             });
