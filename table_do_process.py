@@ -74,7 +74,7 @@ class Get_data(Set_data):
         vals = []
         for i in range (row_num):
             child_key = {
-                "00_row": "row_"+static_device_name,
+                "00_row": "row_"+static_device_name+"_"+str(i),
                 "01_add": randint(5,9) + randint(3,7),
                 "02_sub": randint(1,5)
             }

@@ -1,5 +1,4 @@
 function createTable(caption, data, family_table_div_val) {
-    // console.log("here_cap: ", here_cap, "  --  ", caption, " and type: ", typeof here_cap);
     let table = $("<table class='test_table'>");
     table
         .html("<caption>" + caption + "</caption>")
@@ -25,11 +24,6 @@ function createTable(caption, data, family_table_div_val) {
             .click(function() {
                 clicked_parent_tbl_id = $(this).closest('table').attr('id');
                 child_div_id = family_table_div_val + "_Child";
-                // console.log("xx: ", child_div_id);
-                // let tbl_div_child = $("#" + xx);
-                // console.log("my id noww: ", tbl_div_child.attr("id"));
-
-                // let id_sub_div_child = family_table_div_val + "_child";
                 tbl_div_child = $("<div>")
                     .attr("id", child_div_id)
                     .addClass("child_table_class");
@@ -38,16 +32,12 @@ function createTable(caption, data, family_table_div_val) {
                     new_tbl_1 = createTable(caption + "_Child", { row: data[row] }, 0);
                     tbl_div_child.append(new_tbl_1);
                     $('#' + family_table_div_val).prepend(tbl_div_child);
-                    // console.log(child_div_id, " is created");
                     console.log("if: ", new_tbl_1.attr("id"));
-                    // $('#' + id_sub_div).append('#' + tbl_div_child.attr("id"));
+
                 }
                 // var id = $(this).closest("tr").find("td");
                 // $('#' + new_tbl_1.attr("id") + " > tbody").append(id);
                 else {
-                    var buttonId = this.id,
-                        tableId = $(this).closest(".attachments").find('table').attr('id');
-                    console.log("IN Else tableId: ", tableId);
                     var values = [];
                     var count = 0;
                     $(this).closest("tr").find("td").each(function() {
@@ -58,10 +48,8 @@ function createTable(caption, data, family_table_div_val) {
                     for (var j = 0; j < values.length - 1; j++) {
                         my_tr.append("<td>" + values[j] + "</td>");
                     }
-                    // console.log("out: ", $('#' + new_tbl_1.attr("id") + " > tbody"));
                     console.log("else: ", new_tbl_1.attr("id"));
                     $('#' + clicked_parent_tbl_id + "_Child" + " > tbody").append(my_tr);
-                    // $('#' + new_tbl_1.attr("id") + " > tbody").append(my_tr);
                 }
                 console.log("out else: ", new_tbl_1.attr("id"));
             });
@@ -101,6 +89,14 @@ function check_input_val_type(y, fixed_range) {
     }
 }
 
+/** following function helps to track old child info. Here old means
+ * while function table_with_vanilla_js() is called with a given interval
+ * then new data came from the FLask endpoint to JS endpoint and whole page refresh
+ * to update parent table. For the firts time(while no chold table is created) then
+ * histoy of chold table is undoubtedly ZERO/ NULL. But if any child table is cretaed
+ * by clicking the ADD button of the parent table then it is necessary to track child
+ * table history. The following function does it properly
+ * */
 jQuery.expr[':'].regex = function(elem, index, match) {
     var matchParams = match[3].split(','),
         validLabels = /^(data|css):/,
