@@ -48,8 +48,18 @@ function createTable(caption, data, family_table_div_val) {
                     for (var j = 0; j < values.length - 1; j++) {
                         my_tr.append("<td>" + values[j] + "</td>");
                     }
-                    console.log("else: ", new_tbl_1.attr("id"));
-                    $('#' + clicked_parent_tbl_id + "_Child" + " > tbody").append(my_tr);
+                    var arr = [];
+                    $('#' + clicked_parent_tbl_id + "_Child" + " tr").each(function() {
+                        arr.push($(this).find("td:first").text());
+                    });
+                    //for (i = 0; i < arr.length; i++) {
+                    //console.log("arr[", i, "]: ", arr[i]);
+                    //}
+                    validity = arr.includes(values[0]);
+                    //console.log("type: ", typeof validity, " , val: ", validity);
+                    if (validity === false) {
+                        $('#' + clicked_parent_tbl_id + "_Child" + " > tbody").append(my_tr);
+                    }
                 }
                 console.log("out else: ", new_tbl_1.attr("id"));
             });
