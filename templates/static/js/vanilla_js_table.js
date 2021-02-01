@@ -160,7 +160,8 @@ function table_with_vanilla_js() {
 
 function updateChild(child, parent) {
 
-    console.log("class child: ", child.addclass);
+    console.log("child_nodes: ", child.childNodes);
+
 
     //console.log("type parent: ", typeof parent);
 
