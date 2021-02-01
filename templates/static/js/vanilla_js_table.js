@@ -65,7 +65,7 @@ function createTable(caption, data, family_table_div_val, addbutton = true) {
                             $('#' + clicked_parent_tbl_id + "_Child" + " > tbody").append(my_tr);
                         }
                     }
-                    console.log("out else: ", new_tbl_1.attr("id"));
+                    //console.log("out else: ", new_tbl_1.attr("id"));
                 });
 
             tr.append(td_btn);
@@ -160,8 +160,10 @@ function table_with_vanilla_js() {
 
 function updateChild(child, parent) {
 
-    console.log("child_nodes: ", child.childNodes);
-
+    console.log("child_nodes id: ", child.childNodes[0].id);
+    let child_table_id = child.childNodes[0].id;
+    let parent_table_id = child_table_id.slice(0, -6);
+    console.log("parent_table_id: ", parent_table_id);
 
     //console.log("type parent: ", typeof parent);
 
