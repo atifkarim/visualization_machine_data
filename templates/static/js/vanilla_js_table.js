@@ -1,4 +1,4 @@
-function createTable(caption, data, family_table_div_val) {
+function createTable(caption, data, family_table_div_val, addbutton = true) {
     let table = $("<table class='test_table'>");
     table
         .html("<caption>" + caption + "</caption>")
@@ -18,54 +18,59 @@ function createTable(caption, data, family_table_div_val) {
             let td = $("<td>").text(format_data);
             tr.append(td);
         }
-        let td_btn = $("<td>")
-            .addClass("table_button")
-            .text("Add")
-            .click(function() {
-                clicked_parent_tbl_id = $(this).closest('table').attr('id');
-                child_div_id = family_table_div_val + "_Child";
-                tbl_div_child = $("<div>")
-                    .attr("id", child_div_id)
-                    .addClass("child_table_class");
 
-                if ($('#' + tbl_div_child.attr("id")).contents().length == 0) {
-                    new_tbl_1 = createTable(caption + "_Child", { row: data[row] }, 0);
-                    tbl_div_child.append(new_tbl_1);
-                    $('#' + family_table_div_val).prepend(tbl_div_child);
-                    console.log("if: ", new_tbl_1.attr("id"));
+        if (addbutton) {
+            let td_btn = $("<td>")
+                .addClass("table_button")
+                .text("Add")
+                .click(function() {
+                    clicked_parent_tbl_id = $(this).closest('table').attr('id');
+                    child_div_id = family_table_div_val + "_Child";
+                    tbl_div_child = $("<div>")
+                        .attr("id", child_div_id)
+                        .addClass("child_table_class");
 
-                }
-                // var id = $(this).closest("tr").find("td");
-                // $('#' + new_tbl_1.attr("id") + " > tbody").append(id);
-                else {
-                    var values = [];
-                    var count = 0;
-                    $(this).closest("tr").find("td").each(function() {
-                        values[count] = $(this).text();
-                        count++;
-                    });
-                    my_tr = $('<tr/>');
-                    for (var j = 0; j < values.length - 1; j++) {
-                        my_tr.append("<td>" + values[j] + "</td>");
+                    if ($('#' + tbl_div_child.attr("id")).contents().length == 0) {
+                        new_tbl_1 = createTable(caption + "_Child", { row: data[row] }, 0, false);
+                        //console.log("new_tbl_1 id: ", typeof new_tbl_1.attr("id"), " tagname: ", new_tbl_1.prop("tagName"));
+
+                        tbl_div_child.append(new_tbl_1);
+                        $('#' + family_table_div_val).prepend(tbl_div_child);
+                        //console.log("if: ", new_tbl_1.attr("id"));
+
                     }
-                    var arr = [];
-                    $('#' + clicked_parent_tbl_id + "_Child" + " tr").each(function() {
-                        arr.push($(this).find("td:first").text());
-                    });
-                    //for (i = 0; i < arr.length; i++) {
-                    //console.log("arr[", i, "]: ", arr[i]);
-                    //}
-                    validity = arr.includes(values[0]);
-                    //console.log("type: ", typeof validity, " , val: ", validity);
-                    if (validity === false) {
-                        $('#' + clicked_parent_tbl_id + "_Child" + " > tbody").append(my_tr);
+                    // var id = $(this).closest("tr").find("td");
+                    // $('#' + new_tbl_1.attr("id") + " > tbody").append(id);
+                    else {
+                        var values = [];
+                        var count = 0;
+                        $(this).closest("tr").find("td").each(function() {
+                            values[count] = $(this).text();
+                            count++;
+                        });
+                        my_tr = $('<tr/>');
+                        for (var j = 0; j < values.length - 1; j++) {
+                            my_tr.append("<td>" + values[j] + "</td>");
+                        }
+                        var arr = [];
+                        $('#' + clicked_parent_tbl_id + "_Child" + " tr").each(function() {
+                            arr.push($(this).find("td:first").text());
+                        });
+                        //for (i = 0; i < arr.length; i++) {
+                        //console.log("arr[", i, "]: ", arr[i]);
+                        //}
+                        validity = arr.includes(values[0]);
+                        //console.log("type: ", typeof validity, " , val: ", validity);
+                        if (validity === false) {
+                            $('#' + clicked_parent_tbl_id + "_Child" + " > tbody").append(my_tr);
+                        }
                     }
-                }
-                console.log("out else: ", new_tbl_1.attr("id"));
-            });
+                    console.log("out else: ", new_tbl_1.attr("id"));
+                });
 
+            tr.append(td_btn);
+        }
 
-        tr.append(td_btn);
         table.append(tr);
     }
     return table;
@@ -135,6 +140,7 @@ function table_with_vanilla_js() {
                 .attr("id", family_table_div.attr("id") + "_Parent")
                 .addClass("parent_table_class");
             new_tbl = createTable("Table_" + t, data[t], family_table_div.attr("id"));
+
             tbl_div.append(family_table_div);
             family_table_div.append(parent_table_div);
             parent_table_div.append(new_tbl);
@@ -143,9 +149,21 @@ function table_with_vanilla_js() {
         for (let i = 0; i < children.length; i++) {
             let child = children[i];
             let parent = child.id.slice(0, -6);
+
+            updateChild(child, parent);
             $("#" + parent).prepend(child);
         }
+
+
     });
+}
+
+function updateChild(child, parent) {
+
+    console.log("class child: ", child.addclass);
+
+    //console.log("type parent: ", typeof parent);
+
 }
 
 $(document).ready(function() {
