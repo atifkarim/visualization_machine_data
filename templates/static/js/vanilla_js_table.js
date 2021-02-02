@@ -272,11 +272,21 @@ function updateChild(child, parent) {
 
     /**try to change value with dummy things, Later it will be follwed by the Real Data from Parent Table */
     for (let i = 0; i < child_table_row; i++) {
-        for (let j = 0; j < child_table_col; j++) {
+        for (let j = 1; j < child_table_col; j++) {
             // console.log("data[", i, "][", j, "]: ", get_child_table.rows[i].cells[j].textContent)
-            // get_child_table.rows[i].cells[j].textContent = 5;
+            get_child_table.rows[i].cells[j].textContent = dict_for_parent[key_first_col_data_child_table[i]][j - 1];
+            // data[key_data[0]][3]
+            // console.log("child: ", get_child_table.rows[i].cells[j].textContent);
+            // console.log("parent: ", dict_for_parent[key_first_col_data_child_table[i]][j]);
         }
     }
+
+    // for (let i = 0; i < key_first_col_data_child_table.length; i++) {
+    //     for (let j = 0; j < 3; j++) {
+    //         console.log("key_first_col_data_child_table[", i, "]: ", key_first_col_data_child_table[i]);
+    //         console.log("dict for parent data: ", dict_for_parent[key_first_col_data_child_table[i]][j]);
+    //     }
+    // }
 
 }
 
