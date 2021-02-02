@@ -150,8 +150,8 @@ function table_with_vanilla_js() {
             let child = children[i];
             let parent = child.id.slice(0, -6);
 
-            updateChild(child, parent);
             $("#" + parent).prepend(child);
+            updateChild(child, parent);
         }
 
 
@@ -160,12 +160,123 @@ function table_with_vanilla_js() {
 
 function updateChild(child, parent) {
 
-    console.log("child_nodes id: ", child.childNodes[0].id);
+    // console.log("child_nodes id: ", child.childNodes[0].id);
     let child_table_id = child.childNodes[0].id;
     let parent_table_id = child_table_id.slice(0, -6);
-    console.log("parent_table_id: ", parent_table_id);
+    // console.log("parent_table_id: ", parent_table_id);
 
-    //console.log("type parent: ", typeof parent);
+    // var td_content = $('#' + child_table_id + ' tr td:first-child').text();
+    //console.log("td_content: ", typeof td_content);
+
+    /** get table row and col length. it is now also count header as a tr */
+    var get_child_table = document.getElementById(child_table_id); /** get child table */
+    // also correct table.tBodies[0].rows.length
+    let child_table_row = get_child_table.rows.length /** child table row length */
+        // console.log("child_table_row len: ", child_table_row);
+    let child_table_col = get_child_table.rows[0].cells.length; /** child table column length */
+    // let r = $('#' + child_table_id + ' tbody tr').length; /** also correct */
+    // console.log("child_table_col len", child_table_col);
+
+    // console.log("data child: ", get_child_table.rows[1].cells[2].textContent);
+
+    /** traversing hrough the child table */
+    for (let i = 0; i < child_table_row; i++) {
+        for (let j = 0; j < child_table_col; j++) {
+            // console.log("data[", i, "][", j, "]: ", get_child_table.rows[i].cells[j].textContent)
+        }
+    }
+    /** get the data of first col from child table */
+    let first_col_data_child_table = [];
+    for (let i = 1; i < child_table_row; i++) { /** initiate at 1 because then column header which is also a row we can omit */
+        for (let j = 0; j < 1; j++) { /** only 1 time iteration keeps us on the first cell of each row */
+            first_col_data_child_table.push(get_child_table.rows[i].cells[j].textContent);
+        }
+    }
+
+    let dict_for_child = {}; /** contain at a time only 1 child table data where any row's first cell val is key and the rest are value  */
+    let key_first_col_data_child_table = []; /** the key for the dictionary. All rows' first cell value will go there */
+    let val_each_row_child_table = [];
+    /** All rows' value will go there except first cell value. Each rows' value(except first cell)
+                                           will reside in seperate array. So it's an stack of array */
+
+    for (let i = 0; i < child_table_row; i++) { /** initiate at 0 so, column header will also come. safety purpose */
+        for (let j = 0; j < 1; j++) {
+            key_first_col_data_child_table.push(get_child_table.rows[i].cells[j].textContent);
+        }
+    }
+    // console.log("key_first_col_data_child_table: ", key_first_col_data_child_table);
+
+    for (let i = 0; i < child_table_row; i++) { /** initiate at 1 because then column header which is also a row we can omit */
+        let temp_data = [];
+        for (let j = 1; j < child_table_col; j++) {
+            temp_data.push(get_child_table.rows[i].cells[j].textContent);
+        }
+        val_each_row_child_table.push(temp_data);
+    }
+    // console.log("val_each_row_child_table: ", val_each_row_child_table);
+
+    for (let i in key_first_col_data_child_table) {
+        dict_for_child[key_first_col_data_child_table[i]] = val_each_row_child_table[i];
+    }
+
+    // console.log("dict_for_child: ", dict_for_child);
+
+    /** All story about parent table */
+
+    var get_parent_table = document.getElementById(parent_table_id); /** get parent table */
+    let parent_table_row = get_parent_table.rows.length /** parent table row length */
+    let parent_table_col = get_parent_table.rows[0].cells.length; /** parent table column length */
+    // console.log("data parent: ", get_parent_table.rows[1].cells[2].textContent);
+
+    /** traversing hrough the parent table */
+    for (let i = 0; i < parent_table_row; i++) {
+        for (let j = 0; j < parent_table_col; j++) {
+            // console.log("data[", i, "][", j, "]: ", get_parent_table.rows[i].cells[j].textContent)
+        }
+    }
+    /** get the data of first col from parent table */
+    let first_col_data_parent_table = [];
+    for (let i = 1; i < parent_table_row; i++) { /** initiate at 1 because then column header which is also a row we can omit */
+        for (let j = 0; j < 1; j++) { /** only 1 time iteration keeps us on the first cell of each row */
+            first_col_data_parent_table.push(get_parent_table.rows[i].cells[j].textContent);
+        }
+    }
+
+    let dict_for_parent = {}; /** contain at a time only 1 parent table data where any row's first cell val is key and the rest are value  */
+    let key_first_col_data_parent_table = []; /** the key for the dictionary. All rows' first cell value will go there */
+    let val_each_row_parent_table = [];
+    /** All rows' value will go there except first cell value. Each rows' value(except first cell)
+                                           will reside in seperate array. So it's an stack of array */
+
+    for (let i = 0; i < parent_table_row; i++) { /** initiate at 0 so, column header will also come. safety purpose */
+        for (let j = 0; j < 1; j++) {
+            key_first_col_data_parent_table.push(get_parent_table.rows[i].cells[j].textContent);
+        }
+    }
+    // console.log("key_first_col_data_parent_table: ", key_first_col_data_parent_table);
+
+    for (let i = 0; i < parent_table_row; i++) { /** initiate at 1 because then column header which is also a row we can omit */
+        let temp_data = [];
+        for (let j = 1; j < parent_table_col; j++) {
+            temp_data.push(get_parent_table.rows[i].cells[j].textContent);
+        }
+        val_each_row_parent_table.push(temp_data);
+    }
+    // console.log("val_each_row_parent_table: ", val_each_row_parent_table);
+
+    for (let i in key_first_col_data_parent_table) {
+        dict_for_parent[key_first_col_data_parent_table[i]] = val_each_row_parent_table[i];
+    }
+
+    // console.log("dict_for_parent: ", dict_for_parent);
+
+    /**try to change value with dummy things, Later it will be follwed by the Real Data from Parent Table */
+    for (let i = 0; i < child_table_row; i++) {
+        for (let j = 0; j < child_table_col; j++) {
+            // console.log("data[", i, "][", j, "]: ", get_child_table.rows[i].cells[j].textContent)
+            // get_child_table.rows[i].cells[j].textContent = 5;
+        }
+    }
 
 }
 
