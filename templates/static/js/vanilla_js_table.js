@@ -9,6 +9,16 @@ function createTable(caption, data, family_table_div_val, addbutton = true) {
     for (let i in headers) {
         tr.append("<th>" + headers[i] + "</th>");
     }
+    if (addbutton) {
+        let btn_toggle_child_table = $("<td>")
+            .addClass("table_button")
+            .text("Toggle")
+            .click(function() {
+                $("#" + family_table_div_val + "_Child").toggle();
+            });
+
+        tr.append(btn_toggle_child_table);
+    }
     table.append(tr);
 
     for (let row in data) {
