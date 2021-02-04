@@ -1,15 +1,17 @@
 function createTable(caption, data, family_table_div_val, addbutton = true) {
+    /** any table element is set here. caption name sets the table's id name */
     let table = $("<table class='test_table'>");
     table
         .html("<caption>" + caption + "</caption>")
         .attr("id", caption);
 
-    let headers = getColumns(data[Object.keys(data)[0]]);
-    let tr = $("<tr>");
+    let headers = getColumns(data[Object.keys(data)[0]]); /** create the column name */
+    let tr = $("<tr>"); /** create tr (tr means row. column name also stays in row) */
     for (let i in headers) {
         tr.append("<th>" + headers[i] + "</th>");
     }
-    if (addbutton) {
+    if (addbutton) { /** it is by default TRUE for parent table as they need to add button */
+        /** toggle button to show/hide chld table div */
         let btn_toggle_child_table = $("<td>")
             .addClass("table_button")
             .text("Toggle")
@@ -22,6 +24,8 @@ function createTable(caption, data, family_table_div_val, addbutton = true) {
     table.append(tr);
 
     for (let row in data) {
+        /** traversing through the main data. It came from FLask EndPoint to JS. And it is information of
+               only 1 table */
         let tr = $("<tr>");
         for (let col in data[row]) {
             let format_data = check_input_val_type(data[row][col], 1);
@@ -29,7 +33,7 @@ function createTable(caption, data, family_table_div_val, addbutton = true) {
             tr.append(td);
         }
 
-        if (addbutton) {
+        if (addbutton) { /** here creating and appending Add button only to Parent Table */
             let td_btn = $("<td>")
                 .addClass("table_button")
                 .text("Add")
@@ -40,59 +44,75 @@ function createTable(caption, data, family_table_div_val, addbutton = true) {
                         .attr("id", child_div_id)
                         .addClass("child_table_class");
 
+                    /** the following condition will be TRIE for 1 time only while there is no Child Table div
+                     * for each child table there is 1 seperate div
+                     */
                     if ($('#' + tbl_div_child.attr("id")).contents().length == 0) {
                         new_tbl_1 = createTable(caption + "_Child", { row: data[row] }, 0, false);
                         //console.log("new_tbl_1 id: ", typeof new_tbl_1.attr("id"), " tagname: ", new_tbl_1.prop("tagName"));
 
                         tbl_div_child.append(new_tbl_1);
                         $('#' + family_table_div_val).prepend(tbl_div_child);
-                        //console.log("if: ", new_tbl_1.attr("id"));
 
                     }
                     // var id = $(this).closest("tr").find("td");
                     // $('#' + new_tbl_1.attr("id") + " > tbody").append(id);
+
+                    /** following condion will be TRUE if there is already child table(1 specific child table for
+                     * 1 specific parent table)
+                     * */
                     else {
-                        var values = [];
-                        var count = 0;
+                        let each_row_info = [];
+                        let count = 0;
+                        /** following jquery function fetch the td value of the row which ADD button is clicked
+                         * and then it fill up the each_row_info array
+                         */
                         $(this).closest("tr").find("td").each(function() {
-                            values[count] = $(this).text();
+                            each_row_info[count] = $(this).text();
                             count++;
                         });
-                        my_tr = $('<tr/>');
-                        for (var j = 0; j < values.length - 1; j++) {
-                            my_tr.append("<td>" + values[j] + "</td>");
+                        my_tr = $('<tr/>'); /** it is a tr(row) which will contain each_row_info array's info in seperate td */
+                        for (var j = 0; j < each_row_info.length - 1; j++) {
+                            my_tr.append("<td>" + each_row_info[j] + "</td>");
                         }
-                        var arr = [];
+                        /** still all the time values are fetching from parent table to add with child table but not appended.
+                         * one problem occurs here and that is multiple tim same row is appended. To solve it following lines
+                         * will help
+                         */
+                        let existing_child_table_first_col = [];
+                        /** this array will contain the first td of the each tr(row) which ADD button is clicked
+                         * from the already created Child Table */
                         $('#' + clicked_parent_tbl_id + "_Child" + " tr").each(function() {
-                            arr.push($(this).find("td:first").text());
+                            existing_child_table_first_col.push($(this).find("td:first").text());
                         });
-                        //for (i = 0; i < arr.length; i++) {
-                        //console.log("arr[", i, "]: ", arr[i]);
-                        //}
-                        validity = arr.includes(values[0]);
-                        //console.log("type: ", typeof validity, " , val: ", validity);
-                        if (validity === false) {
+
+                        validity = existing_child_table_first_col.includes(each_row_info[0]);
+                        /** it will check first data of values array is included or not in existing_child_table_first_col array.
+                         * What does it mean? "existing_child_table_first_col" has all first td of each row. That means the 
+                         * first column which is alltime fixed. And "each_row_info" array is the info array which is just clicked.
+                         * So if it is already appended in the Child table then it just need to chekc whether it's
+                         * ("each_row_info" array)
+                         * */
+                        if (validity === false) { /** if not present then append */
                             $('#' + clicked_parent_tbl_id + "_Child" + " > tbody").append(my_tr);
                         }
                     }
-                    //console.log("out else: ", new_tbl_1.attr("id"));
                 });
 
-            tr.append(td_btn);
+            tr.append(td_btn); /** ADD button appends only in Parent Table */
         }
-
-        table.append(tr);
+        table.append(tr); /** Parent table creation */
     }
     return table;
 }
 
+/** following function helps to get the column name for the creation of the table */
 
 function getColumns(data) {
     let headers = [];
     for (let col in data) {
         headers.push(col);
     }
-
     return headers;
 }
 
@@ -135,6 +155,7 @@ jQuery.expr[':'].regex = function(elem, index, match) {
     return regex.test(jQuery(elem)[attr.method](attr.property));
 }
 
+/** following function is used to update Parent Table */
 function updateParent(parent_table_div, data) {
     let p_id = parent_table_div.attr("id"); /** parent table's div id */
     let first_table_parent_div = $("#" + parent_table_div.attr("id")).children(":first"); /** Each parent table element as an object */
@@ -142,16 +163,27 @@ function updateParent(parent_table_div, data) {
 
     /** get table row and col length. it is now also count header as a tr */
     var get_parent_table = document.getElementById(get_parent_table_id); /** get parent table. HTML format */
-    let parent_table_row = get_parent_table.rows.length /** parent table row length */
-    let parent_table_col = get_parent_table.rows[0].cells.length; /** parent table column length */
 
     /** Work with passed data which will be used to update parent table data */
-    let tbl_1 = data;
-    let tbl_1_keys = Object.keys(data);
+    let tbl_1 = data; /** information of only 1 parent table */
+    let tbl_1_keys = Object.keys(data); /** First set of keys of only 1 parent table */
+    /**
+     * 1/ following for loop fetch data from the passed information (data[t]).
+     * firts for loop iterate every row OR every  key(values_00, values_01 .... values_nn). Every values_nn has their own object
+     * which are nothing but the presentable information. Those object keys are same(column name). Values are rows' data
+     * 
+     * 2/ second for loop starts at 1. Because values_nn first key's data is nothing but the first column's data(values_nn's
+     * first key's value) which are alltime same. So no need to update it. It is already in the Parent Table.
+     * You have to update the remaining columns as they are nothing but Data(changing). And this for loop iterates till the 
+     * length of values_nn
+     * 
+     * 3/ get_parent_table.rows[a + 1].cells[b].textContent here "a+1" is written because then it will not go to the
+     * first column which is nothing but values_nn's first key's value(Read point 2 again). Also keep in mind that parent
+     * table has a fourth column which is nothing but stack of Buttons. No Need of updating that also
+     */
+
     for (let a = 0; a < tbl_1_keys.length; a++) {
         for (let b = 1; b < (Object.keys(tbl_1[tbl_1_keys[0]])).length; b++) {
-            // console.log("[", a, "][", b, "]: ", tbl_1[tbl_1_keys[a]][Object.keys(tbl_1[tbl_1_keys[0]])[b]]);
-            // console.log("[", a, "][", b, "]: ", typeof get_parent_table.rows[a + 1].cells[b].textContent)
             get_parent_table.rows[a + 1].cells[b].textContent = tbl_1[tbl_1_keys[a]][Object.keys(tbl_1[tbl_1_keys[0]])[b]];
         }
     }
@@ -165,155 +197,93 @@ function updateParent(parent_table_div, data) {
     // }
 }
 
-function updateChild(child) {
+/** following function is used to update Child Table */
 
-    let first_table_child_div = $("#" + child.attr("id")).children(":first"); /** Each parent table element as an object */
-    let child_table_id = first_table_child_div.attr("id"); /** Each parent table id */
+function updateChild(child_table_div) {
 
-    /** get table row and col length. it is now also count header as a tr */
-    var get_child_table = document.getElementById(child_table_id); /** get parent table. HTML format */
+    let first_table_child_div = $("#" + child_table_div.attr("id")).children(":first"); /** Each child table element as an object */
+    let child_table_id = first_table_child_div.attr("id"); /** Each child table id */
+    var get_child_table = document.getElementById(child_table_id); /** get child table. HTML format */
 
-    // console.log("child_nodes id: ", child.childNodes[0].id);
-    // let child_table_id = child.childNodes[0].id;
-    let parent_table_id = child_table_id.slice(0, -6);
-    console.log("child_table_id: ", child_table_id);
-    console.log("parent_table_id: ", parent_table_id);
-
-    // var td_content = $('#' + child_table_id + ' tr td:first-child').text();
-    //console.log("td_content: ", typeof td_content);
-
-    /** get table row and col length. it is now also count header as a tr */
-    // var get_child_table = document.getElementById(child_table_id); /** get child table */
-    // also correct table.tBodies[0].rows.length
+    /** get table row and col length. it is also count header as a tr */
     let child_table_row = get_child_table.rows.length /** child table row length */
-    console.log("child_table_row len: ", child_table_row);
     let child_table_col = get_child_table.rows[0].cells.length; /** child table column length */
-    // let r = $('#' + child_table_id + ' tbody tr').length; /** also correct */
-    console.log("child_table_col len", child_table_col);
 
-    // console.log("data child: ", get_child_table.rows[1].cells[2].textContent);
-
-    /** traversing hrough the child table */
-    for (let i = 0; i < child_table_row; i++) {
-        for (let j = 0; j < child_table_col; j++) {
-            // console.log("data[", i, "][", j, "]: ", get_child_table.rows[i].cells[j].textContent)
-        }
-    }
     /** get the data of first col from child table */
-    let first_col_data_child_table = [];
-    for (let i = 1; i < child_table_row; i++) { /** initiate at 1 because then column header which is also a row we can omit */
-        for (let j = 0; j < 1; j++) { /** only 1 time iteration keeps us on the first cell of each row */
-            first_col_data_child_table.push(get_child_table.rows[i].cells[j].textContent);
-        }
-    }
 
     let dict_for_child = {}; /** contain at a time only 1 child table data where any row's first cell val is key and the rest are value  */
-    let key_first_col_data_child_table = []; /** the key for the dictionary. All rows' first cell value will go there */
+    let key_first_col_data_child_table = []; /** All rows' first cell value will go there(first column with column header) */
     let val_each_row_child_table = [];
     /** All rows' value will go there except first cell value. Each rows' value(except first cell)
                                            will reside in seperate array. So it's an stack of array */
 
     for (let i = 0; i < child_table_row; i++) { /** initiate at 0 so, column header will also come. safety purpose */
-        for (let j = 0; j < 1; j++) {
+        for (let j = 0; j < 1; j++) { /** initiate at 0 and ends before 1 so only the first column's data came here */
             key_first_col_data_child_table.push(get_child_table.rows[i].cells[j].textContent);
         }
     }
-    // console.log("key_first_col_data_child_table: ", key_first_col_data_child_table);
 
-    for (let i = 0; i < child_table_row; i++) { /** initiate at 1 because then column header which is also a row we can omit */
-        let temp_data = [];
-        for (let j = 1; j < child_table_col; j++) {
+    for (let i = 0; i < child_table_row; i++) { /** count first row(column name) also */
+        let temp_data = []; /** take 1 row's data except first cell */
+        for (let j = 1; j < child_table_col; j++) { /** initiate at 1 so omitting first column's data is possible */
             temp_data.push(get_child_table.rows[i].cells[j].textContent);
         }
-        val_each_row_child_table.push(temp_data);
+        val_each_row_child_table.push(temp_data); /** after finishing 1 row push it in main container */
     }
-    // console.log("val_each_row_child_table: ", val_each_row_child_table);
 
+    /** making the json object with child table data */
     for (let i in key_first_col_data_child_table) {
         dict_for_child[key_first_col_data_child_table[i]] = val_each_row_child_table[i];
     }
 
-    // console.log("dict_for_child: ", dict_for_child);
+    /** fetching data from parent table */
 
-    /** All story about parent table */
-
-    var get_parent_table = document.getElementById(parent_table_id); /** get parent table */
+    let parent_table_id = child_table_id.slice(0, -6);
+    let get_parent_table = document.getElementById(parent_table_id); /** get parent table */
     let parent_table_row = get_parent_table.rows.length /** parent table row length */
     let parent_table_col = get_parent_table.rows[0].cells.length; /** parent table column length */
-    // console.log("data parent: ", get_parent_table.rows[1].cells[2].textContent);
 
-    /** traversing hrough the parent table */
-    for (let i = 0; i < parent_table_row; i++) {
-        for (let j = 0; j < parent_table_col; j++) {
-            // console.log("data[", i, "][", j, "]: ", get_parent_table.rows[i].cells[j].textContent)
-        }
-    }
-    /** get the data of first col from parent table */
-    let first_col_data_parent_table = [];
-    for (let i = 1; i < parent_table_row; i++) { /** initiate at 1 because then column header which is also a row we can omit */
-        for (let j = 0; j < 1; j++) { /** only 1 time iteration keeps us on the first cell of each row */
-            first_col_data_parent_table.push(get_parent_table.rows[i].cells[j].textContent);
-        }
-    }
-
-    let dict_for_parent = {}; /** contain at a time only 1 parent table data where any row's first cell val is key and the rest are value  */
-    let key_first_col_data_parent_table = []; /** the key for the dictionary. All rows' first cell value will go there */
+    let dict_for_parent = {};
+    /** contain at a time only 1 parent table data where any row's first cell val is key 
+       and the rest are value  */
+    let key_first_col_data_parent_table = []; /** All rows' first cell value will go there(first column with column header) */
     let val_each_row_parent_table = [];
     /** All rows' value will go there except first cell value. Each rows' value(except first cell)
                                            will reside in seperate array. So it's an stack of array */
 
     for (let i = 0; i < parent_table_row; i++) { /** initiate at 0 so, column header will also come. safety purpose */
-        for (let j = 0; j < 1; j++) {
+        for (let j = 0; j < 1; j++) { /** initiate at 0 and ends before 1 so only the first column's data came here */
             key_first_col_data_parent_table.push(get_parent_table.rows[i].cells[j].textContent);
         }
     }
-    // console.log("key_first_col_data_parent_table: ", key_first_col_data_parent_table);
 
-    for (let i = 0; i < parent_table_row; i++) { /** initiate at 1 because then column header which is also a row we can omit */
-        let temp_data = [];
-        for (let j = 1; j < parent_table_col; j++) {
+    for (let i = 0; i < parent_table_row; i++) { /** count first row(column name) also */
+        let temp_data = []; /** take 1 row's data except first cell */
+        for (let j = 1; j < parent_table_col; j++) { /** initiate at 1 so omitting first column's data is possible */
             temp_data.push(get_parent_table.rows[i].cells[j].textContent);
         }
-        val_each_row_parent_table.push(temp_data);
+        val_each_row_parent_table.push(temp_data); /** after finishing 1 row push it in main container */
     }
-    // console.log("val_each_row_parent_table: ", val_each_row_parent_table);
 
+    /** making the json object with parent table data */
     for (let i in key_first_col_data_parent_table) {
         dict_for_parent[key_first_col_data_parent_table[i]] = val_each_row_parent_table[i];
     }
 
-    // console.log("dict_for_parent: ", dict_for_parent);
-
     /**try to change value with dummy things, Later it will be follwed by the Real Data from Parent Table */
     for (let i = 0; i < child_table_row; i++) {
         for (let j = 1; j < child_table_col; j++) {
-            // console.log("data[", i, "][", j, "]: ", get_child_table.rows[i].cells[j].textContent)
             get_child_table.rows[i].cells[j].textContent = dict_for_parent[key_first_col_data_child_table[i]][j - 1];
-            // data[key_data[0]][3]
-            // console.log("child: ", get_child_table.rows[i].cells[j].textContent);
-            // console.log("parent: ", dict_for_parent[key_first_col_data_child_table[i]][j]);
         }
     }
-
-    // for (let i = 0; i < key_first_col_data_child_table.length; i++) {
-    //     for (let j = 0; j < 3; j++) {
-    //         console.log("key_first_col_data_child_table[", i, "]: ", key_first_col_data_child_table[i]);
-    //         console.log("dict for parent data: ", dict_for_parent[key_first_col_data_child_table[i]][j]);
-    //     }
-    // }
-
 }
 
-let tbl_div = $("#table_div");
-// console.log("id: ", tbl_div.attr("id"));
-// let children = $("div:regex(id, .*_child)");
-tbl_div.html("");
+let tbl_div = $("#table_div"); /** fetch table_div from html */
+tbl_div.html(""); /** make it empty only 1 time (safety purpose) */
 
 function table_with_vanilla_js() {
     $.get("/auto_update_table", function(data) {
-        // let tbl_div = $("#table_div");
-        let children = $("div:regex(id, .*_child)");
-        // tbl_div.html("");
+        // let children = $("div:regex(id, .*_child)"); /** this line is old. It takes the child table's div info from history */
 
         for (let t in data) {
             family_table_div = $("<div>")
@@ -330,7 +300,6 @@ function table_with_vanilla_js() {
 
             if ($('#' + parent_table_div.attr("id")).contents().length == 0) {
                 new_tbl = createTable("Table_" + t, data[t], family_table_div.attr("id"));
-
                 tbl_div.append(family_table_div);
                 family_table_div.append(parent_table_div);
                 parent_table_div.append(new_tbl);
@@ -338,18 +307,17 @@ function table_with_vanilla_js() {
                 updateParent(parent_table_div, data[t]);
             }
 
-            // let here_child_table_div = family_table_div.attr("id") + "_Child";
             if ($('#' + child_table_div.attr("id")).contents().length != 0) {
-                console.log("parent div: ", parent_table_div.attr("id"));
-                console.log("child div: ", child_table_div.attr("id"));
                 updateChild(child_table_div);
             }
         }
 
+        /** following lines are old. Used to update CHild. If you want to use this then you have to change a little bit
+         * in updateChild function. Maybe you will find it in former commit.
+         */
         // for (let i = 0; i < children.length; i++) {
         //     let child = children[i];
         //     let parent = child.id.slice(0, -6);
-
         //     $("#" + parent).prepend(child);
         //     updateChild(child, parent);
         // }
@@ -357,6 +325,8 @@ function table_with_vanilla_js() {
 
     });
 }
+
+/** following function is used to set SIDEBAR/ show Update Dict function work */
 
 $(document).ready(function() {
     $("button[name='do_hide']").click(function() {

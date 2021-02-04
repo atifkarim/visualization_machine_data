@@ -7,6 +7,8 @@
 .test_table th {
     border: 1px solid white;
     padding: 8px;
+    text-align: center;
+    vertical-align: middle;
 }
 
 .test_table tr:nth-child(even) {
