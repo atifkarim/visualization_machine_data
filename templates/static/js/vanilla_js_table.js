@@ -136,46 +136,18 @@ jQuery.expr[':'].regex = function(elem, index, match) {
 }
 
 function updateParent(parent_table_div, data) {
-    let p_id = parent_table_div.attr("id");
-    let first_table_parent_div = $("#" + parent_table_div.attr("id")).children(":first");
-    let get_parent_table_id = first_table_parent_div.attr("id");
+    let p_id = parent_table_div.attr("id"); /** parent table's div id */
+    let first_table_parent_div = $("#" + parent_table_div.attr("id")).children(":first"); /** Each parent table element as an object */
+    let get_parent_table_id = first_table_parent_div.attr("id"); /** Each parent table id */
 
     /** get table row and col length. it is now also count header as a tr */
-    var get_parent_table = document.getElementById(get_parent_table_id); /** get parent table */
+    var get_parent_table = document.getElementById(get_parent_table_id); /** get parent table. HTML format */
     let parent_table_row = get_parent_table.rows.length /** parent table row length */
     let parent_table_col = get_parent_table.rows[0].cells.length; /** parent table column length */
-    // console.log("row: ", parent_table_row, " : col: ", parent_table_col);
 
-    let dict_for_parent = {}; /** contain at a time only 1 parent table data where any row's first cell val is key and the rest are value  */
-    let key_first_col_data_parent_table = []; /** the key for the dictionary. All rows' first cell value will go there */
-    let val_each_row_parent_table = [];
-    /** All rows' value will go there except first cell value. Each rows' value(except first cell)
-                                           will reside in seperate array. So it's an stack of array */
-
-    // for (let i = 0; i < parent_table_row; i++) { /** initiate at 0 so, column header(1st column 1st cell) will also come. safety purpose */
-    //     for (let j = 0; j < 1; j++) {
-    //         key_first_col_data_parent_table.push(get_parent_table.rows[i].cells[j].textContent);
-    //     }
-    // }
-
-    // for (let i = 0; i < parent_table_row; i++) { /** initiate at 1 because then column header which is also a row we can omit */
-    //     let temp_data = [];
-    //     for (let j = 1; j < parent_table_col; j++) {
-    //         temp_data.push(get_parent_table.rows[i].cells[j].textContent);
-    //     }
-    //     val_each_row_parent_table.push(temp_data);
-    // }
-
-    // for (let i in key_first_col_data_parent_table) {
-    //     dict_for_parent[key_first_col_data_parent_table[i]] = val_each_row_parent_table[i];
-    // }
     /** Work with passed data which will be used to update parent table data */
     let tbl_1 = data;
     let tbl_1_keys = Object.keys(data);
-    // console.log(get_parent_table_id, " : ", tbl_1_keys);
-    // console.log("dict row: ", tbl_1_keys.length, " col: ", Object.keys(tbl_1[tbl_1_keys[0]]).length);
-
-    // console.log("table: ", get_parent_table_id);
     for (let a = 0; a < tbl_1_keys.length; a++) {
         for (let b = 1; b < (Object.keys(tbl_1[tbl_1_keys[0]])).length; b++) {
             // console.log("[", a, "][", b, "]: ", tbl_1[tbl_1_keys[a]][Object.keys(tbl_1[tbl_1_keys[0]])[b]]);
@@ -193,24 +165,31 @@ function updateParent(parent_table_div, data) {
     // }
 }
 
-function updateChild(child, parent) {
+function updateChild(child) {
+
+    let first_table_child_div = $("#" + child.attr("id")).children(":first"); /** Each parent table element as an object */
+    let child_table_id = first_table_child_div.attr("id"); /** Each parent table id */
+
+    /** get table row and col length. it is now also count header as a tr */
+    var get_child_table = document.getElementById(child_table_id); /** get parent table. HTML format */
 
     // console.log("child_nodes id: ", child.childNodes[0].id);
-    let child_table_id = child.childNodes[0].id;
+    // let child_table_id = child.childNodes[0].id;
     let parent_table_id = child_table_id.slice(0, -6);
-    // console.log("parent_table_id: ", parent_table_id);
+    console.log("child_table_id: ", child_table_id);
+    console.log("parent_table_id: ", parent_table_id);
 
     // var td_content = $('#' + child_table_id + ' tr td:first-child').text();
     //console.log("td_content: ", typeof td_content);
 
     /** get table row and col length. it is now also count header as a tr */
-    var get_child_table = document.getElementById(child_table_id); /** get child table */
+    // var get_child_table = document.getElementById(child_table_id); /** get child table */
     // also correct table.tBodies[0].rows.length
     let child_table_row = get_child_table.rows.length /** child table row length */
-        // console.log("child_table_row len: ", child_table_row);
+    console.log("child_table_row len: ", child_table_row);
     let child_table_col = get_child_table.rows[0].cells.length; /** child table column length */
     // let r = $('#' + child_table_id + ' tbody tr').length; /** also correct */
-    // console.log("child_table_col len", child_table_col);
+    console.log("child_table_col len", child_table_col);
 
     // console.log("data child: ", get_child_table.rows[1].cells[2].textContent);
 
@@ -344,6 +323,11 @@ function table_with_vanilla_js() {
             parent_table_div = $("<div>")
                 .attr("id", family_table_div.attr("id") + "_Parent")
                 .addClass("parent_table_class");
+
+            child_table_div = $("<div>")
+                .attr("id", family_table_div.attr("id") + "_Child")
+                .addClass("child_table_class");
+
             if ($('#' + parent_table_div.attr("id")).contents().length == 0) {
                 new_tbl = createTable("Table_" + t, data[t], family_table_div.attr("id"));
 
@@ -353,15 +337,22 @@ function table_with_vanilla_js() {
             } else {
                 updateParent(parent_table_div, data[t]);
             }
+
+            // let here_child_table_div = family_table_div.attr("id") + "_Child";
+            if ($('#' + child_table_div.attr("id")).contents().length != 0) {
+                console.log("parent div: ", parent_table_div.attr("id"));
+                console.log("child div: ", child_table_div.attr("id"));
+                updateChild(child_table_div);
+            }
         }
 
-        for (let i = 0; i < children.length; i++) {
-            let child = children[i];
-            let parent = child.id.slice(0, -6);
+        // for (let i = 0; i < children.length; i++) {
+        //     let child = children[i];
+        //     let parent = child.id.slice(0, -6);
 
-            $("#" + parent).prepend(child);
-            updateChild(child, parent);
-        }
+        //     $("#" + parent).prepend(child);
+        //     updateChild(child, parent);
+        // }
 
 
     });
