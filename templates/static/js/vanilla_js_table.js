@@ -135,37 +135,62 @@ jQuery.expr[':'].regex = function(elem, index, match) {
     return regex.test(jQuery(elem)[attr.method](attr.property));
 }
 
-function table_with_vanilla_js() {
-    $.get("/auto_update_table", function(data) {
-        let tbl_div = $("#table_div");
-        let children = $("div:regex(id, .*_child)");
-        tbl_div.html("");
+function updateParent(parent_table_div, data) {
+    let p_id = parent_table_div.attr("id");
+    let first_table_parent_div = $("#" + parent_table_div.attr("id")).children(":first");
+    let get_parent_table_id = first_table_parent_div.attr("id");
 
-        for (let t in data) {
-            family_table_div = $("<div>")
-                .attr("id", "Family_" + t)
-                .addClass("family_table_class");
+    /** get table row and col length. it is now also count header as a tr */
+    var get_parent_table = document.getElementById(get_parent_table_id); /** get parent table */
+    let parent_table_row = get_parent_table.rows.length /** parent table row length */
+    let parent_table_col = get_parent_table.rows[0].cells.length; /** parent table column length */
+    // console.log("row: ", parent_table_row, " : col: ", parent_table_col);
 
-            parent_table_div = $("<div>")
-                .attr("id", family_table_div.attr("id") + "_Parent")
-                .addClass("parent_table_class");
-            new_tbl = createTable("Table_" + t, data[t], family_table_div.attr("id"));
+    let dict_for_parent = {}; /** contain at a time only 1 parent table data where any row's first cell val is key and the rest are value  */
+    let key_first_col_data_parent_table = []; /** the key for the dictionary. All rows' first cell value will go there */
+    let val_each_row_parent_table = [];
+    /** All rows' value will go there except first cell value. Each rows' value(except first cell)
+                                           will reside in seperate array. So it's an stack of array */
 
-            tbl_div.append(family_table_div);
-            family_table_div.append(parent_table_div);
-            parent_table_div.append(new_tbl);
+    // for (let i = 0; i < parent_table_row; i++) { /** initiate at 0 so, column header(1st column 1st cell) will also come. safety purpose */
+    //     for (let j = 0; j < 1; j++) {
+    //         key_first_col_data_parent_table.push(get_parent_table.rows[i].cells[j].textContent);
+    //     }
+    // }
+
+    // for (let i = 0; i < parent_table_row; i++) { /** initiate at 1 because then column header which is also a row we can omit */
+    //     let temp_data = [];
+    //     for (let j = 1; j < parent_table_col; j++) {
+    //         temp_data.push(get_parent_table.rows[i].cells[j].textContent);
+    //     }
+    //     val_each_row_parent_table.push(temp_data);
+    // }
+
+    // for (let i in key_first_col_data_parent_table) {
+    //     dict_for_parent[key_first_col_data_parent_table[i]] = val_each_row_parent_table[i];
+    // }
+    /** Work with passed data which will be used to update parent table data */
+    let tbl_1 = data;
+    let tbl_1_keys = Object.keys(data);
+    // console.log(get_parent_table_id, " : ", tbl_1_keys);
+    // console.log("dict row: ", tbl_1_keys.length, " col: ", Object.keys(tbl_1[tbl_1_keys[0]]).length);
+
+    // console.log("table: ", get_parent_table_id);
+    for (let a = 0; a < tbl_1_keys.length; a++) {
+        for (let b = 1; b < (Object.keys(tbl_1[tbl_1_keys[0]])).length; b++) {
+            // console.log("[", a, "][", b, "]: ", tbl_1[tbl_1_keys[a]][Object.keys(tbl_1[tbl_1_keys[0]])[b]]);
+            // console.log("[", a, "][", b, "]: ", typeof get_parent_table.rows[a + 1].cells[b].textContent)
+            get_parent_table.rows[a + 1].cells[b].textContent = tbl_1[tbl_1_keys[a]][Object.keys(tbl_1[tbl_1_keys[0]])[b]];
         }
-
-        for (let i = 0; i < children.length; i++) {
-            let child = children[i];
-            let parent = child.id.slice(0, -6);
-
-            $("#" + parent).prepend(child);
-            updateChild(child, parent);
-        }
+    }
 
 
-    });
+    // for (let i = 1; i < parent_table_row; i++) {
+    //     for (let j = 1; j < parent_table_col - 1; j++) {
+    //         console.log("[", i, "][", j, "]: ", data[Object.keys(data)[i]][Object.keys(data[Object.keys(data)[0]])[j]]);
+    //         // get_parent_table.rows[i].cells[j].textContent = tbl_1[tbl_1_keys[i]][Object.keys(tbl_1[tbl_1_keys[0]])[j]].toString();
+    //     }
+    // }
 }
 
 function updateChild(child, parent) {
@@ -298,6 +323,48 @@ function updateChild(child, parent) {
     //     }
     // }
 
+}
+
+let tbl_div = $("#table_div");
+// console.log("id: ", tbl_div.attr("id"));
+// let children = $("div:regex(id, .*_child)");
+tbl_div.html("");
+
+function table_with_vanilla_js() {
+    $.get("/auto_update_table", function(data) {
+        // let tbl_div = $("#table_div");
+        let children = $("div:regex(id, .*_child)");
+        // tbl_div.html("");
+
+        for (let t in data) {
+            family_table_div = $("<div>")
+                .attr("id", "Family_" + t)
+                .addClass("family_table_class");
+
+            parent_table_div = $("<div>")
+                .attr("id", family_table_div.attr("id") + "_Parent")
+                .addClass("parent_table_class");
+            if ($('#' + parent_table_div.attr("id")).contents().length == 0) {
+                new_tbl = createTable("Table_" + t, data[t], family_table_div.attr("id"));
+
+                tbl_div.append(family_table_div);
+                family_table_div.append(parent_table_div);
+                parent_table_div.append(new_tbl);
+            } else {
+                updateParent(parent_table_div, data[t]);
+            }
+        }
+
+        for (let i = 0; i < children.length; i++) {
+            let child = children[i];
+            let parent = child.id.slice(0, -6);
+
+            $("#" + parent).prepend(child);
+            updateChild(child, parent);
+        }
+
+
+    });
 }
 
 $(document).ready(function() {
