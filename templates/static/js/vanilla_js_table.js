@@ -12,7 +12,7 @@ function createTable(caption, data, family_table_div_val, addbutton = true) {
     }
     if (addbutton) { /** it is by default TRUE for parent table as they need to add button */
         /** toggle button to show/hide chld table div */
-        let btn_toggle_child_table = $("<td>")
+        let btn_toggle_child_table = $("<th>")
             .addClass("table_button")
             .text("Toggle")
             .click(function() {
@@ -21,7 +21,9 @@ function createTable(caption, data, family_table_div_val, addbutton = true) {
 
         tr.append(btn_toggle_child_table);
     }
-    table.append(tr);
+    let thead = $("<thead>");
+    thead.append(tr);
+    table.append(thead);
 
     for (let row in data) {
         /** traversing through the main data. It came from FLask EndPoint to JS. And it is information of
