@@ -58,6 +58,12 @@ def parse_update_dropdown(name=None):
     data_json = Set_data.ret_dict()
     return jsonify(data_json)
 
+# to ceate the dropdown.
+@app.route('/update_multi_dropdown')
+def update_multi_dropdown(name=None):
+    data_json = Set_data.ret_multi_dict()
+    return jsonify(data_json)
+
 
 @app.route('/update_data_in_pyhton')
 def parse_update_data_in_pyhton(name=None):

@@ -66,6 +66,12 @@
     background-color: red;
 }
 
+.family_dropdown_class {
+    float: left;
+    background-color: rgb(221, 233, 229);
+    z-index: 100;
+}
+
 #all_button {
     /* height: 100%; */
     width: 100%;
