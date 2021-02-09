@@ -4,6 +4,8 @@ from random import gauss
 from random import random, randint
 from datetime import datetime
 
+from device_x import *
+
 class Get_data(Set_data):
     device_1 = {} # final dictionary of the device device_1
     device_1_key = [] # final key name for the dictionary(here device_1)
@@ -13,6 +15,9 @@ class Get_data(Set_data):
 
     device_3 = {} # final dictionary of the device device_3
     device_3_key = [] # final key name for the dictionary(here device_3)
+
+    def __init__(self):
+        self.device_x_func = get_data_x()
 
     def do_process(self):
         seed(datetime.now())
@@ -54,7 +59,25 @@ class Get_data(Set_data):
         for index,value in enumerate(Get_data.device_3_key):
             Get_data.device_3[value] = vals_device_3[index]
 
-        overall_status = {"Board_1": Get_data.device_1, "Board_2": Get_data.device_2, "Board_3":Get_data.device_3}
+        '''
+        calling device_x
+        '''
+
+        vals_x = self.device_x_func.create_data_dev_x()
+        print("vals_x: ",vals_x)
+
+        # checking the final dictionary is empty or not. if empty create the key
+        if bool(self.device_x_func.device_x)==False:
+            self.create_device_dict_key(vals_x, given_key_container = self.device_x_func.device_x_key)
+        else:
+            pass
+
+        # populate the final dictionary with key and value
+        for index,value in enumerate(self.device_x_func.device_x_key):
+            self.device_x_func.device_x[value] = vals_x[index]
+        
+        overall_status = {"Board_1": Get_data.device_1, "Board_2": Get_data.device_2,
+                        "Board_3":Get_data.device_3, "Board_4":self.device_x_func.device_x}
 
         return overall_status
 
