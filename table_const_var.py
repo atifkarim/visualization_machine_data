@@ -1,10 +1,10 @@
 class Set_data(object):
 
     multi_data = {
-        "Board_1":{"a":12, "b":13, "c":14},
-        "Board_2":{"x":12, "y":13, "z":14},
-        "Board_3":{"p":12, "q":13, "r":14},
-        "Board_4":{"s":12, "t":13, "u":14}
+        "Board_1":{"a":12, "b":16, "c":1},
+        "Board_2":{"x":13, "y":17, "z":2},
+        "Board_3":{"p":14, "q":18, "r":3},
+        "Board_4":{"s":15, "t":19, "u":-5}
     }
 
     data = {
@@ -31,5 +31,13 @@ class Set_data(object):
     @staticmethod
     def ret_multi_dict():
         return Set_data.multi_data
+
+    @staticmethod
+    def make_mem_var_1(var_dict):
+        var_dict = dict(var_dict)
+        print("var_dict: ", var_dict.items())
+        # for key, val in var_dict.items():
+        #     for key_1, val_1 in val.items():
+        #         Set_data.multi_data[key][key_1] = int(val_1)
 
 

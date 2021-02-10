@@ -64,7 +64,6 @@ class Get_data(Set_data):
         '''
 
         vals_x = self.device_x_func.create_data_dev_x()
-        print("vals_x: ",vals_x)
 
         # checking the final dictionary is empty or not. if empty create the key
         if bool(self.device_x_func.device_x)==False:
