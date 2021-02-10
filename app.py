@@ -40,6 +40,7 @@ def table(name=None):
 @app.route('/vanilla_js_table', methods=['POST', 'GET'])
 def vanilla_js_table(name=None):
     if request.method == 'POST':
+        print("req.form: ", request.form)
         Set_data.make_mem_var_1(request.form)
 
     return render_template('vanilla_js_table.html',name=name)

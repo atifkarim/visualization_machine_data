@@ -9,7 +9,7 @@ let newdict = {};
 
 let olddict_1 = {};
 let newdict_1 = {};
-var final_dict = {};
+let final_dict = {};
 console.log("1st time final_dict: ", final_dict);
 
 let get_val = function() {
@@ -150,11 +150,11 @@ function submitPOST_1() {
     hiddenform.method = "POST";
 
     for ([key, value] of Object.entries(final_dict)) {
-        console.log("k: ", key, " ,v: ", value);
+        console.log("k: ", key, " ,v: ", JSON.stringify(value));
         i_1 = document.createElement("input");
         i_1.name = key;
-        i_1.value = value;
-        console.table("i_1.name: ", i_1.name, " , i_1.value: ", i_1.value);
+        i_1.value = JSON.stringify(value);
+        console.log("i_1.name: ", i_1.name, " , i_1.value: ", i_1.value);
         hiddenform.appendChild(i_1);
     }
 
@@ -221,7 +221,13 @@ let multi_get_dropdown = function() {
                 prepare_1(data[i], select);
 
                 // var contents = $('#' + id_for_select);
-                $('#' + id_for_select).attr('onchange', 'get_val_1(id_for_select, id_for_input)');
+                $('#' + id_for_select).on('change', function() {
+                    let update_select_id = $(this).prevAll('.all_select_class').attr('id');
+                    let update_input_id = $(this).prevAll('.all_input_class').attr('id');
+                    console.log("a: ", update_select_id);
+                    console.log("b: ", update_input_id);
+                    get_val_1(update_select_id, update_input_id)
+                });
                 // $('select').on('change', get_val_1(id_for_select, id_for_input));
 
                 get_val_1(id_for_select, id_for_input);

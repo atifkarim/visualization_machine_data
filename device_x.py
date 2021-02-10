@@ -11,7 +11,7 @@ class get_data_x(Set_data):
 
     def create_data_dev_x(self):
         value_00 = {"name": "dev_x_0",
-                    "value": Set_data.data["a"],
+                    "value": Set_data.multi_data["Board_1"]["a"],
                     "unit": ""
                     }
         value_01 = {"name": "dev_x_1",

@@ -1,3 +1,5 @@
+import ast
+
 class Set_data(object):
 
     multi_data = {
@@ -34,10 +36,13 @@ class Set_data(object):
 
     @staticmethod
     def make_mem_var_1(var_dict):
-        var_dict = dict(var_dict)
-        print("var_dict: ", var_dict.items())
-        # for key, val in var_dict.items():
-        #     for key_1, val_1 in val.items():
-        #         Set_data.multi_data[key][key_1] = int(val_1)
+        for key in var_dict.keys():
+            for sub_key, sub_val in ast.literal_eval(var_dict[key]).items():
+                Set_data.multi_data[key][sub_key] = int(sub_val)
+
+        #for key in var_dict.keys():
+         #   inner = dict(var_dict[key])
+          #  print(inner)
+             
 
 
