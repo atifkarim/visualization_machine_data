@@ -332,7 +332,7 @@ function table_with_vanilla_js() {
 
 $(document).ready(function() {
     $("button[name='do_hide']").click(function() {
-        $("#update_dict").toggle();
+        $(".family_dropdown_class").toggle();
     });
 });
 
