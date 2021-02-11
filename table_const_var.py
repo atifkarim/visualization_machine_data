@@ -38,6 +38,7 @@ class Set_data(object):
     def make_mem_var_1(var_dict):
         for key in var_dict.keys():
             for sub_key, sub_val in ast.literal_eval(var_dict[key]).items():
+                print("got key: ",key," ,sub_key: ",sub_key, " ,sub_val: ",sub_val)
                 Set_data.multi_data[key][sub_key] = int(sub_val)
 
         #for key in var_dict.keys():
