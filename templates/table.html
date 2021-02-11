@@ -39,29 +39,8 @@
         <!-- <button name="do_hide" type="button" class="button button2" text="Hide Me"></button>☰ Open Sidebar</button> -->
     </div>
 
-    <!-- <div id="dropdown_var">
-        <form method="POST">
-            <label for="var">Choose a variable:</label>
-            <select name="var" id="varselect" style="margin-right: 20px;" onchange="get_val()"></select>
-            <br>
-            <label for="vars">Choose a value (-100 to 100):</label>
-            <input type="number" id="varvalue" name="value" min="-100" max="100">
-            <input type="submit" value="Submit" style="display:block;">
-        </form>
-    </div> -->
-
     <br />
     <br />
-
-    <div id="update_dict">
-        <label for="var">Choose a variable new:</label>
-        <select name="var" id="varselect" style="margin-right: 20px" onchange="get_val()"></select>
-        <br />
-        <label for="vars">Choose a value (-100 to 100) new:</label> <br>
-        <input type="number" id="varvalue" name="value" min="-100" max="100" /> <br>
-        <button onclick="updatedata()">Click me New</button>
-        <button onclick="submitPOST()">Submit new</button>
-    </div>
 
     <div id="tabular_table_div">
         <div id="prop_1" style="margin-right:5px; float: left;">
@@ -81,7 +60,6 @@
     <script>
         setInterval(table_with_tabular, 1000);
         set_caption();
-        get_dropdown();
         stop_flask_server();
     </script>
 
