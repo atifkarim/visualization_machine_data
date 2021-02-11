@@ -1,175 +1,106 @@
-let selectvar = $("#varselect")[0];
-let varval = $("#varvalue")[0];
-
-console.log("selectvar: ", selectvar);
-console.log("varval: ", varval);
-
-let olddict = {};
-let newdict = {};
-
-let olddict_1 = {};
-let newdict_1 = {};
-// let final_dict = {};
-let major_json = {};
-
-// console.log("1st time final_dict: ", final_dict);
-
-let get_val = function() {
-    console.log("in get_val func olddict: ", olddict);
-    let varname = selectvar.value;
-    console.log("in get_val func varname: ", varname);
-
-    if (varname in newdict) {
-        varval.value = newdict[varname]
-        console.log("in get_val func IF condition varval.value: ", varval.value);
-    } else {
-        varval.value = olddict[varname];
-        console.log("in get_val func ELSE condition varval.value: ", varval.value);
-    }
-}
-
-let prepare = function(var_dict) {
-    olddict = var_dict;
-    // console.log("old_dict: ", var_dict)
-
-    for ([key, value] of Object.entries(var_dict)) {
-        let option = document.createElement("option");
-        option.text = key;
-        option.value = key;
-        selectvar.add(option);
-        // console.log("option: ", option);
-        // console.log("in prepare func selectvar: ", selectvar);
-    }
-}
-
 /** dropdown for each table  */
 
-let get_val_1 = function(selectvar_id, varval_id, var_dict_1) {
-    olddict_1 = var_dict_1;
-    console.log("selectvar_id: ", selectvar_id, " and varval_id: ", varval_id);
-    console.log("in get_val_1 func olddict_1: ", olddict_1);
-    // selectvar_1 = $("#varselect_1")[0];
-    // varval_1 = $("#varvalue_1")[0];
-    selectvar_elem = document.getElementById(selectvar_id);
-    varval_elem = document.getElementById(varval_id);
+let oldjson_data = {}; // used for initiating and updating dropdown
+let newjson_data = {}; // used to update dropdown data
+let updated_json_data = {};
 
-    // selectvar_1 = $("#" + selectvar_id)[0];
-    jqr_selectvar_1 = $(selectvar_elem);
-    // varval_1 = $("#" + varval_id)[0];
-    jqr_varval_1 = $(varval_elem);
-    varname_1 = $('#' + jqr_selectvar_1.attr("id") + ' option:selected').val()
-    console.log("jqr_selectvar_1: ", jqr_selectvar_1);
-    console.log("in get_val_1 func varname_1: ", varname_1);
+/** following function starts automatiacally in the beginning of the execution of the main function
+ * set_dropdown_for_each_table(). The objective of this function is to check which variable is
+ * selected and upate the value in the input_tag box. It also execute whenever any variable is selected
+ * from dropdown menu with onChange function of selectTag element
+ */
 
-    if (varname_1 in newdict_1) {
-        // console.log("in if");
-        $('#' + jqr_varval_1.attr("id")).val(newdict_1[varname_1]); // = newdict_1[varname_1];
-        console.log("in get_val_1 func IF condition assigned val: ", $('#' + jqr_varval_1.attr("id")).val());
+let get_dropdown_key_value = function(select_tag_id, input_tag_id, json_unique_key_data) {
+    oldjson_data = json_unique_key_data;
+    select_tag_element = document.getElementById(select_tag_id); /** JS object of selectTag */
+    input_tag_element = document.getElementById(input_tag_id); /** JS object of inputTag */
+
+    jquery_select_tag_element = $(select_tag_element); /** jquery object of selectTag */
+    jquery_input_tag_element = $(input_tag_element); /** jquery object of inputTag */
+    selectd_variable = $('#' + jquery_select_tag_element.attr("id") + ' option:selected').val(); /** get string val of which variable is selected */
+
+    if (selectd_variable in newjson_data) {
+        /** this condition will run if any variable is updated more than 1 time before doing any POST method
+         * eg: variable a is set to 1 and then again set to something else
+         */
+        $('#' + jquery_input_tag_element.attr("id")).val(newjson_data[selectd_variable]);
+        // console.log("in get_dropdown_key_value func IF condition assigned val: ", $('#' + jquery_input_tag_element.attr("id")).val());
     } else {
-        // console.log("In else");
-        $('#' + jqr_varval_1.attr("id")).val(olddict_1[varname_1]); // = olddict_1[varname_1];
-        console.log("in get_val_1 func ELSE condition assigned val: ", $('#' + jqr_varval_1.attr("id")).val());
+        /** this condition is TRUE by default. If a value is set only once OR take default value till POST method
+         * this condition will be TRUE for that variable
+         */
+        $('#' + jquery_input_tag_element.attr("id")).val(oldjson_data[selectd_variable]);
+        // console.log("in get_dropdown_key_value func ELSE condition assigned val: ", $('#' + jquery_input_tag_element.attr("id")).val());
     }
 }
 
-let prepare_1 = function(var_dict_1, selectvar_1) {
-    olddict_1 = var_dict_1;
-    // console.log("in prepare_1 old_dict_1: ", olddict_1);
+/** following function is the first one which execute in this page after set_dropdown_for_each_table()
+ * It make the dropdown menu and set each key's first variable by default in the selectTag element
+ */
+let prepare_dropdown = function(json_unique_key_data, select_element) {
+    oldjson_data = json_unique_key_data; /** each unique key comes with their object value */
 
-    for ([key, value] of Object.entries(var_dict_1)) {
-        // let option_1 = document.createElement("option_1");
-        option_1 = $("<option>")
+    for ([key, value] of Object.entries(json_unique_key_data)) {
+        /** option tag to get the variable name for dropdown after starting the process */
+        option = $("<option>")
             .attr({
                 text: key,
                 value: key
             }).html(key);
-
-        // option_1.text = key;
-        // option_1.value = key;
-        // selectvar_2 = $("#" + selectvar_1.attr("id"))[0];
-        selectvar_1.append(option_1);
-        // console.log("in prepare_1 option_1: ", option_1);
-        // console.log("in prepare_1 func selectvar_1: ", selectvar_1);
+        select_element.append(option);
     }
 }
 
-
-function updatedata() {
-    var variableToUpdate = selectvar.value;
-    var updatedValue = varval.value;
-
-    newdict[variableToUpdate] = updatedValue;
-    console.log("in update newdict: ", newdict);
-}
-
-function updatedata_1(selectvar_id, varval_id, sub_key_name) {
+/** following function update variable value of dropdown */
+function update_dropdown(select_tag_id, input_tag_id, sub_key_name) {
     temp_json = {};
 
-    update_data_selectvar_elem = document.getElementById(selectvar_id);
-    update_data_jqr_selectvar_1 = $(update_data_selectvar_elem);
-    var variableToUpdate_1 = $('#' + update_data_jqr_selectvar_1.attr("id") + ' option:selected').val();
+    update_data_select_tag_element = document.getElementById(select_tag_id); /** JS object of selectTag */
+    update_data_jquery_select_tag_element = $(update_data_select_tag_element); /** jquery object of selectTag */
+    /** get string val of which variable is selected */
+    var variableToUpdate = $('#' + update_data_jquery_select_tag_element.attr("id") + ' option:selected').val();
 
-    update_data_varval_elem = document.getElementById(varval_id);
-    update_data_jqr_varval_1 = $(update_data_varval_elem);
-    var updatedValue_1 = $('#' + update_data_jqr_varval_1.attr("id")).val();
+    update_data_input_tag_element = document.getElementById(input_tag_id); /** JS object of inputTag */
+    update_data_jquery_input_tag_element = $(update_data_input_tag_element); /** jquery object of inputTag */
+    /** get the value of the selected variable */
+    var updatedValue = $('#' + update_data_jquery_input_tag_element.attr("id")).val();
 
-    newdict_1[variableToUpdate_1] = updatedValue_1;
-    // final_dict[sub_key_name][variableToUpdate_1] = newdict_1[variableToUpdate_1];
+    newjson_data[variableToUpdate] = updatedValue;
+    /** it store the updated variable and used again 
+       in get_dropdown_key_value() function to update the value of the selected variable */
 
-    temp_json[variableToUpdate_1] = updatedValue_1;
-    if (!(sub_key_name in major_json)) {
-        major_json[sub_key_name] = temp_json;
-        // console.log("1st time when sub_key: ", sub_key_name, " and temp_json: ", temp_json);
+    /** following portion helps to make a JSON object with the updated data only(unique key) to send
+     * to the BackEnd for updating config_val via POST method. POST method occurs in another function
+     */
+    temp_json[variableToUpdate] = updatedValue; /** it gets variable and associated value and make a object */
+    if (!(sub_key_name in updated_json_data)) {
+        /** this condition check already main key (Table name is main key, will be found in BackEnd code
+         * , name is config_val) is present or not. If not then make a JSON object */
+        updated_json_data[sub_key_name] = temp_json;
+        console.log("1st time when sub_key: ", sub_key_name, " and temp_json: ", temp_json);
     } else {
+        /** if already main key is in the JSON object then no need to replace just update or append the 
+         * sub_key(a, b, c ...) for each main_key
+         */
         Object.keys(temp_json).forEach(function(key) {
-            major_json[sub_key_name][key] = temp_json[key];
+            updated_json_data[sub_key_name][key] = temp_json[key];
         });
-        // console.log("all time when sub_key: ", sub_key_name, " and temp_json: ", temp_json);
+        console.log("all time when sub_key: ", sub_key_name, " and temp_json: ", temp_json);
     }
 
-    // console.log("major_json: ", major_json);
+    // console.log("updated_json_data: ", updated_json_data);
 }
 
-function createURL() {
-    let urlString = '/update_data_in_pyhton?';
-    for ([key, value] of Object.entries(newdict)) {
-        urlString = urlString + key + '=' + value + '&';
-    }
-
-    urlString = urlString.slice(0, -1);
-
-    console.log(urlString);
-    state = $.getJSON(urlString, function(data) {});
-}
-
-function submitPOST() {
+/** following function send the updated JSON object to the BackEnd via POST method */
+function POST_dropdown_data() {
     hiddenform = document.createElement("form")
     hiddenform.style.visibility = "hidden";
     hiddenform.method = "POST";
 
-    for ([key, value] of Object.entries(newdict)) {
-        i = document.createElement("input");
-        i.name = key;
-        i.value = value;
-        console.log("i.name: ", i.name, " , i.value: ", i.value);
-        hiddenform.appendChild(i);
-    }
-
-    document.getElementById("body").appendChild(hiddenform);
-    hiddenform.submit();
-}
-
-function submitPOST_1() {
-    hiddenform = document.createElement("form")
-    hiddenform.style.visibility = "hidden";
-    hiddenform.method = "POST";
-
-    for ([key, value] of Object.entries(major_json)) {
-        console.log("k: ", key, " ,v: ", JSON.stringify(value));
+    for ([key, value] of Object.entries(updated_json_data)) {
         i_1 = document.createElement("input");
         i_1.name = key;
         i_1.value = JSON.stringify(value);
-        console.log("i_1.name: ", i_1.name, " , i_1.value: ", i_1.value);
         hiddenform.appendChild(i_1);
     }
 
@@ -177,31 +108,20 @@ function submitPOST_1() {
     hiddenform.submit();
 }
 
-let get_dropdown = function() {
-    $.get('/update_dropdown',
-        function(data) {
-            console.log("data: ", data);
-            prepare(data);
-            get_val();
-        });
-}
 
-let multi_get_dropdown = function() {
-    $.getJSON('/update_multi_dropdown',
+/** following function is the starting point of this file. */
+let set_dropdown_for_each_table = function() {
+    $.getJSON('/dropdown_for_each_table', /** this endpoint take the config_val from BackEnd */
         function(data) {
-            // final_dict = data;
-            // console.log("2nd time final_dict: ", final_dict);
             for (let i in data) {
-                console.log("multi data: ", data[i]);
                 get_family_div = document.getElementById("Family_" + i);
+                /** Naming of family_div is set in such way which will be easy to fetch the div 
+                 * where Parent, Child Table and their corresponding dropdown menu will go */
+                get_family_div_element = $(get_family_div);
+
                 update_dropdown_div = $("<div>")
                     .attr("id", "Family_dropdown_" + i)
                     .addClass("family_dropdown_class");
-
-                get_family_div_element = $(get_family_div);
-                /*** write code here */
-                p_1 = $("<p>");
-                p_1.append("Hello Bro_" + i);
 
                 label = $("<label>")
                     .attr('for', "var")
@@ -226,51 +146,45 @@ let multi_get_dropdown = function() {
                     .attr("id", id_for_select)
                     .css({ "margin-right": "20px" })
                     .addClass("all_select_class");
-                // .on('change', get_val_1(id_for_select, id_for_input));
 
                 line_break = $("<br>");
 
                 update_dropdown_div.append(label, select, line_break, label_1, input);
                 get_family_div_element.append(update_dropdown_div);
 
-                prepare_1(data[i], select);
+                prepare_dropdown(data[i], select); /** prepare dropdown after running the script */
 
-                // var contents = $('#' + id_for_select);
                 $('#' + id_for_select).on('change', function() {
-                    let update_select_id = $(this).closest("select").attr("id"); //$(this).prevAll('.all_select_class').attr('id');
+                    let update_select_id = $(this).closest("select").attr("id");
                     let input_prefix = "varvalue_";
                     let update_input_id = input_prefix + update_select_id.replace("varselect_", "");
                     console.log("update_select_id: ", update_select_id);
                     console.log("update_input_id: ", update_input_id);
-                    get_val_1(update_select_id, update_input_id, data[update_select_id.replace("varselect_", "")])
+                    get_dropdown_key_value(update_select_id, update_input_id, data[update_select_id.replace("varselect_", "")])
                 });
-                // $('select').on('change', get_val_1(id_for_select, id_for_input));
 
-                get_val_1(id_for_select, id_for_input, data[i]);
+                get_dropdown_key_value(id_for_select, id_for_input, data[i]);
 
                 button_1 = $("<button>")
-                    .addClass("class_button_1")
+                    .addClass("dropdown_button_class")
                     .text('Update')
                     .click(function() {
-                        // x = $(this).closest('select').find('id').attr("id");
                         var update_select_id = $(this).prevAll('.all_select_class').attr('id');
                         var update_input_id = $(this).prevAll('.all_input_class').attr('id');
 
                         element_name = update_select_id.slice(0, 10);
                         pass_element_name = update_select_id.replace(element_name, "");
-                        // console.log("get_Notslice: ", pass_element_name);
 
-                        updatedata_1(update_select_id, update_input_id, pass_element_name);
+                        update_dropdown(update_select_id, update_input_id, pass_element_name);
                     });
 
                 update_dropdown_div.append(button_1);
 
                 submit_button = $("<button>")
-                    .addClass("class_button_1")
+                    .addClass("dropdown_button_class")
                     .text('Submit')
                     .click(function() {
-                        submitPOST_1();
-                        console.log("passed");
+                        POST_dropdown_data();
                     });
                 update_dropdown_div.append(submit_button);
 

@@ -36,41 +36,17 @@
     </div>
 
     <div id="table_div"></div>
-    <!-- <div id="table_div_child"></div> -->
-
-    <!-- <div id="dropdown_var">
-        <form method="POST">
-            <label for="var">Choose a variable:</label>
-            <select name="var" id="varselect" style="margin-right: 20px;" onchange="get_val()"></select>
-            <br>
-            <label for="vars">Choose a value (-100 to 100):</label>
-            <input type="number" id="varvalue" name="value" min="-100" max="100">
-            <input type="submit" value="Submit" style="display:block;">
-        </form>
-    </div> -->
 
     <br />
     <br />
-
-    <div id="update_dict">
-        <label for="var">Choose a variable new:</label>
-        <select name="var" id="varselect" style="margin-right: 20px" onchange="get_val()"></select>
-        <br />
-        <label for="vars">Choose a value (-100 to 100) new:</label> <br>
-        <input type="number" id="varvalue" name="value" min="-100" max="100" /> <br>
-        <button onclick="updatedata()">Click me New</button>
-        <button onclick="submitPOST()">Submit new</button>
-    </div>
 
     <script src="static/js/vanilla_js_table.js "></script>
     <script src="static/js/python_button.js "></script>
     <script src="static/js/get_vars.js "></script>
 
     <script>
-        // create_main_table_body();
         setInterval(table_with_vanilla_js, 1000);
-        get_dropdown();
-        setTimeout(multi_get_dropdown, 1001);
+        setTimeout(set_dropdown_for_each_table, 1001);
         stop_flask_server();
     </script>
 
