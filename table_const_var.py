@@ -2,7 +2,9 @@ import ast
 
 class Set_data(object):
 
-    multi_data = {
+    # following dictionary will set initial value for corresponding table
+    # with respect to it's key
+    config_val = {
         "Board_1":{"a":12, "b":16, "c":1},
         "Board_2":{"x":13, "y":17, "z":2},
         "Board_3":{"p":14, "q":18, "r":3},
@@ -30,20 +32,19 @@ class Set_data(object):
     def ret_dict():
         return Set_data.data
 
+    # following function will pass the initial config_val data to JS
+    # for first time while process start to create dropdown menu for each table
     @staticmethod
-    def ret_multi_dict():
-        return Set_data.multi_data
+    def pass_config_val():
+        return Set_data.config_val
 
+    # following function will get the JSON data from JS through Flask
+    # endpoint and then update the config_val. After updating pass_config_val()
+    # function again pass the updated value to update dropdown menu and change
+    # corresponding table data's calculation
     @staticmethod
-    def make_mem_var_1(var_dict):
+    def update_config_val(var_dict):
         for key in var_dict.keys():
             for sub_key, sub_val in ast.literal_eval(var_dict[key]).items():
-                print("got key: ",key," ,sub_key: ",sub_key, " ,sub_val: ",sub_val)
-                Set_data.multi_data[key][sub_key] = int(sub_val)
-
-        #for key in var_dict.keys():
-         #   inner = dict(var_dict[key])
-          #  print(inner)
-             
-
-
+                # print("got key: ",key," ,sub_key: ",sub_key, " ,sub_val: ",sub_val)
+                Set_data.config_val[key][sub_key] = int(sub_val)

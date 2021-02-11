@@ -41,7 +41,7 @@ def table(name=None):
 def vanilla_js_table(name=None):
     if request.method == 'POST':
         print("req.form: ", request.form)
-        Set_data.make_mem_var_1(request.form)
+        Set_data.update_config_val(request.form)
 
     return render_template('vanilla_js_table.html',name=name)
 
@@ -60,9 +60,9 @@ def parse_update_dropdown(name=None):
     return jsonify(data_json)
 
 # to ceate the dropdown.
-@app.route('/update_multi_dropdown')
-def update_multi_dropdown(name=None):
-    data_json = Set_data.ret_multi_dict()
+@app.route('/dropdown_for_each_table')
+def dropdown_for_each_table(name=None):
+    data_json = Set_data.pass_config_val()
     return jsonify(data_json)
 
 
