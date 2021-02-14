@@ -134,3 +134,6 @@ dmypy.json
 templates/static/json_files
 templates/static/js/refresh_only.js
 templates/plot_csv.html
+main.py
+templates/side_bar.html
+templates/static/css/sidebar.css
