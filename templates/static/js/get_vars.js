@@ -12,12 +12,12 @@ let updated_json_data = {};
 
 let get_dropdown_key_value = function(select_tag_id, input_tag_id, json_unique_key_data) {
     oldjson_data = json_unique_key_data;
-    select_tag_element = document.getElementById(select_tag_id); /** JS object of selectTag */
-    input_tag_element = document.getElementById(input_tag_id); /** JS object of inputTag */
+    let select_tag_element = document.getElementById(select_tag_id); /** JS object of selectTag */
+    let input_tag_element = document.getElementById(input_tag_id); /** JS object of inputTag */
 
-    jquery_select_tag_element = $(select_tag_element); /** jquery object of selectTag */
-    jquery_input_tag_element = $(input_tag_element); /** jquery object of inputTag */
-    selectd_variable = $('#' + jquery_select_tag_element.attr("id") + ' option:selected').val(); /** get string val of which variable is selected */
+    let jquery_select_tag_element = $(select_tag_element); /** jquery object of selectTag */
+    let jquery_input_tag_element = $(input_tag_element); /** jquery object of inputTag */
+    let selectd_variable = $('#' + jquery_select_tag_element.attr("id") + ' option:selected').val(); /** get string val of which variable is selected */
 
     if (selectd_variable in newjson_data) {
         /** this condition will run if any variable is updated more than 1 time before doing any POST method
@@ -53,17 +53,17 @@ let prepare_dropdown = function(json_unique_key_data, select_element) {
 
 /** following function update variable value of dropdown */
 function update_dropdown(select_tag_id, input_tag_id, sub_key_name) {
-    temp_json = {};
+    let temp_json = {};
 
-    update_data_select_tag_element = document.getElementById(select_tag_id); /** JS object of selectTag */
-    update_data_jquery_select_tag_element = $(update_data_select_tag_element); /** jquery object of selectTag */
+    let update_data_select_tag_element = document.getElementById(select_tag_id); /** JS object of selectTag */
+    let update_data_jquery_select_tag_element = $(update_data_select_tag_element); /** jquery object of selectTag */
     /** get string val of which variable is selected */
-    var variableToUpdate = $('#' + update_data_jquery_select_tag_element.attr("id") + ' option:selected').val();
+    let variableToUpdate = $('#' + update_data_jquery_select_tag_element.attr("id") + ' option:selected').val();
 
-    update_data_input_tag_element = document.getElementById(input_tag_id); /** JS object of inputTag */
-    update_data_jquery_input_tag_element = $(update_data_input_tag_element); /** jquery object of inputTag */
+    let update_data_input_tag_element = document.getElementById(input_tag_id); /** JS object of inputTag */
+    let update_data_jquery_input_tag_element = $(update_data_input_tag_element); /** jquery object of inputTag */
     /** get the value of the selected variable */
-    var updatedValue = $('#' + update_data_jquery_input_tag_element.attr("id")).val();
+    let updatedValue = $('#' + update_data_jquery_input_tag_element.attr("id")).val();
 
     newjson_data[variableToUpdate] = updatedValue;
     /** it store the updated variable and used again 
@@ -114,40 +114,40 @@ let set_dropdown_for_each_table = function() {
     $.getJSON('/dropdown_for_each_table', /** this endpoint take the config_val from BackEnd */
         function(data) {
             for (let i in data) {
-                get_family_div = document.getElementById("Family_" + i);
+                let get_family_div = document.getElementById("Family_" + i);
                 /** Naming of family_div is set in such way which will be easy to fetch the div 
                  * where Parent, Child Table and their corresponding dropdown menu will go */
-                get_family_div_element = $(get_family_div);
+                let get_family_div_element = $(get_family_div);
 
-                update_dropdown_div = $("<div>")
+                let update_dropdown_div = $("<div>")
                     .attr("id", "Family_dropdown_" + i)
                     .addClass("family_dropdown_class");
 
-                label = $("<label>")
+                let label = $("<label>")
                     .attr('for', "var")
                     .text("Variable ")
                     .addClass("all_label_class");
 
-                label_1 = $("<label>")
+                let label_1 = $("<label>")
                     .attr('for', "vars")
                     .text("Value ")
                     .addClass("all_label_1_class");
 
-                id_for_input = "varvalue_" + i;
-                id_for_select = "varselect_" + i;
-                input = $("<input>")
+                let id_for_input = "varvalue_" + i;
+                let id_for_select = "varselect_" + i;
+                let input = $("<input>")
                     .attr("id", id_for_input)
                     .attr('type', 'number')
                     .attr('name', 'value')
                     .addClass("all_input_class");
 
-                select = $("<select>")
+                let select = $("<select>")
                     .attr("name", "var")
                     .attr("id", id_for_select)
                     .css({ "margin-right": "20px" })
                     .addClass("all_select_class");
 
-                line_break = $("<br>");
+                let line_break = $("<br>");
 
                 update_dropdown_div.append(label, select, line_break, label_1, input);
                 get_family_div_element.append(update_dropdown_div);
@@ -165,7 +165,7 @@ let set_dropdown_for_each_table = function() {
 
                 get_dropdown_key_value(id_for_select, id_for_input, data[i]);
 
-                button_1 = $("<button>")
+                let update_button = $("<button>")
                     .addClass("dropdown_button_class")
                     .text('Update')
                     .click(function() {
@@ -178,7 +178,7 @@ let set_dropdown_for_each_table = function() {
                         update_dropdown(update_select_id, update_input_id, pass_element_name);
                     });
 
-                update_dropdown_div.append(button_1);
+                update_dropdown_div.append(update_button);
 
                 submit_button = $("<button>")
                     .addClass("dropdown_button_class")
