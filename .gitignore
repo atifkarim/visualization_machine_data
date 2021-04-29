@@ -137,3 +137,5 @@ templates/plot_csv.html
 main.py
 templates/side_bar.html
 templates/static/css/sidebar.css
+sample.json
+ignore
