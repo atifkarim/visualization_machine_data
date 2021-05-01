@@ -31,14 +31,11 @@ def table_exists(engine,name):
     print('Table "{}" exists: {}'.format(name, ret))
     return ret
 
-class Film(base):  
+class DB_Class(base):  
     __tablename__ = 'flask_viz_table'
 
     id = Column(Integer, primary_key=True)
-    title = Column(String)
-    address = Column(String)
-    age = Column(String)
-    created_at = Column(DateTime, default=func.now())
+    json_column = Column(JSONB)
 
 Session = sessionmaker(db)
 session = Session()
@@ -93,16 +90,24 @@ def vanilla_js_table(name=None):
 @app.route('/auto_update_table')
 def parse_auto_update_table(name=None):
     data_json = get_data_obj.do_process()
-    print("I am here")
-    doctor_strange = Film(
-                          title="title_"+str(time.time())
-                         ,address="address_"+str(time.time())
-                         ,age="2016_"+str(time.time())
-                          )
-    session.add(doctor_strange)
+
+    DB_Obj = DB_Class(
+        json_column = data_json
+        )
+    session.add(DB_Obj)
     session.commit()
+
+    # delete row with MIN id value if exceed more than a certain number of row in the table
+    rows = session.query(DB_Class).count()
+    min_id = session.query(func.min(DB_Class.id)).scalar()
+    if (rows > 15):
+        session.query(DB_Class).filter(DB_Class.id==min_id).delete()
+        session.commit()
     
-    return jsonify(data_json)
+    query_updated_json = session.query(DB_Class).order_by(DB_Class.id.desc()).first()
+    return jsonify(query_updated_json.json_column)
+
+    # return jsonify(data_json) # If wish to fetch data from do_process() function directly then use this
 
 
 # The following endpoint initially take all the defined member variables
