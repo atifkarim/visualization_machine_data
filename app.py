@@ -1,8 +1,52 @@
 from flask import Flask, render_template, request
 from dummy_data import do_process, create_json, load_json, load_json_1, load_csv, load_table
 from flask import jsonify
-import os
+import os, time
 from table_do_process import *
+
+# SQLAlchemy
+
+from sqlalchemy import create_engine, inspect
+from sqlalchemy import Column, String, Integer, DateTime, func
+from sqlalchemy.ext.declarative import declarative_base  
+from sqlalchemy.orm import sessionmaker
+from datetime import datetime
+from sqlalchemy.dialects.postgresql import JSONB
+
+# get the ip address of the connection
+import socket
+def get_ip_address():
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.connect(("8.8.8.8", 80))
+    return s.getsockname()[0]
+
+db_string = "postgres://testdb:testdb@"+str(get_ip_address())+":5432/flask_viz"
+db = create_engine(db_string)  
+base = declarative_base()
+
+# function to check table exist or not
+def table_exists(engine,name):
+    ins = inspect(engine)
+    ret =ins.dialect.has_table(engine.connect(),name)
+    print('Table "{}" exists: {}'.format(name, ret))
+    return ret
+
+class Film(base):  
+    __tablename__ = 'flask_viz_table'
+
+    id = Column(Integer, primary_key=True)
+    title = Column(String)
+    address = Column(String)
+    age = Column(String)
+    created_at = Column(DateTime, default=func.now())
+
+Session = sessionmaker(db)
+session = Session()
+
+if not table_exists(db, "flask_viz_table"):
+    base.metadata.create_all(db)
+else:
+    pass
 
 set_data_obj = Set_data()
 get_data_obj = Get_data()
@@ -49,6 +93,15 @@ def vanilla_js_table(name=None):
 @app.route('/auto_update_table')
 def parse_auto_update_table(name=None):
     data_json = get_data_obj.do_process()
+    print("I am here")
+    doctor_strange = Film(
+                          title="title_"+str(time.time())
+                         ,address="address_"+str(time.time())
+                         ,age="2016_"+str(time.time())
+                          )
+    session.add(doctor_strange)
+    session.commit()
+    
     return jsonify(data_json)
 
 
@@ -83,14 +136,6 @@ def shutdown_server():
 def shutdown():
     shutdown_server()
     return 'Server shutting down...'
-
-
-# get the ip address of the connection
-import socket
-def get_ip_address():
-    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    s.connect(("8.8.8.8", 80))
-    return s.getsockname()[0]
 
 
 if __name__ == '__main__':
