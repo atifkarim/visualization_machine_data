@@ -104,3 +104,34 @@ set password for new user (2 time) then give password for `postgres` role.
 will connect to postgres database.  
 7/ From `postgres=#` try `\conninfo`. Output will be  
 `You are connected to database "postgres" as user "user_name" via socket in "/var/run/postgresql" at port "5432".`
+
+
+## Work With Flask, PostgreSQL, SQLAlchemy
+
+First of all install the required library. Preferabe to check the version before installing python pakage with `pip` by the following command  
+`pip install package name==`  
+I am not mentioning here the package name.  
+
+
+* At first create another role or user  
+```
+sudo -i -u postgres
+createuser testdb -s -P --interactive
+# Choose password for new role and close the connection with Ctrl+D
+```
+* Add the `testdb` in file `sudo vim /etc/postgresql/9.5/main/pg_hba.conf`.
+```
+# Database administrative login by Unix domain socket
+local   all             testdb                                  md5
+```
+
+and restart ŵith `sudo service postgresql restart`.
+
+* Now time to create a database for `testdb`role. For this follow the steps  
+```
+psql -U testdb -d postgres
+# it will connet the testdb role with postgres database
+CREATE DATABASE flask_viz;
+# close the connection with Ctrl+D
+```
+
