@@ -135,3 +135,4 @@ CREATE DATABASE flask_viz;
 # close the connection with Ctrl+D
 ```
 
+# specific_id = session.query(DB_Class).filter_by(id=str(todoId)).first()

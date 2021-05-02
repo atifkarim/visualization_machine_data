@@ -4,6 +4,9 @@ from flask import jsonify
 import os, time
 from table_do_process import *
 
+app = Flask(__name__)
+app.static_folder = os.path.abspath("templates/static/")
+
 # SQLAlchemy
 
 from sqlalchemy import create_engine, inspect
@@ -19,6 +22,7 @@ def get_ip_address():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     s.connect(("8.8.8.8", 80))
     return s.getsockname()[0]
+
 
 db_string = "postgres://testdb:testdb@"+str(get_ip_address())+":5432/flask_viz"
 db = create_engine(db_string)  
@@ -47,9 +51,6 @@ else:
 
 set_data_obj = Set_data()
 get_data_obj = Get_data()
-
-app = Flask(__name__)
-app.static_folder = os.path.abspath("templates/static/")
 
 @app.route('/')
 def index(name=None):
@@ -108,7 +109,6 @@ def parse_auto_update_table(name=None):
     return jsonify(query_updated_json.json_column)
 
     # return jsonify(data_json) # If wish to fetch data from do_process() function directly then use this
-
 
 # The following endpoint initially take all the defined member variables
 # to ceate the dropdown.
