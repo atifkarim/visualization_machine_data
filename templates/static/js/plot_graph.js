@@ -316,7 +316,7 @@ function make_2D_histogram(data) {
 
 
 let getData_json = function test() {
-    $.get("/auto_update", function(data) {
+    $.get("/auto_update_plot", function(data) {
         // console.log("data val type here: ", data[2])
         /* just change in the following line the function name to get your desired result*/
         chart.options.data = createMultilpleLines_fix_x_random_y_name(data[0]);
