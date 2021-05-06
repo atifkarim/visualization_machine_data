@@ -9,22 +9,40 @@
     padding: 8px;
     text-align: center;
     vertical-align: middle;
+    font-size: 12px;
 }
 
 .test_table tr:nth-child(even) {
     background-color: #f2f2f2;
 }
 
-.test_table tr:hover {
-    background-color: #ddd;
+.test_table tr:nth-child(odd) {
+    background-color: #f2f2f2;
+}
+
+.test_table caption {
+    color: red;
+    text-align: center;
+    font-weight: bold;
+    font-size: 15px;
 }
 
 .test_table th {
     padding-top: 12px;
     padding-bottom: 12px;
     text-align: center;
-    background-color: #4CAF50;
+    background-color: maroon;
     color: white;
+}
+
+.table_button {
+    background-color: #515151;
+    color: white;
+    /* display: none; */
+}
+
+.test_table tr:hover {
+    background-color: #ddd;
 }
 
 .table_button {
@@ -47,23 +65,25 @@
 #table_div {
     float: left;
     z-index: 0;
-    position: absolute;
-    margin-top: 50px;
-    background-color: #dfd117f5;
+    /* position: absolute; */
+    position: static;
+    margin-top: 80px;
+    /* background-color: #304a56; */
+    padding-left: 10px;
 }
 
 .family_table_class {
     float: left;
-    background-color: #2522bb;
+    /* background-color: #2522bb; */
 }
 
 .parent_table_class {
-    background-color: #b125b1;
+    background-color: white;
 }
 
 .child_table_class {
     float: left;
-    background-color: red;
+    background-color: white;
 }
 
 .family_dropdown_class {
@@ -73,39 +93,7 @@
     display: none;
 }
 
-#all_button {
-    /* height: 100%; */
-    width: 100%;
-    float: left;
-    z-index: 1;
-    background-color: black;
-    top: 0;
-    left: 0;
-}
-
-.goto_plot {
-    padding: 5px 5px;
-    float: left;
-    padding: 10px;
-    background-color: #4CAF50;
-    position: -webkit-sticky;
-    /* Safari */
-    position: sticky;
-    top: 0;
-}
-
-#goto_table {
-    padding: 5px 5px;
-    float: left;
-    padding: 10px;
-    background-color: #adaf4c;
-    position: -webkit-sticky;
-    /* Safari */
-    position: sticky;
-    top: 0;
-}
-
-#goto_table_vanilla {
+#goto_table_vanilla_specific {
     padding: 5px 5px;
     float: left;
     padding: 10px;
@@ -116,27 +104,6 @@
     top: 0;
 }
 
-.shutdown_server {
-    padding: 5px 5px;
-    float: left;
-    padding: 10px;
-    background-color: #db0b0b;
-    position: -webkit-sticky;
-    /* Safari */
-    position: sticky;
-    top: 0;
-}
-
-#update_dict {
-    height: 100%;
-    /* width: 100%; */
-    float: right;
-    display: none;
-    background-color: red;
-    position: relative;
-    z-index: 10;
-}
-
 .button {
     border: none;
     /* background-color: inherit; */
@@ -145,27 +112,6 @@
     font-size: 16px;
     cursor: pointer;
     display: inline-block;
-}
-
-#tabular_table_div {
-    /* height: 100%; */
-    width: 100%;
-    z-index: 0;
-    position: absolute;
-    float: left;
-    margin-top: 20px;
-}
-
-#example-table {
-    float: left;
-}
-
-#example-table_1 {
-    float: left;
-}
-
-#example-table_2 {
-    float: left;
 }
 
 
@@ -179,8 +125,4 @@
 .success:hover {
     background-color: #4CAF50;
     color: white;
-}
-
-div.dataTables_wrapper {
-    margin-bottom: 3em;
 }

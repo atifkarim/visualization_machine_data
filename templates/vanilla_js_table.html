@@ -2,43 +2,52 @@
 <html lang="en">
 
 <head>
+    <title>Tabular Data</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"></script>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/table.css') }}">
-    <meta charset="UTF-8">
-    <title>Build Table with Vanilla JS</title>
 </head>
 
 <body id="body" style="margin-top: 0">
 
-    <div id="all_button">
-        <div class='goto_plot' style='float: left;'>
-            <form method="get" action="{{url_for('index')}}">
-                <button> Show Plot </button>
-            </form>
-        </div>
+    <nav class="navbar navbar-default navbar-fixed-top" style="height: 65px; background-color: #c4442b">
+        <div class="container-fluid">
+            <div class="navbar-header" style="margin-top:0">
+                <a class="navbar-brand" target="_blank" rel="noopener noreferrer" href="https://ubuntu.com/">
+                    <img src="{{url_for('static', filename='ubuntu_logo.png')}} " class="img-fluid" style="max-height: 35px;">
+                </a>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <button name="do_hide" class="btn btn-light navbar-btn">☰ Open Sidebar</button>
+                </li>
 
-        <div id='goto_table'>
-            <form method="get" action="{{url_for('table')}}">
-                <button>Show Table</button>
-            </form>
+                <li>
+                    <button class="btn btn-light navbar-btn">
+                        <a target="_blank" rel="noopener noreferrer" href="{{url_for('index')}}" >Graph</a>
+                    </button>
+                </li>
+                <!-- <li class="active"> -->
+                <li>
+                    <button class="btn btn-light navbar-btn">
+                        <a href=# id=shutdown>Shutdown Server</a>
+                    </button>
+                    <!-- <a href=# id=shutdown>Shutdown Server</a> -->
+                </li>
+            </ul>
         </div>
-
-        <div class='shutdown_server' style='float: left;'>
-            <form>
-                <a href=# id=shutdown><button class='btn btn-default'>Shutdown Server</button></a>
-            </form>
-        </div>
-        <button name="do_hide" class="button success">☰ Open Sidebar</button>
-        <!-- <button name="do_hide" type="button" class="button button2" text="Hide Me"></button>☰ Open Sidebar</button> -->
-    </div>
+    </nav>
 
     <div id="table_div"></div>
-
-    <br />
-    <br />
 
     <script src="static/js/vanilla_js_table.js "></script>
     <script src="static/js/python_button.js "></script>
@@ -46,7 +55,7 @@
 
     <script>
         setInterval(table_with_vanilla_js, 1000);
-        setTimeout(set_dropdown_for_each_table, 1001);
+        setTimeout(set_dropdown_for_each_table, 1500);
         stop_flask_server();
     </script>
 
