@@ -56,7 +56,7 @@ get_data_obj = Get_data()
 def index(name=None):
     return render_template('graph.html',name=name)
 
-@app.route('/auto_update')
+@app.route('/auto_update_plot')
 def parse_auto_update(name=None):
     # data_json = load_json()
     data_json = create_json()

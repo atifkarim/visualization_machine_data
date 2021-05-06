@@ -2,6 +2,14 @@
 <html>
 
 <head>
+
+    <title>Visualization of Machine Data</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
     <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
@@ -16,41 +24,34 @@
     <!-- addition or writing of JS file also possible here but better to do at the end of body tag. After body tag. -->
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/plot.css') }}">
-
-    <title>Visualization of Machine Data</title>
 </head>
 
 
-<body style="margin-top: 0">
-    <div id="all_button">
-        <div id='test_button'>
-            <!-- <h3>Update JSON data</h3> -->
-            <form>
-                <a href=# id=test><button class='btn btn-default'>Update JSON data</button></a>
-            </form>
+<body style="margin-top: 0;">
+    <nav class="navbar navbar-default navbar-fixed-top" style="height: 65px; background-color: #c4442b">
+        <div class="container-fluid">
+            <div class="navbar-header" style="margin-top:0">
+                <a class="navbar-brand" target="_blank" rel="noopener noreferrer" href="https://ubuntu.com/">
+                    <img src="{{url_for('static', filename='ubuntu_logo.png')}} " class="img-fluid" style="max-height: 35px;">
+                </a>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <button class="btn btn-light navbar-btn">
+                        <a target="_blank" rel="noopener noreferrer" href="{{url_for('vanilla_js_table')}}" >Table</a>
+                    </button>
+                </li>
+                <!-- <li class="active"> -->
+                <li>
+                    <button class="btn btn-light navbar-btn">
+                        <a href=# id=shutdown>Shutdown</a>
+                    </button>
+                </li>
+            </ul>
         </div>
+    </nav>
 
-        <div id='goto_table'>
-            <form method="get" action="{{url_for('table')}}">
-                <button>Show Table</button>
-            </form>
-        </div>
-
-        <div id='goto_table_vanilla'>
-            <form method="get" action="{{url_for('vanilla_js_table')}}">
-                <button>Show  Vanilla Table</button>
-            </form>
-        </div>
-
-        <div class='shutdown_server'>
-            <!-- <h3>Stop Server</h3> -->
-            <form>
-                <a href=# id=shutdown><button class='btn btn-default'>Shutdown Server</button></a>
-            </form>
-        </div>
-    </div>
-
-    <div id="plot_container_first" style="margin-top: 45px"></div>
+    <div id="plot_container_first" style="margin-top: 70px"></div>
     <div id="plot_container_second"></div>
 
     <div id="a_vs_i_q_plot_line" class="plot_container_plotly"></div>
