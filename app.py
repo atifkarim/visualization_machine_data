@@ -25,7 +25,7 @@ def get_ip_address():
     return s.getsockname()[0]
 
 
-db_string = "postgres://testdb:testdb@"+str(get_ip_address())+":5432/flask_viz"
+db_string = "postgresql://testdb:testdb@"+str(get_ip_address())+":5432/flask_viz"
 db = create_engine(db_string)  
 base = declarative_base()
 
