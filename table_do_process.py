@@ -75,8 +75,12 @@ class Get_data(Set_data):
         for index,value in enumerate(self.device_x_func.device_x_key):
             self.device_x_func.device_x[value] = vals_x[index]
         
-        overall_status = {"Board_1": Get_data.device_1, "Board_2": Get_data.device_2,
-                        "Board_3":Get_data.device_3, "Board_4":self.device_x_func.device_x}
+        overall_status = {
+            "0001_Summer": Get_data.device_1,
+            "0002_Winter": Get_data.device_2,
+            "0003_Spring":Get_data.device_3,
+            "0004_Autumn":self.device_x_func.device_x
+            }
 
         return overall_status
 

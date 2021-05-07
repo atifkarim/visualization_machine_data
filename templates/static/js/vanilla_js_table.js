@@ -1,8 +1,8 @@
-function createTable(caption, data, family_table_div_val, addbutton = true) {
+function createTable(new_caption, caption, data, family_table_div_val, addbutton = true) {
     /** any table element is set here. caption name sets the table's id name */
     let table = $("<table class='test_table'>");
     table
-        .html("<caption>" + caption + "</caption>")
+        .html("<caption>" + new_caption + "</caption>")
         .attr("id", caption);
 
     let headers = getColumns(data[Object.keys(data)[0]]); /** create the column name */
@@ -50,7 +50,7 @@ function createTable(caption, data, family_table_div_val, addbutton = true) {
                      * for each child table there is 1 seperate div
                      */
                     if ($('#' + tbl_div_child.attr("id")).contents().length == 0) {
-                        new_tbl_1 = createTable(caption + "_Child", { row: data[row] }, 0, false);
+                        new_tbl_1 = createTable(new_caption, caption + "_Child", { row: data[row] }, 0, false);
                         //console.log("new_tbl_1 id: ", typeof new_tbl_1.attr("id"), " tagname: ", new_tbl_1.prop("tagName"));
 
                         tbl_div_child.append(new_tbl_1);
@@ -288,6 +288,9 @@ function table_with_vanilla_js() {
         // let children = $("div:regex(id, .*_child)"); /** this line is old. It takes the child table's div info from history */
 
         for (let t in data) {
+            let n = t.indexOf('_');
+            let new_t = t.substring(n + 1);
+
             family_table_div = $("<div>")
                 .attr("id", "Family_" + t)
                 .addClass("family_table_class");
@@ -301,7 +304,7 @@ function table_with_vanilla_js() {
                 .addClass("child_table_class");
 
             if ($('#' + parent_table_div.attr("id")).contents().length == 0) {
-                new_tbl = createTable("Table_" + t, data[t], family_table_div.attr("id"));
+                new_tbl = createTable(new_t, "Table_" + t, data[t], family_table_div.attr("id"));
                 tbl_div.append(family_table_div);
                 family_table_div.append(parent_table_div);
                 parent_table_div.append(new_tbl);
