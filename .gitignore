@@ -139,3 +139,4 @@ templates/side_bar.html
 templates/static/css/sidebar.css
 sample.json
 ignore
+requirements_old_venv.txt
