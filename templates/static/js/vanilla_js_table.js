@@ -285,51 +285,53 @@ tbl_div.html(""); /** make it empty only 1 time (safety purpose) */
 
 function table_with_vanilla_js() {
     $.get("/auto_update_table", function(data) {
+        create_whole_table(data);
         // let children = $("div:regex(id, .*_child)"); /** this line is old. It takes the child table's div info from history */
-
-        for (let t in data) {
-            let n = t.indexOf('_');
-            let new_t = t.substring(n + 1);
-
-            family_table_div = $("<div>")
-                .attr("id", "Family_" + t)
-                .addClass("family_table_class");
-
-            parent_table_div = $("<div>")
-                .attr("id", family_table_div.attr("id") + "_Parent")
-                .addClass("parent_table_class");
-
-            child_table_div = $("<div>")
-                .attr("id", family_table_div.attr("id") + "_Child")
-                .addClass("child_table_class");
-
-            if ($('#' + parent_table_div.attr("id")).contents().length == 0) {
-                new_tbl = createTable(new_t, "Table_" + t, data[t], family_table_div.attr("id"));
-                tbl_div.append(family_table_div);
-                family_table_div.append(parent_table_div);
-                parent_table_div.append(new_tbl);
-            } else {
-                updateParent(parent_table_div, data[t]);
-            }
-
-            if ($('#' + child_table_div.attr("id")).contents().length != 0) {
-                updateChild(child_table_div);
-            }
-        }
-
-        /** following lines are old. Used to update CHild. If you want to use this then you have to change a little bit
-         * in updateChild function. Maybe you will find it in former commit.
-         */
-        // for (let i = 0; i < children.length; i++) {
-        //     let child = children[i];
-        //     let parent = child.id.slice(0, -6);
-        //     $("#" + parent).prepend(child);
-        //     updateChild(child, parent);
-        // }
-
-
     });
 }
+
+function create_whole_table(data) {
+    for (let t in data) {
+        let n = t.indexOf('_');
+        let new_t = t.substring(n + 1);
+
+        family_table_div = $("<div>")
+            .attr("id", "Family_" + t)
+            .addClass("family_table_class");
+
+        parent_table_div = $("<div>")
+            .attr("id", family_table_div.attr("id") + "_Parent")
+            .addClass("parent_table_class");
+
+        child_table_div = $("<div>")
+            .attr("id", family_table_div.attr("id") + "_Child")
+            .addClass("child_table_class");
+
+        if ($('#' + parent_table_div.attr("id")).contents().length == 0) {
+            new_tbl = createTable(new_t, "Table_" + t, data[t], family_table_div.attr("id"));
+            tbl_div.append(family_table_div);
+            family_table_div.append(parent_table_div);
+            parent_table_div.append(new_tbl);
+        } else {
+            updateParent(parent_table_div, data[t]);
+        }
+
+        if ($('#' + child_table_div.attr("id")).contents().length != 0) {
+            updateChild(child_table_div);
+        }
+    }
+}
+
+/** following lines are old. Used to update CHild. If you want to use this then you have to change a little bit
+ * in updateChild function. Maybe you will find it in former commit.
+ */
+// for (let i = 0; i < children.length; i++) {
+//     let child = children[i];
+//     let parent = child.id.slice(0, -6);
+//     $("#" + parent).prepend(child);
+//     updateChild(child, parent);
+// }
+
 
 /** following function is used to set SIDEBAR/ show Update Dict function work */
 
@@ -341,20 +343,20 @@ $(document).ready(function() {
 
 /** function for stop hiding the Button div whie scrolling the page */
 
-var fixmeTop = $('#all_button').offset().top;
-$(window).scroll(function() {
-    var currentScroll = $(window).scrollTop();
-    if (currentScroll >= fixmeTop) {
-        $('#all_button').css({
-            position: 'fixed',
-            top: '0',
-            left: '0'
-        });
-    } else {
-        $('#all_button').css({
-            position: 'static',
-            top: '0',
-            left: '0'
-        });
-    }
-});
+// var fixmeTop = $('#all_button').offset().top;
+// $(window).scroll(function() {
+//     var currentScroll = $(window).scrollTop();
+//     if (currentScroll >= fixmeTop) {
+//         $('#all_button').css({
+//             position: 'fixed',
+//             top: '0',
+//             left: '0'
+//         });
+//     } else {
+//         $('#all_button').css({
+//             position: 'static',
+//             top: '0',
+//             left: '0'
+//         });
+//     }
+// });
