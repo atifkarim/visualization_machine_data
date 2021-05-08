@@ -8,14 +8,6 @@ from importlib import import_module
 app = Flask(__name__)
 app.static_folder = os.path.abspath("templates/static/")
 
-# SQLAlchemy
-
-from sqlalchemy import create_engine, inspect
-from sqlalchemy import Column, String, Integer, DateTime, func
-from sqlalchemy.ext.declarative import declarative_base  
-from sqlalchemy.orm import sessionmaker
-from datetime import datetime
-from sqlalchemy.dialects.postgresql import JSONB
 
 # get the ip address of the connection
 import socket
@@ -23,32 +15,6 @@ def get_ip_address():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     s.connect(("8.8.8.8", 80))
     return s.getsockname()[0]
-
-
-db_string = "postgresql://testdb:testdb@"+str(get_ip_address())+":5432/flask_viz"
-db = create_engine(db_string)  
-base = declarative_base()
-
-# function to check table exist or not
-def table_exists(engine,name):
-    ins = inspect(engine)
-    ret =ins.dialect.has_table(engine.connect(),name)
-    print('Table "{}" exists: {}'.format(name, ret))
-    return ret
-
-class DB_Class(base):  
-    __tablename__ = 'flask_viz_table'
-
-    id = Column(Integer, primary_key=True)
-    json_column = Column(JSONB)
-
-Session = sessionmaker(db)
-session = Session()
-
-if not table_exists(db, "flask_viz_table"):
-    base.metadata.create_all(db)
-else:
-    pass
 
 set_data_obj = Set_data()
 get_data_obj = Get_data()
@@ -93,23 +59,7 @@ def vanilla_js_table(name=None):
 def parse_auto_update_table(name=None):
     data_json = get_data_obj.do_process()
 
-    DB_Obj = DB_Class(
-        json_column = data_json
-        )
-    session.add(DB_Obj)
-    session.commit()
-
-    # delete row with MIN id value if exceed more than a certain number of row in the table
-    rows = session.query(DB_Class).count()
-    min_id = session.query(func.min(DB_Class.id)).scalar()
-    if (rows > 15):
-        session.query(DB_Class).filter(DB_Class.id==min_id).delete()
-        session.commit()
-    
-    query_updated_json = session.query(DB_Class).order_by(DB_Class.id.desc()).first()
-    return jsonify(query_updated_json.json_column)
-
-    # return jsonify(data_json) # If wish to fetch data from do_process() function directly then use this
+    return jsonify(data_json)
 
 # The following endpoint initially take all the defined member variables
 # to ceate the dropdown.
