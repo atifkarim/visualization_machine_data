@@ -5,10 +5,10 @@ class Set_data(object):
     # following dictionary will set initial value for corresponding table
     # with respect to it's key
     config_val = {
-        "Board_1":{"a":12, "b":16, "c":1},
-        "Board_2":{"x":13, "y":17, "z":2},
-        "Board_3":{"p":14, "q":18, "r":3},
-        "Board_4":{"s":15, "t":19, "u":-5}
+        "0001_Summer":{"a":12, "b":16, "c":1},
+        "0002_Winter":{"x":13, "y":17, "z":2},
+        "0003_Spring":{"p":14, "q":18, "r":3},
+        "0004_Autumn":{"s":15, "t":19, "u":-5}
     }
 
     data = {
