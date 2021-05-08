@@ -93,17 +93,6 @@
     display: none;
 }
 
-#goto_table_vanilla_specific {
-    padding: 5px 5px;
-    float: left;
-    padding: 10px;
-    background-color: #4e4caf;
-    position: -webkit-sticky;
-    /* Safari */
-    position: sticky;
-    top: 0;
-}
-
 .button {
     border: none;
     /* background-color: inherit; */

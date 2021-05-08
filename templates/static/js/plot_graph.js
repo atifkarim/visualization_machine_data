@@ -370,20 +370,20 @@ let getData_json = function test() {
     });
 }
 
-var fixmeTop = $('#all_button').offset().top;
-$(window).scroll(function() {
-    var currentScroll = $(window).scrollTop();
-    if (currentScroll >= fixmeTop) {
-        $('#all_button').css({
-            position: 'fixed',
-            top: '0',
-            left: '0'
-        });
-    } else {
-        $('#all_button').css({
-            position: 'static',
-            top: '0',
-            left: '0'
-        });
-    }
-});
+// var fixmeTop = $('#all_button').offset().top;
+// $(window).scroll(function() {
+//     var currentScroll = $(window).scrollTop();
+//     if (currentScroll >= fixmeTop) {
+//         $('#all_button').css({
+//             position: 'fixed',
+//             top: '0',
+//             left: '0'
+//         });
+//     } else {
+//         $('#all_button').css({
+//             position: 'static',
+//             top: '0',
+//             left: '0'
+//         });
+//     }
+// });
