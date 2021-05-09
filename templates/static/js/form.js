@@ -10,17 +10,17 @@ $(document).ready(function() {
                 type: 'POST',
                 url: '/process'
             })
-            // .done(function(data) {
-            //     console.log("data done: ", data);
-            //     if (data.error) {
-            //         $('#errorAlert').text(data.error).show();
-            //         $('#successAlert').hide();
-            //     } else {
-            //         $('#successAlert').text(data.name).show();
-            //         $('#errorAlert').hide();
-            //     }
+            .done(function(data) {
+                console.log("data done: ", data);
+                if (data.error) {
+                    $('#errorAlert').text(data.error).show();
+                    $('#successAlert').hide();
+                } else {
+                    $('#successAlert').text(data.name).show();
+                    $('#errorAlert').hide();
+                }
 
-        // });
+            });
 
         event.preventDefault();
 
