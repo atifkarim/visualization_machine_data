@@ -11,3 +11,20 @@ connect(
     host='localhost',
     port=27017
 )
+
+from mongoengine import Document, StringField, DateTimeField, SequenceField, DictField
+from datetime import datetime
+
+
+class Users(Document):
+    user_id = SequenceField(primary_key=True)
+    name = StringField()
+    created_at = DateTimeField(default=datetime.utcnow)
+    meta = {'collection': "new_collection_1"}
+
+
+a = "Bangladesh"
+for x in a:
+    user = Users()
+    user.name = x
+    user.save()
