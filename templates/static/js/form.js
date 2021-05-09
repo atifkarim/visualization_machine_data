@@ -8,7 +8,14 @@ $(document).ready(function() {
                     email: $('#emailInput').val()
                 },
                 type: 'POST',
-                url: '/process'
+                url: '/process',
+                // success: function(data) {
+                //     console.log(data)
+                //     $("body").html(data);
+                //     // This will navigate to your preferred location
+                //     // document.location = 'vanilla_js_table';
+                //     // window.location.href = url;
+                // },
             })
             .done(function(data) {
                 console.log("data done: ", data);
