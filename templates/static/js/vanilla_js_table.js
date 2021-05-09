@@ -290,6 +290,13 @@ function table_with_vanilla_js() {
     });
 }
 
+function table_from_db() {
+    $.get("/update_table_data_from_db", function(data) {
+        create_whole_table(data);
+        // let children = $("div:regex(id, .*_child)"); /** this line is old. It takes the child table's div info from history */
+    });
+}
+
 function create_whole_table(data) {
     for (let t in data) {
         let n = t.indexOf('_');

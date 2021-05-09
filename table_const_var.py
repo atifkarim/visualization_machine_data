@@ -17,6 +17,10 @@ class Set_data(object):
         "c":-4,
         "x":87
     }
+
+    set_table = {
+        "chosen_table":"0001_Summer"
+    }
     print("running 1")
 
     @staticmethod
