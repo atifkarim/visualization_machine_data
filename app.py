@@ -108,6 +108,29 @@ def video_feed():
     return Response(gen(Camera()),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
+
+# @app.route('/testing_post', methods=['GET'])
+# def test_post(name = None):
+#     return render_template('ajax_post.html',name=name)
+
+@app.route('/testing_post')
+def test_post():
+    return render_template('ajax_post.html')
+
+@app.route('/process', methods=['POST'])
+def process():
+    print("request.form type: ", type(request.form))
+    print("request.form: ", request.form)
+    email = request.form['email']
+    name = request.form['name']
+
+    if name and email:
+        newName = name[::-1]
+
+        return jsonify({'name' : newName})
+
+    return jsonify({'error' : 'Missing data!'})
+
 @app.route('/shutdown', methods=['GET'])
 def shutdown():
     shutdown_server()
