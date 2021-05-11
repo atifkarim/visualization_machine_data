@@ -33,6 +33,7 @@ class Set_data(object):
     storage_value = [] # to store value_00, value_01, ... , value_nn
     storage_00_row = [] # to store the value of first key of the last dict(here 00_row OR name)
     json_for_db = {}
+    storage_div_val_row = [] # device, value_nn, row_nn
     
     print("running 1")
 

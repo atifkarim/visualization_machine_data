@@ -86,7 +86,7 @@ class Get_data(Set_data):
             print("I CAME HERE")
             self.create_json_for_db(overall_status)
         if Set_data.do_making_final_json == "DO":
-            print(Set_data.json_for_db)
+            print(Set_data.storage_div_val_row)
         Set_data.do_making_final_json = "DONT"
 
         return overall_status
@@ -121,6 +121,7 @@ class Get_data(Set_data):
             # print("value len: ", len(value)) # how many value_nn in every season(eg: summer)
             storage_value_temp = []
             storage_00_row_temp = []
+            storage_div_val_row_temp = []
             for key_1, value_1 in value.items():
                 # print("value_1 len: ", len(value_1)) # how many value_nn in each value_nn (here 3(name, value, unit))
                 for key_2 , value_2 in value_1.items():
@@ -135,6 +136,11 @@ class Get_data(Set_data):
             Set_data.storage_00_row.append(storage_00_row_temp)
             # storage_00_row_temp = []
             Set_data.storage_device.append(key)
+
+            storage_div_val_row_temp.append(key)
+            storage_div_val_row_temp.append(storage_value_temp)
+            storage_div_val_row_temp.append(storage_00_row_temp)
+            Set_data.storage_div_val_row.append(storage_div_val_row_temp)
 
         Set_data.json_for_db = {
             "key_1": Set_data.storage_device,
