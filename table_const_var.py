@@ -21,6 +21,11 @@ class Set_data(object):
     set_table = {
         "chosen_table":"0001_Summer"
     }
+
+    chose_val_list = []
+    all_table = ["0001_Summer","0002_Winter", "0003_Spring", "0004_Autumn"]
+    check_string = "check"
+    
     print("running 1")
 
     @staticmethod
