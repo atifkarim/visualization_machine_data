@@ -25,6 +25,14 @@ class Set_data(object):
     chose_val_list = []
     all_table = ["0001_Summer","0002_Winter", "0003_Spring", "0004_Autumn"]
     check_string = "check"
+
+    # purpose of the following json and list is to make sqlitedb OR making dynamic form for client END
+    # still not sure how it will work
+    do_making_final_json = "DO"
+    storage_device = [] # to store 0001_summer etc
+    storage_value = [] # to store value_00, value_01, ... , value_nn
+    storage_00_row = [] # to store the value of first key of the last dict(here 00_row OR name)
+    json_for_db = {}
     
     print("running 1")
 

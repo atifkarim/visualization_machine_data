@@ -81,6 +81,13 @@ class Get_data(Set_data):
             "0003_Spring":Get_data.device_3,
             "0004_Autumn":self.device_x_func.device_x
             }
+        
+        if Set_data.do_making_final_json == "DO":
+            print("I CAME HERE")
+            self.create_json_for_db(overall_status)
+        if Set_data.do_making_final_json == "DO":
+            print(Set_data.json_for_db)
+        Set_data.do_making_final_json = "DONT"
 
         return overall_status
 
@@ -106,3 +113,31 @@ class Get_data(Set_data):
             }
             vals.append(child_key)
         return vals
+
+    # purpose of the following function is to parse device_name, value_nn keyword and info of first key of the
+    # most inner dict(here 00_row OR name)
+    def create_json_for_db(self, final_status):
+        for key, value in final_status.items():
+            # print("value len: ", len(value)) # how many value_nn in every season(eg: summer)
+            storage_value_temp = []
+            storage_00_row_temp = []
+            for key_1, value_1 in value.items():
+                # print("value_1 len: ", len(value_1)) # how many value_nn in each value_nn (here 3(name, value, unit))
+                for key_2 , value_2 in value_1.items():
+                    if key_2 == "00_row" or key_2 == "name":
+                        # print("key: ", key, " , key_1: ", key_1, " , 00_row_val: ",final_status[key][key_1][key_2])
+                        storage_value_temp.append(key_1)
+                        storage_00_row_temp.append(final_status[key][key_1][key_2])
+            storage_value_temp.append("All")
+            storage_00_row_temp.append("All")
+            Set_data.storage_value.append(storage_value_temp)
+            # storage_value_temp = []
+            Set_data.storage_00_row.append(storage_00_row_temp)
+            # storage_00_row_temp = []
+            Set_data.storage_device.append(key)
+
+        Set_data.json_for_db = {
+            "key_1": Set_data.storage_device,
+            "key_2": Set_data.storage_value,
+            "key_3": Set_data.storage_00_row
+        }
