@@ -80,14 +80,15 @@
 
 
     <script>
-        var $jqr_select_device = $('#device_n'),
-            $jqr_select_name = $('#name_n'),
-            $jqr_select_value = $('#value_n'),
-            $options = $jqr_select_name.find('option');
-        $jqr_select_device.on('change', function() {
-            $jqr_select_name.html($options.filter('[value="' +
-                this.value + '"]'));
-        }).trigger('change');
+        $("#device_n").change(function() {
+            if ($(this).data('options') === undefined) {
+                /*Taking an array of all options-2 and kind of embedding it on the select1*/
+                $(this).data('options', $('#name_n option').clone());
+            }
+            var id = $(this).val();
+            var options = $(this).data('options').filter('[value=' + id + ']');
+            $('#name_n').html(options);
+        });
     </script>
 
 </body>
