@@ -91,10 +91,21 @@ function make_dropdown_1(data) {
             make_option_1(data[a]["param"][b], jqr_select_name, a, b);
             make_option_1(data[a]["value"][b], jqr_select_value, a, b);
         }
-        console.log("Season Finished");
+        // console.log("Season Finished");
     }
 }
 
+$(document).ready(function() {
+    $("#device_n").change(function() {
+        if ($(this).data('options') === undefined) {
+            /*Taking an array of all options-2 and kind of embedding it on the select1*/
+            $(this).data('options', $('#name_n option').clone());
+        }
+        var id = $(this).val();
+        var options = $(this).data('options').filter('[value=' + id + ']');
+        $('#name_n').html(options);
+    });
+});
 
 
 /*
