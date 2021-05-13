@@ -61,6 +61,16 @@ def parse_auto_update_table(name=None):
 
     return jsonify(data_json)
 
+@app.route('/render_json_for_form')
+def render_json_for_form(name=None):
+    return render_template('json_for_form.html',name=name)
+
+@app.route('/get_json_for_form')
+def parse_get_json_for_form(name=None):
+    # return jsonify(Set_data.json_for_db)
+    return jsonify(Set_data.json_for_db_1)
+
+
 # The following endpoint initially take all the defined member variables
 # to ceate the dropdown.
 @app.route('/update_dropdown')

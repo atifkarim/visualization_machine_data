@@ -34,6 +34,22 @@ class Set_data(object):
     storage_00_row = [] # to store the value of first key of the last dict(here 00_row OR name)
     json_for_db = {}
     storage_div_val_row = [] # device, value_nn, row_nn
+
+    # another approach for saving json for form data
+    json_for_db_1 = {}
+    '''
+    {
+        "device_name_00":{
+            "value":["val_00", "val_01", ...., "val_nn", "all"],
+            "param": ["param_00", "param_01", .... , "param_nn"]
+        },
+        "device_name_01":{
+            "value":["val_00", "val_01", ...., "val_nn", "all"],
+            "param": ["param_00", "param_01", .... , "param_nn"]
+        }
+    }
+
+    '''
     
     print("running 1")
 

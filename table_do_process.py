@@ -24,7 +24,7 @@ class Get_data(Set_data):
         value = random()
 
         # following list consists of all child dictionary
-        vals_demod = self.make_row_dict(7, "demodulator")
+        vals_demod = self.make_row_dict(7, "heat")
 
         # checking the final dictionary is empty or not. if empty create the key
         if bool(Get_data.device_1)==False:
@@ -37,7 +37,7 @@ class Get_data(Set_data):
             Get_data.device_1[value] = vals_demod[index]
 
 
-        vals_mod = self.make_row_dict(9, "modulator")
+        vals_mod = self.make_row_dict(9, "cloud")
         # checking the final dictionary is empty or not. if empty create the key
         if bool(Get_data.device_2)==False:
             self.create_device_dict_key(vals_mod, given_key_container = Get_data.device_2_key)
@@ -48,7 +48,7 @@ class Get_data(Set_data):
         for index,value in enumerate(Get_data.device_2_key):
             Get_data.device_2[value] = vals_mod[index]
 
-        vals_device_3 = self.make_row_dict(5, "decoder")
+        vals_device_3 = self.make_row_dict(5, "color")
         # checking the final dictionary is empty or not. if empty create the key
         if bool(Get_data.device_3)==False:
             self.create_device_dict_key(vals_device_3, given_key_container = Get_data.device_3_key)
@@ -86,7 +86,8 @@ class Get_data(Set_data):
             print("I CAME HERE")
             self.create_json_for_db(overall_status)
         if Set_data.do_making_final_json == "DO":
-            print(Set_data.storage_div_val_row)
+            # print(Set_data.json_for_db)
+            print(Set_data.json_for_db_1)
         Set_data.do_making_final_json = "DONT"
 
         return overall_status
@@ -141,6 +142,15 @@ class Get_data(Set_data):
             storage_div_val_row_temp.append(storage_value_temp)
             storage_div_val_row_temp.append(storage_00_row_temp)
             Set_data.storage_div_val_row.append(storage_div_val_row_temp)
+
+            # another approach for saving json for form data
+            val_param = ["value", "param"]
+            val_param_json = {}
+            
+            val_param_json[val_param[0]] = storage_value_temp
+            val_param_json[val_param[1]] = storage_00_row_temp
+
+            Set_data.json_for_db_1[key] = val_param_json
 
         Set_data.json_for_db = {
             "key_1": Set_data.storage_device,
