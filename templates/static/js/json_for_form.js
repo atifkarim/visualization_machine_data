@@ -56,7 +56,6 @@ function make_dropdown(data) {
             jqr_select_name.append(option);
             // console.log(data[key_list[num + 1]][x][y], "**", data[key_list[num + 2]][x][y]);
         }
-        // console.log("SEASON FINISHED")
     }
 }
 
@@ -75,11 +74,6 @@ function make_dropdown_1(data) {
     var select_name = document.getElementById("name_n");
     var select_value = document.getElementById("value_n");
 
-    // var $jqr_select_device = $('#device_n'),
-    //     $jqr_select_name = $('#name_n'),
-    //     $jqr_select_value = $('#value_n'),
-    //     $options = $jqr_select_name.find('option');
-
     var jqr_select_device = $(select_device);
     var jqr_select_name = $(select_name);
     var jqr_select_value = $(select_value);
@@ -87,25 +81,31 @@ function make_dropdown_1(data) {
     for (let a in data) {
         make_option_1(a, jqr_select_device, a);
         for (let b = 0; b < Object.keys(data[a]["param"]).length; b++) {
-            // console.log(a, " ** ", data[a]["param"][b], " ** ", data[a]["value"][b]);
             make_option_1(data[a]["param"][b], jqr_select_name, a, b);
             make_option_1(data[a]["value"][b], jqr_select_value, a, b);
         }
-        // console.log("Season Finished");
     }
+    $("#device_n").trigger('change') //call second select
 }
 
-$(document).ready(function() {
-    $("#device_n").change(function() {
-        if ($(this).data('options') === undefined) {
-            /*Taking an array of all options-2 and kind of embedding it on the select1*/
-            $(this).data('options', $('#name_n option').clone());
-        }
-        var id = $(this).val();
-        var options = $(this).data('options').filter('[value=' + id + ']');
-        $('#name_n').html(options);
-    });
+$("#device_n").change(function() {
+    var id = $(this).val();
+    $("#name_n option").hide() //hide all options
+    $("#name_n option[value='" + id + "']").show(); //show options where value matches
+    $("#name_n option[value_1=0][value='" + id + "']").prop('selected', true); //set first value selected
+    $("#name_n").trigger('change') //call other select
 });
+
+$("#name_n").change(function() {
+    var values = $("#device_n").val();
+    var value_1 = $(this).find("option:selected").attr("value_1")
+        //same ...as before
+    $("#value_n option").hide()
+    $("#value_n option[value_1='" + value_1 + "'][value='" + values + "']").show();
+    $("#value_n option[value_1='" + value_1 + "'][value='" + values + "']").prop('selected', true);
+
+
+})
 
 
 /*
