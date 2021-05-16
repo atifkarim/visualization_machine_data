@@ -2,6 +2,10 @@
 // https://stackoverflow.com/questions/10570904/use-jquery-to-change-a-second-select-list-based-on-the-first-select-list-option
 // https://stackoverflow.com/questions/7697936/jquery-show-hide-options-from-one-select-drop-down-when-option-on-other-select
 
+var data_new = {}; // will be used to store json data passed from backend and later to provide in different function in JS
+var json_for_backend = {}; // json container to stoe and pass data from client side to backend
+
+
 function get_json_for_form() {
     $.get("/get_json_for_form", function(data) {
         // make_dropdown(data);
@@ -85,29 +89,75 @@ function make_dropdown_1(data) {
             make_option_1(data[a]["value"][b], jqr_select_value, a, b);
         }
     }
-    $("#device_n").trigger('change') //call second select
+    data_new = data;
+    $("#device_n").trigger('change') //call first select
 }
 
 $("#device_n").change(function() {
     var id = $(this).val();
+    let init_name_n_val = $("#name_n option:selected").val();
     $("#name_n option").hide() //hide all options
     $("#name_n option[value='" + id + "']").show(); //show options where value matches
-    $("#name_n option[value_1=0][value='" + id + "']").prop('selected', true); //set first value selected
-    $("#name_n").trigger('change') //call other select
+    $("#name_n option[value_1=0][value='" + id + "']").prop('selected', true); //set second value selected
+
+    var s = $("#device_n option:selected").val();
+    if ($(this).val() == "select device") { // to set default name in two select
+        $("#name_n").val("select parameter");
+    } else {
+        $("#name_n").trigger('change'); //call second select
+    }
 });
 
 $("#name_n").change(function() {
     var values = $("#device_n").val();
-    var value_1 = $(this).find("option:selected").attr("value_1")
-        //same ...as before
-    $("#value_n option").hide()
-    $("#value_n option[value_1='" + value_1 + "'][value='" + values + "']").show();
-    $("#value_n option[value_1='" + value_1 + "'][value='" + values + "']").prop('selected', true);
+    let name_n_option_text = $("#name_n option:selected").text();
+    let name_n_option_index = data_new[values]["param"].indexOf(name_n_option_text);
+    let updated_value = data_new[values]["value"][name_n_option_index];
+    let value_key = "value";
+    create_json_for_backend(values, value_key, updated_value);
+});
 
+function create_json_for_backend(main_key, value_key, updated_value) {
+    if (!json_for_backend.hasOwnProperty(main_key)) {
+        var value_temp_json = {};
+        var value_temp_list = [];
+        value_temp_list.push(updated_value);
+        value_temp_json[String(value_key)] = value_temp_list;
+        json_for_backend[String(main_key)] = value_temp_json;
+    } else {
+        if (!json_for_backend[main_key][value_key].includes(updated_value)) {
+            json_for_backend[main_key][value_key].push(updated_value);
+        }
+    }
+}
 
-})
+let input = $("<input>")
+    .attr("id", "id_for_input")
+    .attr('type', 'number')
+    .attr('name', 'value')
+    .attr('placeholder', 'query')
+    .addClass("input_class");
 
+submit_button = $("<button>")
+    .addClass("class_for_submit")
+    .text('Submit')
+    .click(function() {
+        var inputVal = document.getElementById("id_for_input").value;
+        json_for_backend["Query"] = inputVal;
+        //json_for_backend_1 = JSON.stringify(json_for_backend);
+        //console.log("js type: ", typeof(json_for_backend));
+        //console.log("json type: ", typeof(json_for_backend_1));
+        //for ([key, value] of Object.entries(json_for_backend)) {
+        //		JSON.stringify(key);
+        //	JSON.stringify(value);
+        // }
 
+        console.log("json_for_backend: ", json_for_backend);
+    });
+
+let get_div = document.getElementsByClassName("container");
+let get_div_jquery = $(get_div);
+get_div_jquery.append(input, submit_button);
 /*
 // for format json_for_db
 let len_key_1 = Object.keys(data["key_1"]).length;
@@ -149,3 +199,15 @@ for (let a in data){
 console.log("Season Finished");
 }
 }*/
+
+/**
+ * if want to pass any parameter through trigger function
+ * it is the function calling -->> $("#device_n").trigger('change', [{ karim: data_new }]);
+
+
+* it is teh function definition -->> $("#device_n").change(function(event, data) {
+    console.log("nazmul data: ", data.karim);
+    // use data.karim
+
+}
+ */
