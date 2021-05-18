@@ -68,7 +68,8 @@ function make_option_1(data, select, value, value_1 = null) {
         .attr({
             text: data,
             value: value,
-            value_1: value_1
+            value_1: value_1,
+            style: { backgroundColor: gray }
         }).html(data);
     select.append(option);
 }
