@@ -50,7 +50,7 @@ class Set_data(object):
     }
 
     '''
-    
+    json_for_db_converted = {}
     print("running 1")
 
     @staticmethod
