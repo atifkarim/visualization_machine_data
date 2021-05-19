@@ -69,7 +69,7 @@ function make_option_1(data, select, value, value_1 = null) {
             text: data,
             value: value,
             value_1: value_1,
-            style: { backgroundColor: gray }
+            // style: { backgroundColor: gray }
         }).html(data);
     select.append(option);
 }
@@ -105,6 +105,8 @@ $("#device_n").change(function() {
     if ($(this).val() == "select device") { // to set default name in two select
         $("#name_n").val("select parameter");
     } else {
+        $("#device_n option").removeClass("selected") //remove from others
+        $(this).find("option:selected").addClass("selected") //add selected 
         $("#name_n").trigger('change'); //call second select
     }
 });
@@ -115,7 +117,16 @@ $("#name_n").change(function() {
     let name_n_option_index = data_new[values]["param"].indexOf(name_n_option_text);
     let updated_value = data_new[values]["value"][name_n_option_index];
     let value_key = "value";
-    create_json_for_backend(values, value_key, updated_value);
+    if ($(this).find("option:selected").attr("text") != "Select_Param" && !$(this).find("option:selected").hasClass("selected")) {
+        $(this).find("option:selected").addClass("selected") //add selected
+    } else {
+        $(this).find("option:selected").removeClass("selected") //remove 
+    }
+
+    if (updated_value != "Select_Param") {
+        create_json_for_backend(values, value_key, updated_value);
+        console.log("name_n_option_text: ", name_n_option_text);
+    }
 });
 
 function create_json_for_backend(main_key, value_key, updated_value) {
@@ -128,8 +139,29 @@ function create_json_for_backend(main_key, value_key, updated_value) {
     } else {
         if (!json_for_backend[main_key][value_key].includes(updated_value)) {
             json_for_backend[main_key][value_key].push(updated_value);
+        } else {
+            json_for_backend[main_key][value_key].indexOf(updated_value) !== -1 && json_for_backend[main_key][value_key].splice(json_for_backend[main_key][value_key].indexOf(updated_value), 1);
+            console.log("now data: ", json_for_backend[main_key][value_key]);
         }
     }
+}
+
+/** following function send the updated JSON object to the BackEnd via POST method */
+function POST_dropdown_data() {
+    hiddenform = document.createElement("form")
+    hiddenform.style.visibility = "hidden";
+    hiddenform.method = "POST";
+
+    for ([key, value] of Object.entries(json_for_backend)) {
+        i_1 = document.createElement("input");
+        i_1.name = key;
+        i_1.value = JSON.stringify(value);
+        hiddenform.appendChild(i_1);
+    }
+
+    // document.getElementsByClassName("container").appendChild(hiddenform);
+    document.getElementById("body").appendChild(hiddenform);
+    hiddenform.submit();
 }
 
 let input = $("<input>")
@@ -139,7 +171,7 @@ let input = $("<input>")
     .attr('placeholder', 'query')
     .addClass("input_class");
 
-submit_button = $("<button>")
+let submit_button = $("<button>")
     .addClass("class_for_submit")
     .text('Submit')
     .click(function() {
@@ -154,6 +186,7 @@ submit_button = $("<button>")
         // }
 
         console.log("json_for_backend: ", json_for_backend);
+        POST_dropdown_data();
     });
 
 let get_div = document.getElementsByClassName("container");

@@ -12,7 +12,7 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/table.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/json_for_form.css') }}">
 </head>
 
 <body id="body" style="margin-top: 0">
@@ -61,8 +61,12 @@
     </nav>
     <div class="container" style="margin-top:100px;">
         <label for="combination">make combination:</label>
-        <select name="device_n" id="device_n"></select>
-        <select name="name_n" id="name_n"></select>
+        <select name="device_n" id="device_n">
+            <option selected="selected" class="grey_color">select device</option></select>
+        </select>
+        <select name="name_n" id="name_n">
+            <option selected="selected" class="grey_color">select parameter</option></select>
+        </select>
         <select name="value_n" id="value_n" style="display:none"></select>
     </div>
 
