@@ -61,8 +61,13 @@ def parse_auto_update_table(name=None):
 
     return jsonify(data_json)
 
-@app.route('/render_json_for_form')
+@app.route('/render_json_for_form', methods=['POST', 'GET'])
 def render_json_for_form(name=None):
+    if request.method == 'POST':
+        print("req.form: ", request.form)
+        # print("req.form to dict: ", request.form.to_dict())
+        Set_data.json_for_db_converted = request.form.to_dict()
+        print("json_for_db_converted: ", Set_data.json_for_db_converted)
     return render_template('json_for_form.html',name=name)
 
 @app.route('/get_json_for_form')
