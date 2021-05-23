@@ -72,6 +72,7 @@ def render_json_for_form(name=None):
 
 @app.route('/get_json_for_form')
 def parse_get_json_for_form(name=None):
+    get_data_obj.do_process()
     # return jsonify(Set_data.json_for_db)
     return jsonify(Set_data.json_for_db_1)
 
