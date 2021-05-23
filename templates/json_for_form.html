@@ -5,75 +5,44 @@
     <title>JSON Form</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="data:,">
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/json_for_form.css') }}">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+
 </head>
 
 <body id="body" style="margin-top: 0">
-
     <nav class="navbar navbar-default navbar-fixed-top" style="height: 65px; background-color: #c4442b">
         <div class="container-fluid">
             <div class="navbar-header" style="margin-top:0">
-                <a class="navbar-brand" target="_blank" rel="noopener noreferrer" href="https://ubuntu.com/">
-                    <img src="{{url_for('static', filename='ubuntu_logo.png')}} " class="img-fluid" style="max-height: 35px;">
-                </a>
             </div>
-            <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <button name="do_hide" class="btn btn-light navbar-btn">☰ Open Sidebar</button>
-                </li>
-
-                <li>
-                    <button class="btn btn-light navbar-btn">
-                        <a href="{{url_for('index')}}" >Graph</a>
-                    </button>
-                </li>
-                <li>
-                    <button class="btn btn-light navbar-btn">
-                        <a href="{{url_for('test_post')}}" >POST</a>
-                    </button>
-                </li>
-                <li>
-                    <button class="btn btn-light navbar-btn">
-                        <a href="{{url_for('render_table_from_db')}}" >Table_DB</a>
-                    </button>
-                </li>
-                <li>
-                    <button class="btn btn-light navbar-btn">
-                        <a href="{{url_for('vanilla_js_table')}}" >Table</a>
-                    </button>
-                </li>
-                <!-- <li class="active"> -->
-                <li>
-                    <button class="btn btn-light navbar-btn">
-                        <a href=# id=shutdown>Shutdown</a>
-                    </button>
-                    <!-- <a href=# id=shutdown>Shutdown Server</a> -->
-                </li>
-            </ul>
         </div>
     </nav>
     <div class="container" style="margin-top:100px;">
         <label for="combination">make combination:</label>
-        <select name="device_n" id="device_n">
-            <option selected="selected" class="grey_color">select device</option></select>
+        <select name="device_n" id="device_n" class="selectpicker">
+            <option selected="selected" class="grey_color">select device</option>
         </select>
-        <select name="name_n" id="name_n">
-            <option selected="selected" class="grey_color">select parameter</option></select>
-        </select>
+        <select name="name_n" id="name_n" class="selectpicker" multiple>
+           <!-- <option selected="false" disabled="disabled" class="grey_color"></option>-->
+            
+            </select>
         <select name="value_n" id="value_n" style="display:none"></select>
     </div>
 
     <script src="static/js/json_for_form.js "></script>
     <script src="static/js/python_button.js "></script>
     <script>
-        // setTimeout(get_json_for_form, 500);
+        // setTimeout(get_json_for_form, 5000);
         get_json_for_form();
         stop_flask_server();
     </script>

@@ -6,114 +6,75 @@ var data_new = {}; // will be used to store json data passed from backend and la
 var json_for_backend = {}; // json container to stoe and pass data from client side to backend
 
 
-function get_json_for_form() {
-    $.get("/get_json_for_form", function(data) {
-        // make_dropdown(data);
-        make_dropdown_1(data);
+// function get_json_for_form() {
+//     $.get("/get_json_for_form", function(data) {
+//         make_dropdown(data);
+//     });
+// }
+
+var get_json_for_form = function() {
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: 'get_json_for_form',
+        success: function(data) {
+            make_dropdown(data);
+        },
     });
 }
 
-// following function works for method 1 where key_1, key_2, key_3 introduced
-// https://jsfiddle.net/atifkarim/m9hun6zb/40/
-function make_dropdown(data) {
-    let select_device = document.getElementById("device_n");
-    let select_value = document.getElementById("value_n");
-    let select_name = document.getElementById("name_n");
-
-    let jqr_select_device = $(select_device);
-    let jqr_select_value = $(select_value);
-    let jqr_select_name = $(select_name);
-
-    key_list = []
-    for (let a in data) {
-        key_list.push(a);
-    }
-    main_key_len = Object.keys(data[key_list[0]]).length; // all time 4
-
-    // len of first list inside key_2
-    first_list_key_2_len = Object.keys(data[key_list[1]][0]).length;
-
-    // following for loop can be used to make dropdown
-    num = 0
-    for (let x = 0; x < main_key_len; x++) {
-        // key = data[key_list[num]][x];
-        option = $("<option>")
-            .attr({
-                text: data[key_list[num]][x],
-                value: data[key_list[num]][x]
-            }).html(data[key_list[num]][x]);
-        // console.log(data[key_list[num]][x])
-        jqr_select_device.append(option);
-        for (let y = 0; y < Object.keys(data[key_list[num + 1]][x]).length; y++) {
-            option = $("<option>")
-                .attr({
-                    text: data[key_list[num + 1]][x][y],
-                    value: data[key_list[num + 1]][x][y]
-                }).html(data[key_list[num + 1]][x][y]);
-            jqr_select_value.append(option);
-
-            option = $("<option>")
-                .attr({
-                    text: data[key_list[num + 2]][x][y],
-                    value: data[key_list[num + 2]][x][y]
-                }).html(data[key_list[num + 2]][x][y]);
-            jqr_select_name.append(option);
-            // console.log(data[key_list[num + 1]][x][y], "**", data[key_list[num + 2]][x][y]);
-        }
-    }
-}
-
-function make_option_1(data, select, value, value_1 = null) {
+function make_option(data, select, value) {
     option = $("<option>")
         .attr({
             text: data,
-            value: value,
-            value_1: value_1,
-            // style: { backgroundColor: gray }
+            value: value
         }).html(data);
     select.append(option);
+
 }
 
-function make_dropdown_1(data) {
+function make_dropdown(data) {
     var select_device = document.getElementById("device_n");
     var select_name = document.getElementById("name_n");
-    var select_value = document.getElementById("value_n");
 
     var jqr_select_device = $(select_device);
     var jqr_select_name = $(select_name);
-    var jqr_select_value = $(select_value);
 
     for (let a in data) {
-        make_option_1(a, jqr_select_device, a);
+        make_option(a, jqr_select_device, a);
         for (let b = 0; b < Object.keys(data[a]["param"]).length; b++) {
-            make_option_1(data[a]["param"][b], jqr_select_name, a, b);
-            make_option_1(data[a]["value"][b], jqr_select_value, a, b);
+            make_option(data[a]["param"][b], jqr_select_name, a);
         }
     }
-    data_new = data;
-    $("#device_n").trigger('change') //call first select
+    data_new = data; // no need here, test purpose for future
+    // $('select[name=device_n]').val(1);
+    $('#device_n').selectpicker('refresh');
+    $("#device_n").trigger('change'); //call first select
 }
 
 $("#device_n").change(function() {
     var id = $(this).val();
+    console.log("id: ", id);
     let init_name_n_val = $("#name_n option:selected").val();
-    $("#name_n option").hide() //hide all options
-    $("#name_n option[value='" + id + "']").show(); //show options where value matches
-    $("#name_n option[value_1=0][value='" + id + "']").prop('selected', true); //set second value selected
 
-    var s = $("#device_n option:selected").val();
-    if ($(this).val() == "select device") { // to set default name in two select
-        $("#name_n").val("select parameter");
+    $("#name_n option").hide() //hide all options
+    $("#name_n option[value='" + id + "']").show();
+    //$("#name_n option[value_1=0][value='" + id + "']").prop('selected', true); //no need of this line
+
+    if ($(this).val() == "select device") {
+        //$("#name_n").val("select parameter");
     } else {
-        $("#device_n option").removeClass("selected") //remove from others
-        $(this).find("option:selected").addClass("selected") //add selected 
-        $("#name_n").trigger('change'); //call second select
+        // $('select[name=name_n]').val(1);
+        $('#name_n').selectpicker('refresh'); //call second select
+
     }
 });
 
-$("#name_n").change(function() {
+$('#name_n').on('changed.bs.select', function(event, clickedIndex, newValue, oldValue) {
     var values = $("#device_n").val();
-    let name_n_option_text = $("#name_n option:selected").text();
+    //get value of clicked option
+    var name_n_option_text = $("#name_n option").eq(clickedIndex).text();
+    console.log("selected_text: ", name_n_option_text);
     let name_n_option_index = data_new[values]["param"].indexOf(name_n_option_text);
     let updated_value = data_new[values]["value"][name_n_option_index];
     let value_key = "value";
