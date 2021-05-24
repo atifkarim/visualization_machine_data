@@ -17,6 +17,7 @@
 
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/table.css') }}">
 
 </head>
 
@@ -24,7 +25,43 @@
     <nav class="navbar navbar-default navbar-fixed-top" style="height: 65px; background-color: #c4442b">
         <div class="container-fluid">
             <div class="navbar-header" style="margin-top:0">
+                <a class="navbar-brand" target="_blank" rel="noopener noreferrer" href="https://ubuntu.com/">
+                    <img src="{{url_for('static', filename='ubuntu_logo.png')}} " class="img-fluid" style="max-height: 35px;">
+                </a>
             </div>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <button name="do_hide" class="btn btn-light navbar-btn">☰ Open Sidebar</button>
+                </li>
+
+                <li>
+                    <button class="btn btn-light navbar-btn">
+                        <a href="{{url_for('index')}}" >Graph</a>
+                    </button>
+                </li>
+                <li>
+                    <button class="btn btn-light navbar-btn">
+                        <a href="{{url_for('test_post')}}" >POST</a>
+                    </button>
+                </li>
+                <li>
+                    <button class="btn btn-light navbar-btn">
+                        <a href="{{url_for('render_table_from_db')}}" >Table_DB</a>
+                    </button>
+                </li>
+                <li>
+                    <button class="btn btn-light navbar-btn">
+                        <a href="{{url_for('vanilla_js_table')}}" >Table</a>
+                    </button>
+                </li>
+                <!-- <li class="active"> -->
+                <li>
+                    <button class="btn btn-light navbar-btn">
+                        <a href=# id=shutdown>Shutdown</a>
+                    </button>
+                    <!-- <a href=# id=shutdown>Shutdown Server</a> -->
+                </li>
+            </ul>
         </div>
     </nav>
     <div class="container" style="margin-top:100px;">
@@ -39,11 +76,15 @@
         <select name="value_n" id="value_n" style="display:none"></select>
     </div>
 
+    <div id="table_div" style="margin-top: 150 px !important"></div>
+
     <script src="static/js/json_for_form.js "></script>
+    <script src="static/js/vanilla_js_table.js "></script>
     <script src="static/js/python_button.js "></script>
     <script>
         // setTimeout(get_json_for_form, 5000);
         get_json_for_form();
+        table_json_for_form();
         stop_flask_server();
     </script>
 

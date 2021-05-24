@@ -297,6 +297,13 @@ function table_from_db() {
     });
 }
 
+function table_json_for_form() {
+    $.get("/get_json_for_form", function(data) {
+        create_whole_table(data[0]);
+        // let children = $("div:regex(id, .*_child)"); /** this line is old. It takes the child table's div info from history */
+    });
+}
+
 function create_whole_table(data) {
     for (let t in data) {
         let n = t.indexOf('_');

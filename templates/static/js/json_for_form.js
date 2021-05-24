@@ -18,7 +18,8 @@ var get_json_for_form = function() {
         dataType: "json",
         url: 'get_json_for_form',
         success: function(data) {
-            make_dropdown(data);
+            console.log("data[0]: ", data[0]);
+            make_dropdown(data[1]);
         },
     });
 }
