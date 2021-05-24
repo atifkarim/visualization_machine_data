@@ -124,8 +124,8 @@ class Get_data(Set_data):
             storage_00_row_temp = []
             storage_div_val_row_temp = []
 
-            storage_value_temp.append("Select_Param")
-            storage_00_row_temp.append("Select_Param")
+            # storage_value_temp.append("Select_Param")
+            # storage_00_row_temp.append("Select_Param")
             
             for key_1, value_1 in value.items():
                 # print("value_1 len: ", len(value_1)) # how many value_nn in each value_nn (here 3(name, value, unit))
