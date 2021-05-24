@@ -72,9 +72,17 @@ def render_json_for_form(name=None):
 
 @app.route('/get_json_for_form')
 def parse_get_json_for_form(name=None):
-    get_data_obj.do_process()
+    data = get_data_obj.do_process()
+
+    sub_key = "value_00"
+    new_dict = {}
+    for i in data:
+        temp_key = {}
+        req_dict = data[i][sub_key]
+        temp_key[sub_key] = req_dict
+        new_dict[i] = temp_key
     # return jsonify(Set_data.json_for_db)
-    return jsonify(Set_data.json_for_db_1)
+    return jsonify(new_dict, Set_data.json_for_db_1)
 
 
 # The following endpoint initially take all the defined member variables
