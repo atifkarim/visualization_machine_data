@@ -50,7 +50,6 @@ class Set_data(object):
     }
 
     '''
-    json_for_db_converted = {}
     print("running 1")
 
     @staticmethod
@@ -82,3 +81,13 @@ class Set_data(object):
             for sub_key, sub_val in ast.literal_eval(var_dict[key]).items():
                 # print("got key: ",key," ,sub_key: ",sub_key, " ,sub_val: ",sub_val)
                 Set_data.config_val[key][sub_key] = int(sub_val)
+
+    
+
+    # checking  string for mongo db at first run. if at checking collection is not found then with
+    # mongoengine user_id of collection "mongoengine.counters" which contains the storage_collection
+    # name will be removed
+    mongo_exist = "DO_CHECK"
+
+    json_for_db_converted = {} # dict to store converted ImmutableDict
+    json_table_query = {} # dict where Queried mongoDBdata will be stored to display as table in client side

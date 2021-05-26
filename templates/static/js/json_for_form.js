@@ -109,7 +109,7 @@ function create_json_for_backend(main_key, value_key, updated_value) {
 }
 
 /** following function send the updated JSON object to the BackEnd via POST method */
-function POST_dropdown_data() {
+function POST_Query_data() {
     hiddenform = document.createElement("form")
     hiddenform.style.visibility = "hidden";
     hiddenform.method = "POST";
@@ -126,32 +126,38 @@ function POST_dropdown_data() {
     hiddenform.submit();
 }
 
+/** check any content is equal to "All" in "value" key. If TRUE then remove all other
+elements from "value" key's array except "All". in the backend this "All" will be 
+interpreted as a identifier to publish all data of a firmware. */
+function process_json_for_backend() {
+    for (let a in json_for_backend) {
+        if (json_for_backend[a].hasOwnProperty("value") && json_for_backend[a]["value"].includes("All")) {
+            json_for_backend[a]["value"] = "All"
+        }
+    }
+}
+
 let input = $("<input>")
     .attr("id", "id_for_input")
     .attr('type', 'number')
     .attr('name', 'value')
     .attr('placeholder', 'query')
-    .addClass("input_class");
+    .addClass("form-control")
+    .css({ "width": "180px" });
 
 let submit_button = $("<button>")
-    .addClass("class_for_submit")
+    .addClass("btn btn-primary")
     .text('Submit')
     .click(function() {
+        process_json_for_backend();
         var inputVal = document.getElementById("id_for_input").value;
         json_for_backend["Query"] = inputVal;
-        //json_for_backend_1 = JSON.stringify(json_for_backend);
-        //console.log("js type: ", typeof(json_for_backend));
-        //console.log("json type: ", typeof(json_for_backend_1));
-        //for ([key, value] of Object.entries(json_for_backend)) {
-        //		JSON.stringify(key);
-        //	JSON.stringify(value);
-        // }
-
         console.log("json_for_backend: ", json_for_backend);
-        POST_dropdown_data();
+        POST_Query_data();
     });
 
-let get_div = document.getElementsByClassName("container");
+// let get_div = document.getElementsByClassName("container");
+let get_div = document.getElementById("chose_option_div");
 let get_div_jquery = $(get_div);
 get_div_jquery.append(input, submit_button);
 /*
@@ -207,3 +213,17 @@ console.log("Season Finished");
 
 }
  */
+
+// https://stackoverflow.com/questions/5467129/sort-javascript-object-by-key
+// function sort_json_for_backend(data) {
+// data = Object.keys(data).sort().reduce(
+//     (obj, key) => {
+//         obj[key] = data[key];
+//         if (obj[key]["value"]) {
+//             (obj[key]["value"]).sort();
+//         }
+//         return obj;
+//     }, {}
+// );
+// return data;
+// }

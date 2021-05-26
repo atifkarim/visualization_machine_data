@@ -4,6 +4,7 @@ from flask import jsonify
 import os, time
 from table_do_process import *
 from importlib import import_module
+from mongoDB_process import *
 
 app = Flask(__name__)
 app.static_folder = os.path.abspath("templates/static/")
@@ -58,31 +59,47 @@ def vanilla_js_table(name=None):
 @app.route('/auto_update_table')
 def parse_auto_update_table(name=None):
     data_json = get_data_obj.do_process()
+    if Set_data.mongo_exist == "DO_CHECK":
+        print("check one time")
+        check_mongo_db()
+        Set_data.mongo_exist = "DONT_CHECK"
+    # saving json data in mongodb
+    creonic_fw = Creonic_fw()
+    creonic_fw.json_data = data_json
+    creonic_fw.save()
 
     return jsonify(data_json)
 
 @app.route('/render_json_for_form', methods=['POST', 'GET'])
 def render_json_for_form(name=None):
     if request.method == 'POST':
-        print("req.form: ", request.form)
-        # print("req.form to dict: ", request.form.to_dict())
-        Set_data.json_for_db_converted = request.form.to_dict()
-        print("json_for_db_converted: ", Set_data.json_for_db_converted)
+        if "Query" in request.form:
+            print("checking USER query")
+            print("req.form: ", request.form)
+            Set_data.json_for_db_converted = request.form.to_dict()
+            print("json_for_db_converted: ", Set_data.json_for_db_converted)
+            Set_data.json_table_query = fetch_mongoDB(Set_data.json_for_db_converted)
+            # print("req JSON: ", request.json)
+        else:
+            print("checking dropdown update")
+            Set_data.update_config_val(request.form)
     return render_template('json_for_form.html',name=name)
 
 @app.route('/get_json_for_form')
 def parse_get_json_for_form(name=None):
     data = get_data_obj.do_process()
 
-    sub_key = "value_00"
-    new_dict = {}
-    for i in data:
-        temp_key = {}
-        req_dict = data[i][sub_key]
-        temp_key[sub_key] = req_dict
-        new_dict[i] = temp_key
-    # return jsonify(Set_data.json_for_db)
-    return jsonify(new_dict, Set_data.json_for_db_1)
+    if  not Set_data.json_table_query:
+        sub_key = "value_00"
+        new_dict = {}
+        for i in data:
+            temp_key = {}
+            req_dict = data[i][sub_key]
+            temp_key[sub_key] = req_dict
+            new_dict[i] = temp_key
+        return jsonify(new_dict, Set_data.json_for_db_1)
+    else:
+        return jsonify(Set_data.json_table_query , Set_data.json_for_db_1)
 
 
 # The following endpoint initially take all the defined member variables
