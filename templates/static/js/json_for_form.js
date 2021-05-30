@@ -126,6 +126,56 @@ function POST_Query_data() {
     hiddenform.submit();
 }
 
+function sendJSON() {
+
+    // Creating a XHR object
+    let xhr = new XMLHttpRequest();
+    let url = "/render_json_for_form";
+
+    // open a connection
+    xhr.open("POST", url, true);
+
+    // Set the request header i.e. which type of content you are sending
+    xhr.setRequestHeader("Content-Type", "application/json");
+
+    // Create a state change callback
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            console.log("data posted successfully");
+
+            // Print received data from server
+            // result.innerHTML = this.responseText;
+
+        }
+    };
+
+    // Converting JSON data to string
+    var Postdata = JSON.stringify(json_for_backend);
+
+    // Sending data with the request
+    xhr.send(Postdata);
+    console.log("done xhr sending");
+    location.reload();
+}
+
+function POST_Query_Combination() {
+    console.log("Entered 1");
+    // let data = json_for_backend;
+    $.ajax({
+        data: JSON.stringify(json_for_backend),
+        type: 'POST',
+        url: '/render_json_for_form',
+        success: function(data) {
+            // console.log(data);
+            console.log("Entered 2");
+            // $("body").html(data);
+            // This will navigate to your preferred location
+            document.location = '/render_json_for_form';
+            // window.location.href = url;
+        },
+    })
+}
+
 /** check any content is equal to "All" in "value" key. If TRUE then remove all other
 elements from "value" key's array except "All". in the backend this "All" will be 
 interpreted as a identifier to publish all data of a firmware. */
@@ -146,6 +196,7 @@ let input = $("<input>")
     .css({ "width": "180px" });
 
 let submit_button = $("<button>")
+    // .removeAttr("type").attr("type", "submit")
     .addClass("btn btn-primary")
     .text('Submit')
     .click(function() {
@@ -153,7 +204,10 @@ let submit_button = $("<button>")
         var inputVal = document.getElementById("id_for_input").value;
         json_for_backend["Query"] = inputVal;
         console.log("json_for_backend: ", json_for_backend);
-        POST_Query_data();
+        // POST_Query_data();
+        // sendJSON();
+        POST_Query_Combination();
+        console.log("done SUBMIT BUTTON sending");
     });
 
 // let get_div = document.getElementsByClassName("container");

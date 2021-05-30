@@ -73,16 +73,25 @@ def parse_auto_update_table(name=None):
 @app.route('/render_json_for_form', methods=['POST', 'GET'])
 def render_json_for_form(name=None):
     if request.method == 'POST':
-        if "Query" in request.form:
-            print("checking USER query")
-            print("req.form: ", request.form)
-            Set_data.json_for_db_converted = request.form.to_dict()
-            print("json_for_db_converted: ", Set_data.json_for_db_converted)
-            Set_data.json_table_query = fetch_mongoDB(Set_data.json_for_db_converted)
-            # print("req JSON: ", request.json)
+        x = request.get_json(force=True)
+        print("posted json data: ", x)
+        if "Query" in x:
+            print("checking USER query: ", x["Query"])
+            Set_data.json_table_query = fetch_mongoDB(x)
         else:
             print("checking dropdown update")
-            Set_data.update_config_val(request.form)
+            Set_data.update_config_val(x)
+        # if "Query" in request.form:
+        #     print("checking USER query")
+        #     print("req.form: ", request.form)
+        #     Set_data.json_for_db_converted = request.form.to_dict()
+        #     print("json_for_db_converted: ", Set_data.json_for_db_converted)
+        #     Set_data.json_table_query = fetch_mongoDB(Set_data.json_for_db_converted)
+        #     # print("req JSON: ", request.json)
+        # else:
+        #     print("checking dropdown update")
+        #     Set_data.update_config_val(request.form)
+    print("refresh will START")
     return render_template('json_for_form.html',name=name)
 
 @app.route('/get_json_for_form')

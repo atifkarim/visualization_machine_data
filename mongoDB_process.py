@@ -40,13 +40,15 @@ def check_mongo_db():
 
 # following function will make the required dictionary by fetching data from
 # MongoDB on the basis of USER Request
+# @profile
 def fetch_mongoDB(queryData):
     final_json = {}
     temp_Query = {}
     temp_Query["Query"] = queryData["Query"]
     # if User given any UNIQUE_ID(primary id) for MongoDB collection following IF will work
-    if ast.literal_eval(temp_Query["Query"]):
-      queryID = int(ast.literal_eval(temp_Query["Query"]))
+    if temp_Query["Query"]:
+    # if ast.literal_eval(temp_Query["Query"]):
+      queryID = int(temp_Query["Query"])
       print("Given Q ID: ", queryID)
     # if User does not give any UNIQUE_ID(primary id) then data will be fetched from the
     # latest Entry and following ELSE will work
@@ -64,7 +66,8 @@ def fetch_mongoDB(queryData):
       for a in queryData:
           temp_valuedict = {}
           # if a != "Query":
-          for key, val in ast.literal_eval(queryData[a]).items():
+          for key, val in queryData[a].items():
+          # for key, val in ast.literal_eval(queryData[a]).items():
               if type(val) == list:
                   for i in range(len(val)):
                       op_val_json = return_MongoJson[a][val[i]]
