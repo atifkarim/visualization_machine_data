@@ -183,7 +183,7 @@ def process():
 # At first route '/render_table_from_db' will be called which render a html file
 # "table_from_db.html". Inside that html file a JS function named "table_from_db"
 # is called in every 1 second which is written in "vanilla_js_table.js" file.
-# Inside of "table_from_db" function a get call is calling which requiesting to 
+# Inside of "table_from_db" function a get call is calling which requiesting to
 # the route "/update_table_data_from_db". This roure containing a function named
 # "parse_table_data_from_db" which doing nothing but creation of JSON with respect
 # to a KEY_WORD(written in "table_const_var.py" file in "set_table" dict). This
@@ -199,7 +199,7 @@ def process():
 # As already "set_table" dict is changed which is supplying data to the function name
 # "parse_table_data_from_db" under the hood of route in Flask "update_table_data_from_db"
 # user can see the updated data. DOn't forget that "update_table_data_from_db" route is calling
-# in every 1 second by JS function "table_from_db" via HTML 
+# in every 1 second by JS function "table_from_db" via HTML
 @app.route('/render_table_from_db', methods=['POST', 'GET'])
 def render_table_from_db(name=None):
     if request.method == 'POST':
@@ -211,7 +211,7 @@ def render_table_from_db(name=None):
 # trailing whitespace is not problem
 
 # Working principle
-# Initially function "render_table_from_db" will be called which render html file "table_from_db" and 
+# Initially function "render_table_from_db" will be called which render html file "table_from_db" and
 # that one called function "parse_table_data_from_db" where at first system will get the whole JSON
 # objcets of all table.
 # But at this point I have designed it to show only 1 table by the function "test_spec_table".
@@ -239,7 +239,7 @@ def render_table_from_db(name=None):
 # 1/ function "post_for_db" triggered
 # 2/ There Set_data.set_table dict's key is changed with the passed string
 # 3/ Then Set_data.check_string again set to "check"
-# 4/ And route redirected to "/render_table_from_db" from where again PROCESS_1 start 
+# 4/ And route redirected to "/render_table_from_db" from where again PROCESS_1 start
 
 def test_spec_table(data_json):
     new_json = {}
