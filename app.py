@@ -31,6 +31,12 @@ def parse_auto_update(name=None):
     # print(data_json)
     return jsonify(data_json)
 
+# This endpoint will create random data and help to plot a real time data-plot
+import random
+@app.route('/real_time_data_plot')
+def real_time_data_plot(name=None):
+    return jsonify((random.randint(4,5)))
+
 # running of python file using Flask is done without reloading HTML
 @app.route('/background_process_test')
 def background_process_test():

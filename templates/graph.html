@@ -77,6 +77,9 @@
 
     <div id="i_vs_q_2D_hist" class="plot_container_plotly"></div>
 
+    <!-- this div will hold real time data. This data will be a 1 dim data (eg: x vs 1,2,3,4,.....). -->
+    <div id="real_time_data" class="plot_container_plotly"></div>
+
 
     <!-- <div class="card-body">
       <a href="/exec"> This link will invoke Parse method </a>
@@ -98,6 +101,9 @@ window.onload = function() {
 -->
     <script>
         window.onload = setInterval(getData_json, 500);
+
+        // The following function will repeatedly call realTimePlot function with 500 ms interval
+        window.onload = setInterval(realTimePlot, 100);
         python_button_function();
         stop_flask_server();
     </script>

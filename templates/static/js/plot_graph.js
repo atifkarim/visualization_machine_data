@@ -106,8 +106,8 @@ function createMultilpleLines_fix_x_diff_y(data) {
 }
 
 /*
-the following function takes the information from the JSON file if the goal is to plot graph 
-x1 vs y1, x2 vs x2, ....... , xn vs yn. For this it calls getDataPoints_diff_x_diff_y function 
+the following function takes the information from the JSON file if the goal is to plot graph
+x1 vs y1, x2 vs x2, ....... , xn vs yn. For this it calls getDataPoints_diff_x_diff_y function
 */
 
 function createMultilpleLines_diff_x_diff_y(data) {
@@ -387,3 +387,48 @@ let getData_json = function test() {
 //         });
 //     }
 // });
+
+// following function fetch real time data from flask's endpoint "real_time_data_plot"
+// and plotting a real time data plot using plotlyJS
+// Source: https://redstapler.co/javascript-realtime-chart-plotly/
+
+var layout_dataPoint_realTime = generic_layout({
+    given_title: "Real Time Data Presentation Test",
+    x_min: 0,
+    x_max: 100,
+    x_axis_title: "Sample",
+    y_min: 0,
+    y_max: 7,
+    y_axis_title: "Real Time DataSet"
+});
+
+var cnt = 0;
+
+let realTimePlot = function realTimeDataPlot() {
+    $.get("/real_time_data_plot", function(real_data) {
+        // console.log("NEW real_time_data: ", real_data);
+
+        Plotly.react('real_time_data', [{y:[real_data], type:'line'}], { title:'ABC', editable: true });
+
+        // var cnt = 0;
+        // var interval = setInterval(function() {
+        //     Plotly.extendTraces('real_time_data', {
+        //                         y: [[real_data]]
+        //                         }, [0])
+        // if(++cnt === 100) clearInterval(interval);
+        // }, 300);
+
+        console.log("cnt: ", cnt);
+        setInterval(function(){
+            Plotly.extendTraces('real_time_data',{ y:[[real_data]]}, [0]);
+            cnt++;
+            // if(cnt > 500) {
+            //     Plotly.relayout('real_time_data',{
+            //         xaxis: {
+            //             range: [cnt-500,cnt]
+            //         }
+            //     });
+            // }
+        },600);
+    });
+}
