@@ -392,52 +392,64 @@ let getData_json = function test() {
 // and plotting a real time data plot using plotlyJS
 // Source: https://redstapler.co/javascript-realtime-chart-plotly/
 
-var layout_dataPoint_realTime = generic_layout({
-    given_title: "Real Time Data Presentation Test",
-    x_min: 0,
-    x_max: 100,
+// This function helps to create the layout of the graph. No need to set X axis range
+function generic_layout_real_plot({ given_title = "the title is not provided", x_min = 0, x_max = 15, x_axis_title = "x_axis", y_min = 0, y_max = 15, y_axis_title = "y_axis" } = {}) {
+    let layout_object = {
+        title: {
+            text: given_title
+        },
+        showlegend: true,
+        yaxis: {
+            range: [y_min, y_max],
+            title: y_axis_title
+        },
+    };
+    return layout_object;
+}
+
+// This variable holds the layout of the graph by calling generic_layout_real_plot function
+var layout_dataPoint_realTime = generic_layout_real_plot({
+    given_title: "Real Time Data Presentation",
     x_axis_title: "Sample",
     y_min: 0,
-    y_max: 7,
-    y_axis_title: "Real Time DataSet"
+    y_max: 12,
+    y_axis_title: "Random Real Time"
 });
 
-var cnt = 0;
-var real_time_data_array = [];
+// Variable to return the value which is coming from Flask Backend
+var temp_data = 0;
 
-let realTimePlot = function realTimeDataPlot() {
+// This function returns the value from endpoint
+function fetchData(){
     $.get("/real_time_data_plot", function(real_data) {
-        // console.log("NEW real_time_data: ", real_data);
-        real_time_data_array.push(real_data);
-        if (real_time_data_array.length > 20)
-        {
-            real_time_data_array.shift();
-        }
-
-        console.log(real_time_data_array);
-        Plotly.react('real_time_data', [{y:real_time_data_array, type:'line'}], { title:'real time data', editable: true });
-
-        // Plotly.restyle('real_time_data', {y:[[real_time_data_array]]});
-
-        // var cnt = 0;
-        // var interval = setInterval(function() {
-        //     Plotly.extendTraces('real_time_data', {
-        //                         y: [[real_data]]
-        //                         }, [0])
-        // if(++cnt === 100) clearInterval(interval);
-        // }, 300);
-
-        // console.log("cnt: ", cnt);
-        // setInterval(function(){
-        //     Plotly.extendTraces('real_time_data',{ y:[[real_data]]}, [0]);
-        //     cnt++;
-        //     // if(cnt > 500) {
-        //     //     Plotly.relayout('real_time_data',{
-        //     //         xaxis: {
-        //     //             range: [cnt-500,cnt]
-        //     //         }
-        //     //     });
-        //     // }
-        // },600);
+        temp_data = real_data;
     });
+    return temp_data;
 }
+
+// Plotly graph which cretae the real time plotting
+Plotly.react(
+    'real_time_data',
+    [{y:[fetchData()], type: 'line'}],
+    layout_dataPoint_realTime,
+    {editable: true }
+);
+
+// Variable to compare the max data point from which relaying will start
+var cnt = 0;
+
+// Max count point
+var max_cnt = 100;
+
+// This function continuosly add ne data point coming from endpoint
+setInterval(function(){
+    Plotly.extendTraces('real_time_data',{ y:[[fetchData()]]}, [0]);
+    cnt++;
+    if(cnt > max_cnt) {
+        Plotly.relayout('real_time_data',{
+            xaxis: {
+                range: [cnt-max_cnt,cnt]
+            }
+        });
+    }
+},15);
