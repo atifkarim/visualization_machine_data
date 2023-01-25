@@ -35,7 +35,7 @@ def parse_auto_update(name=None):
 import random
 @app.route('/real_time_data_plot')
 def real_time_data_plot(name=None):
-    return jsonify((random.randint(4,5)))
+    return jsonify((random.randint(0,50)))
 
 # running of python file using Flask is done without reloading HTML
 @app.route('/background_process_test')

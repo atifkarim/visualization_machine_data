@@ -403,12 +403,21 @@ var layout_dataPoint_realTime = generic_layout({
 });
 
 var cnt = 0;
+var real_time_data_array = [];
 
 let realTimePlot = function realTimeDataPlot() {
     $.get("/real_time_data_plot", function(real_data) {
         // console.log("NEW real_time_data: ", real_data);
+        real_time_data_array.push(real_data);
+        if (real_time_data_array.length > 20)
+        {
+            real_time_data_array.shift();
+        }
 
-        Plotly.react('real_time_data', [{y:[real_data], type:'line'}], { title:'ABC', editable: true });
+        console.log(real_time_data_array);
+        Plotly.react('real_time_data', [{y:real_time_data_array, type:'line'}], { title:'real time data', editable: true });
+
+        // Plotly.restyle('real_time_data', {y:[[real_time_data_array]]});
 
         // var cnt = 0;
         // var interval = setInterval(function() {
@@ -418,17 +427,17 @@ let realTimePlot = function realTimeDataPlot() {
         // if(++cnt === 100) clearInterval(interval);
         // }, 300);
 
-        console.log("cnt: ", cnt);
-        setInterval(function(){
-            Plotly.extendTraces('real_time_data',{ y:[[real_data]]}, [0]);
-            cnt++;
-            // if(cnt > 500) {
-            //     Plotly.relayout('real_time_data',{
-            //         xaxis: {
-            //             range: [cnt-500,cnt]
-            //         }
-            //     });
-            // }
-        },600);
+        // console.log("cnt: ", cnt);
+        // setInterval(function(){
+        //     Plotly.extendTraces('real_time_data',{ y:[[real_data]]}, [0]);
+        //     cnt++;
+        //     // if(cnt > 500) {
+        //     //     Plotly.relayout('real_time_data',{
+        //     //         xaxis: {
+        //     //             range: [cnt-500,cnt]
+        //     //         }
+        //     //     });
+        //     // }
+        // },600);
     });
 }
