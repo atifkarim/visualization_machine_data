@@ -393,12 +393,15 @@ let getData_json = function test() {
 // Source: https://redstapler.co/javascript-realtime-chart-plotly/
 
 // This function helps to create the layout of the graph. No need to set X axis range
-function generic_layout_real_plot({ given_title = "the title is not provided", x_min = 0, x_max = 15, x_axis_title = "x_axis", y_min = 0, y_max = 15, y_axis_title = "y_axis" } = {}) {
+function generic_layout_real_plot({ given_title = "the title is not provided", x_axis_title = "x_axis", y_min = 0, y_max = 15, y_axis_title = "y_axis" } = {}) {
     let layout_object = {
         title: {
             text: given_title
         },
         showlegend: true,
+        xaxis: {
+            title: x_axis_title
+        },
         yaxis: {
             range: [y_min, y_max],
             title: y_axis_title
@@ -449,6 +452,65 @@ setInterval(function(){
         Plotly.relayout('real_time_data',{
             xaxis: {
                 range: [cnt-max_cnt,cnt]
+            }
+        });
+    }
+},15);
+
+// ****************************************************************************
+// The following function I have written to observe how promise method works
+// ****************************************************************************
+
+let backend_data;
+function fetchDataWithPromise(){
+    fetch('/real_time_data_plot')
+        .then(response => response.json())
+            .then(data => {
+            // do something with the data, for example, displaying it on the page
+            backend_data = data;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+        return backend_data;
+}
+
+// This variable holds the layout of the graph by calling generic_layout_real_plot function
+var layout_dataPoint_realTimePromise = generic_layout_real_plot({
+    given_title: "Real Time Data Presentation with Promise",
+    x_axis_title: "Sample Promise",
+    y_min: 0,
+    y_max: 110,
+    y_axis_title: "Random Real Time Promise"
+});
+
+// Plotly graph which create the real time plotting. It will use fetchDataWithPromise function as data source
+// and layout_dataPoint_realTimePromise as data plotting handler
+
+Plotly.react(
+    'real_time_data_promise',
+    [{y:[fetchDataWithPromise() ** 2], type: 'line',
+        line: {
+            color: 'rgb(255,0,0)',
+            width: 2
+      }}],
+    layout_dataPoint_realTimePromise,
+    {editable: true }
+);
+
+// Variable to compare the max data point from which relaying will start
+var cnt_promise = 0;
+
+// Max count point
+var max_cnt_promise = 100;
+
+setInterval(function(){
+    Plotly.extendTraces('real_time_data_promise',{ y:[[fetchDataWithPromise() ** 2]]}, [0]);
+    cnt_promise++;
+    if(cnt_promise > max_cnt_promise) {
+        Plotly.relayout('real_time_data_promise',{
+            xaxis: {
+                range: [cnt_promise-max_cnt_promise,cnt_promise]
             }
         });
     }
