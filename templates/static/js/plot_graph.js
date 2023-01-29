@@ -515,3 +515,73 @@ setInterval(function(){
         });
     }
 },15);
+
+// ************************************************************************************************
+// The following function I have written to observe how promise method works to plot multidata plot
+// ************************************************************************************************
+
+let multiDataOne;
+let multiDataTwo;
+function fetchMultiDataWithPromise(){
+    fetch('/real_time_data_plot')
+        .then(response => response.json())
+            .then(data => {
+            // do something with the data, for example, displaying it on the page
+            multiDataOne = data*2;
+            multiDataTwo = data*3;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+        return {multiDataOne, multiDataTwo};
+}
+
+// This variable holds the layout of the graph by calling generic_layout_real_plot function to plot multiData
+var layout_multiDataPoint_realTimePromise = generic_layout_real_plot({
+    given_title: "Real Time Data Presentation of MultiData",
+    x_axis_title: "Sample",
+    y_min: 0,
+    y_max: 35,
+    y_axis_title: "MultiData"
+});
+
+// PlotlyJS function to draw multiData
+Plotly.react(
+    'real_time_multi_data_promise',
+    [
+        {y:[fetchMultiDataWithPromise().multiDataOne], type: 'line',
+        line: {
+            color: 'rgb(0,255,0)',
+            width: 2
+        }},
+
+        {y:[fetchMultiDataWithPromise().multiDataTwo], type: 'line',
+        line: {
+            color: 'rgb(0,0,255)',
+            width: 1
+      }}
+
+    ],
+    layout_multiDataPoint_realTimePromise,
+    {editable: true }
+);
+
+// Variable to compare the max data point from which relaying will start
+var cnt_promise_multidata = 0;
+
+// Max count point
+var max_cnt_promise_multidata = 100;
+
+setInterval(function(){
+    Plotly.extendTraces('real_time_multi_data_promise',
+                        { y:[[fetchMultiDataWithPromise().multiDataOne], [fetchMultiDataWithPromise().multiDataTwo]]}, [0,1])
+
+    cnt_promise_multidata++;
+    if(cnt_promise_multidata > max_cnt_promise_multidata) {
+        Plotly.relayout('real_time_multi_data_promise',{
+            xaxis: {
+                range: [cnt_promise_multidata-max_cnt_promise_multidata,cnt_promise_multidata]
+            }
+        });
+    }
+},15);
