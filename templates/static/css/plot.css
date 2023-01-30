@@ -14,8 +14,7 @@
 
 .plot_container_plotly {
     height: 500px;
-    width: 500px;
-    float: left;
+    width: 100%;
 }
 
 #a_vs_i_q_plot_line {
