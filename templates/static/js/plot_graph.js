@@ -433,7 +433,7 @@ function fetchData(){
 // Plotly graph which cretae the real time plotting
 Plotly.react(
     'real_time_data',
-    [{y:[fetchData()], type: 'line'}],
+    [{y:[fetchData()], name: 'data', type: 'line'}],
     layout_dataPoint_realTime,
     {editable: true }
 );
@@ -489,7 +489,7 @@ var layout_dataPoint_realTimePromise = generic_layout_real_plot({
 
 Plotly.react(
     'real_time_data_promise',
-    [{y:[fetchDataWithPromise() ** 2], type: 'line',
+    [{y:[fetchDataWithPromise() ** 2], name: 'data', type: 'line',
         line: {
             color: 'rgb(255,0,0)',
             width: 2
@@ -549,13 +549,13 @@ var layout_multiDataPoint_realTimePromise = generic_layout_real_plot({
 Plotly.react(
     'real_time_multi_data_promise',
     [
-        {y:[fetchMultiDataWithPromise().multiDataOne], type: 'line',
+        {y:[fetchMultiDataWithPromise().multiDataOne], name: 'data_1', type: 'line',
         line: {
             color: 'rgb(0,255,0)',
             width: 2
         }},
 
-        {y:[fetchMultiDataWithPromise().multiDataTwo], type: 'line',
+        {y:[fetchMultiDataWithPromise().multiDataTwo], name: 'data_2', type: 'line',
         line: {
             color: 'rgb(0,0,255)',
             width: 1
