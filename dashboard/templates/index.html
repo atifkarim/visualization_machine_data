@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Import, inspect and visualize business data on your own machine.">
+  <title>Data Explorer</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
+  <script defer src="{{ url_for('static', filename='app.js') }}"></script>
+</head>
+<body>
+<header><a class="brand" href="/">▦ <span>Data Explorer</span></a><span class="badge">LOCAL WORKSPACE</span></header>
+<main>
+  <aside>
+    <h1>Your data, in view.</h1><p>Import a dataset to explore its patterns and quality.</p>
+    <form id="upload-form">
+      <label class="file-label" for="file">Choose a dataset</label>
+      <input id="file" name="file" type="file" accept=".csv,.tsv,.xlsx,.json,.jsonl,.ndjson,.parquet" required>
+      <p class="muted">CSV, TSV, XLSX, JSON, JSONL, Parquet</p>
+      <details><summary>Import options</summary>
+        <label for="encoding">CSV encoding</label><select id="encoding" name="encoding"><option value="utf-8-sig">UTF-8</option><option value="cp1252">Windows-1252</option><option value="latin-1">Latin-1</option></select>
+        <label for="delimiter">CSV delimiter</label><select id="delimiter" name="delimiter"><option value="">Detect automatically</option><option value=",">Comma</option><option value=";">Semicolon</option><option value="&#9;">Tab</option><option value="|">Pipe</option></select>
+        <label for="decimal">Decimal separator</label><select id="decimal" name="decimal"><option value=".">Period (123.45)</option><option value=",">Comma (123,45)</option></select>
+        <label for="sheet">Excel worksheet</label><input id="sheet" name="sheet" placeholder="First sheet by default">
+        <label for="column-types">Column types (optional JSON)</label><input id="column-types" name="column_types" placeholder='{"customer_id":"text","sales":"number"}'>
+        <p class="muted">Override columns with text, number, or datetime. Values must match the selected type.</p>
+        <label for="date-format">Date format for datetime overrides</label><input id="date-format" name="date_format" placeholder="For example: %d/%m/%Y">
+      </details>
+      <button class="primary" id="upload-button">Import dataset</button>
+    </form>
+    <p id="limits" class="muted"></p><a href="/api/example">Download an example CSV ↗</a>
+    <div class="section-label">DATASETS</div><div id="datasets" aria-label="Saved datasets"></div>
+  </aside>
+  <section class="workspace">
+    <div id="status" role="status" aria-live="polite"></div>
+    <div id="empty" class="empty"><span class="empty-icon">▥</span><h2>Start with a dataset</h2><p>Choose a file on the left. Your data stays on this server.<br>No account or external database required.</p></div>
+    <div id="explorer" hidden>
+      <div class="title-row"><div><span class="eyebrow">DATASET OVERVIEW</span><h2 id="dataset-name"></h2></div><button id="delete" class="danger">Delete dataset</button></div>
+      <div id="stats" class="stats"></div>
+      <div id="warnings" class="warnings" hidden></div>
+      <section class="panel">
+        <div class="panel-heading"><h3>Explore patterns</h3><span class="muted">Choose a dimension and measures</span></div>
+        <form id="chart-form">
+          <div class="controls">
+            <div><label for="x">Dimension / X axis</label><select id="x" required></select></div>
+            <div><label for="y">Measures / Y axis (up to 6)</label><select id="y" multiple size="3"></select><small>Ctrl / ⌘ + click to select several</small></div>
+            <div><label for="aggregation">Calculation</label><select id="aggregation"><option value="mean">Average</option><option value="sum">Sum</option><option value="min">Minimum</option><option value="max">Maximum</option><option value="count">Row count</option><option value="none">Raw values</option></select></div>
+            <div><label for="chart-type">Chart style</label><select id="chart-type"><option value="line">Line</option><option value="bar">Bar</option><option value="scatter">Scatter (numeric X)</option></select></div>
+          </div>
+          <div class="filter-row"><div><label for="filter-column">Filter column</label><select id="filter-column"><option value="">All rows</option></select></div><div><label for="filter-value">Contains (case insensitive)</label><input id="filter-value" placeholder="For example: North"></div><button class="primary">Apply & visualize</button></div>
+        </form>
+        <div id="chart" class="chart" aria-label="Data visualization"></div><div id="legend" class="legend"></div><p id="chart-note" class="muted"></p>
+      </section>
+      <section class="panel"><div class="panel-heading"><h3>Data preview</h3><a id="export" href="#">Export filtered CSV ↗</a></div><div class="table-scroll"><table id="preview"></table></div><div class="pagination"><button id="previous">← Previous</button><span id="page-info"></span><button id="next">Next →</button></div></section>
+      <details class="panel"><summary>Column quality & inferred types</summary><div class="table-scroll"><table id="quality"></table></div></details>
+    </div>
+  </section>
+</main>
+<footer>Data Explorer · Files are stored locally until deleted. Use a separate workspace for each customer.</footer>
+</body>
+</html>
