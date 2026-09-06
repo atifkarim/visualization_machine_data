@@ -585,3 +585,64 @@ setInterval(function(){
         });
     }
 },15);
+
+
+// This function will convert any string number to number,
+// Eg: a = "2", b = "[1,2,3]"
+
+function convertToNumber(str) {
+    try {
+      const parsed = JSON.parse(str);
+      if (Array.isArray(parsed)) {
+        return parsed.map(element => Number(element));
+      }
+      return Number(parsed);
+    } catch (error) {
+      return Number(str);
+    }
+  }
+
+
+// The following function will take a JSON object and do the operation to check
+// whether any value is possible to convert to Number or not
+
+function convertValuesToNumber(obj) {
+    for (const key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        const value = obj[key];
+        if (typeof value === "string") {
+          try {
+            const parsed = JSON.parse(value);
+            if (Array.isArray(parsed)) {
+              obj[key] = parsed.map(element => {
+                if (typeof element === "string") {
+                  try {
+                    return JSON.parse(element);
+                  } catch (error) {
+                    return Number(element);
+                  }
+                }
+                return element;
+              });
+            } else {
+              obj[key] = Number(parsed);
+            }
+          } catch (error) {
+            obj[key] = Number(value);
+          }
+        } else if (typeof value === "object") {
+          obj[key] = convertValuesToNumber(value);
+        }
+      }
+    }
+    return obj;
+  }
+
+  const myData = {
+    A: {
+      name: ["Atif", "Karim"],
+      age: ["2", "[0,23,1,-1]"]
+    }
+  };
+
+  console.log(convertValuesToNumber(myData));
